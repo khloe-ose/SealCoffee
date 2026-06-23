@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/employeeLoginRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/seal_cream"
+    android:fillViewport="true"
+    tools:context=".EmployeeLoginActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingStart="28dp"
+        android:paddingTop="70dp"
+        android:paddingEnd="28dp"
+        android:paddingBottom="36dp">
+
+        <TextView
+            android:id="@+id/employeeLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:text="SealCoffee Staff"
+            android:textColor="@color/seal_coffee"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/employeeLoginHeading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="sans-serif-black"
+            android:text="Employee Login"
+            android:textColor="@color/seal_text_primary"
+            android:textSize="38sp" />
+
+        <EditText
+            android:id="@+id/employeeEmailInput"
+            style="@style/SealCoffeeEditText"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="42dp"
+            android:autofillHints="emailAddress"
+            android:hint="Employee Email"
+            android:inputType="textEmailAddress"
+            android:singleLine="true" />
+
+        <EditText
+            android:id="@+id/employeePasswordInput"
+            style="@style/SealCoffeeEditText"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="16dp"
+            android:autofillHints="password"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:singleLine="true" />
+
+        <Button
+            android:id="@+id/employeeLoginButton"
+            style="@style/SealCoffeeButtonPrimary"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="28dp"
+            android:text="Employee Login"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/customerLoginLink"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_marginTop="20dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="center"
+            android:text="Back to customer login"
+            android:textColor="@color/seal_navy"
+            android:textSize="15sp" />
+    </LinearLayout>
+</ScrollView>

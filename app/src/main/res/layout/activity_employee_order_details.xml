@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/employeeOrderDetailsRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/seal_cream"
+    android:fillViewport="true"
+    tools:context=".EmployeeOrderDetailsActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingStart="24dp"
+        android:paddingTop="34dp"
+        android:paddingEnd="24dp"
+        android:paddingBottom="32dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-black"
+            android:text="Order Details"
+            android:textColor="@color/seal_text_primary"
+            android:textSize="32sp" />
+
+        <LinearLayout
+            style="@style/SealCoffeeCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/employeeDetailsOrderIdText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-black"
+                android:textColor="@color/seal_navy"
+                android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/employeeDetailsCustomerText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:lineSpacingExtra="4dp"
+                android:textColor="@color/seal_text_primary"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/employeeDetailsTimeText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:textColor="@color/seal_text_secondary"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/employeeDetailsPaymentText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:textColor="@color/seal_text_secondary"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="22dp"
+            android:fontFamily="sans-serif-bold"
+            android:text="Items and modifications"
+            android:textColor="@color/seal_text_primary"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/employeeDetailsItemsText"
+            style="@style/SealCoffeeCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:lineSpacingExtra="4dp"
+            android:textColor="@color/seal_text_primary"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/employeeDetailsTotalText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:fontFamily="sans-serif-black"
+            android:textColor="@color/seal_navy"
+            android:textSize="26sp" />
+
+        <RadioGroup
+            android:id="@+id/employeeStatusRadioGroup"
+            style="@style/SealCoffeeCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:orientation="vertical">
+
+            <RadioButton
+                android:id="@+id/statusPendingRadio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Pending" />
+
+            <RadioButton
+                android:id="@+id/statusPreparingRadio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Preparing" />
+
+            <RadioButton
+                android:id="@+id/statusReadyRadio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Ready for Pickup" />
+
+            <RadioButton
+                android:id="@+id/statusCompletedRadio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Completed" />
+
+            <RadioButton
+                android:id="@+id/statusDelayedRadio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Delayed" />
+        </RadioGroup>
+
+        <Button
+            android:id="@+id/applyStatusButton"
+            style="@style/SealCoffeeButtonPrimary"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="18dp"
+            android:text="Apply Status" />
+    </LinearLayout>
+</ScrollView>

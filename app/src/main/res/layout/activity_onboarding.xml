@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/onboardingRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/seal_navy"
+    android:paddingStart="28dp"
+    android:paddingEnd="28dp"
+    tools:context=".OnboardingActivity">
+
+    <LinearLayout
+        android:id="@+id/onboardingContent"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@id/getStartedButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:layout_constraintVertical_bias="0.46">
+
+        <FrameLayout
+            android:id="@+id/logoBadge"
+            android:layout_width="156dp"
+            android:layout_height="156dp"
+            android:background="@drawable/bg_logo_badge"
+            android:elevation="8dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fontFamily="sans-serif-black"
+                android:gravity="center"
+                android:text="SC"
+                android:textColor="@color/seal_navy"
+                android:textSize="46sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center_horizontal"
+                android:layout_marginBottom="26dp"
+                android:fontFamily="sans-serif-medium"
+                android:text=":3"
+                android:textColor="@color/seal_coffee"
+                android:textSize="20sp" />
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/brandTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="34dp"
+            android:fontFamily="sans-serif-black"
+            android:gravity="center"
+            android:text="SealCoffee"
+            android:textColor="@color/seal_cream"
+            android:textSize="42sp" />
+
+        <TextView
+            android:id="@+id/onboardingSubtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:lineSpacingExtra="4dp"
+            android:text="Order your favorite drinks and snacks from our cafe anytime"
+            android:textColor="@color/seal_cream_dark"
+            android:textSize="17sp" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/getStartedButton"
+        style="@style/SealCoffeeButtonCream"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:layout_marginBottom="40dp"
+        android:text="Get Started"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
