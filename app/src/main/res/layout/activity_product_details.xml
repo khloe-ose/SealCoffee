@@ -83,7 +83,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="22dp"
-                android:fontFamily="sans-serif-bold"
+                android:fontFamily="sans-serif"
                 android:text="Ingredients"
                 android:textColor="@color/seal_text_primary"
                 android:textSize="18sp" />
@@ -101,7 +101,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="22dp"
-                android:fontFamily="sans-serif-bold"
+                android:fontFamily="sans-serif"
                 android:text="Size"
                 android:textColor="@color/seal_text_primary"
                 android:textSize="18sp" />
@@ -132,7 +132,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="18dp"
-                android:fontFamily="sans-serif-bold"
+                android:fontFamily="sans-serif"
                 android:text="Add-ons"
                 android:textColor="@color/seal_text_primary"
                 android:textSize="18sp" />
@@ -166,7 +166,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:fontFamily="sans-serif-bold"
+                    android:fontFamily="sans-serif"
                     android:text="Quantity"
                     android:textColor="@color/seal_text_primary"
                     android:textSize="18sp" />
@@ -186,7 +186,7 @@
                     android:id="@+id/productQuantityText"
                     android:layout_width="44dp"
                     android:layout_height="42dp"
-                    android:fontFamily="sans-serif-bold"
+                    android:fontFamily="sans-serif"
                     android:gravity="center"
                     android:textColor="@color/seal_text_primary"
                     android:textSize="16sp" />

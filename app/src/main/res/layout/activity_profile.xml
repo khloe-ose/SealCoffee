@@ -68,7 +68,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="26dp"
-                android:fontFamily="sans-serif-bold"
+                android:fontFamily="sans-serif"
                 android:text="Birthday"
                 android:textColor="@color/seal_text_secondary"
                 android:textSize="13sp" />
@@ -85,7 +85,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="18dp"
-                android:fontFamily="sans-serif-bold"
+                android:fontFamily="sans-serif"
                 android:text="Email"
                 android:textColor="@color/seal_text_secondary"
                 android:textSize="13sp" />
@@ -102,7 +102,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="18dp"
-                android:fontFamily="sans-serif-bold"
+                android:fontFamily="sans-serif"
                 android:text="Contact Number"
                 android:textColor="@color/seal_text_secondary"
                 android:textSize="13sp" />
