@@ -37,6 +37,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="-7dp"
+            android:contentDescription="@string/title_description"
             android:gravity="center"
             app:srcCompat="@drawable/ic_sealcoffee_title" />
 
@@ -52,7 +53,7 @@
         android:lineSpacingExtra="4dp"
         android:paddingStart="28dp"
         android:paddingEnd="28dp"
-        android:text="Order your favorite drinks and snacks from our cafe anytime"
+        android:text="@string/onboarding_message"
         android:textColor="#FFFFFF"
         android:textSize="17sp"
         app:layout_constraintBottom_toTopOf="@id/getStartedButton"
@@ -70,13 +71,14 @@
         android:fontFamily="@font/inter_semibold"
         android:insetTop="0dp"
         android:insetBottom="0dp"
-        android:text="Get Started"
+        android:text="@string/get_started"
         android:textColor="#2B3A72"
         android:textSize="20sp"
         android:textStyle="bold"
         app:cornerRadius="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="VisualLintButtonSize" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
