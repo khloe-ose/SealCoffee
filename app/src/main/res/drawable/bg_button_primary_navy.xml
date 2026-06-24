@@ -27,7 +27,7 @@
     <item>
         <shape android:shape="rectangle">
             <corners android:radius="24dp" />
-            <solid android:color="@color/seal_navy" />
+            <solid android:color="#343F6D" />
             <padding
                 android:bottom="12dp"
                 android:left="20dp"
