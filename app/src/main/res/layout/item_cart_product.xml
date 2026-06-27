@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginStart="20dp"
@@ -40,19 +41,15 @@
             android:textColor="@color/seal_navy"
             android:textSize="16sp" />
 
-        <Button
+        <ImageButton
             android:id="@+id/cartDecreaseButton"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:background="@drawable/bg_chip"
-            android:minWidth="0dp"
-            android:minHeight="0dp"
-            android:text="-"
-            android:textSize="18sp"
-            android:textColor="@color/seal_navy"
-            android:includeFontPadding="false"/>
-
-
+            android:background="@android:color/transparent"
+            android:contentDescription="Decrease quantity"
+            android:padding="10dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_decrease_btn" />
 
         <TextView
             android:id="@+id/cartItemQuantityText"
@@ -63,17 +60,15 @@
             android:textColor="@color/seal_text_primary"
             android:textSize="16sp" />
 
-        <Button
+        <ImageButton
             android:id="@+id/cartIncreaseButton"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:background="@android:color/holo_red_dark"
-            android:minWidth="0dp"
-            android:minHeight="0dp"
-            android:text="+"
-            android:textSize="18sp"
-            android:textColor="@color/seal_navy"
-            android:includeFontPadding="false"/>
+            android:background="@android:color/transparent"
+            android:contentDescription="Increase quantity"
+            android:padding="10dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_increase_btn" />
     </LinearLayout>
 
     <TextView
