@@ -20,7 +20,8 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-black"
+            android:fontFamily="sans-serif"
+            android:textStyle="bold"
             android:text="Employee Dashboard"
             android:textColor="@color/seal_text_primary"
             android:textSize="32sp" />
@@ -50,7 +51,8 @@
                     android:id="@+id/totalOrdersCountText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-black"
+                    android:fontFamily="sans-serif"
+                    android:textStyle="bold"
                     android:textColor="@color/seal_navy"
                     android:textSize="30sp" />
 
@@ -74,7 +76,8 @@
                     android:id="@+id/activeOrdersCountText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-black"
+                    android:fontFamily="sans-serif"
+                    android:textStyle="bold"
                     android:textColor="@color/seal_warning"
                     android:textSize="30sp" />
 
@@ -104,7 +107,8 @@
                     android:id="@+id/completedOrdersCountText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-black"
+                    android:fontFamily="sans-serif"
+                    android:textStyle="bold"
                     android:textColor="@color/seal_success"
                     android:textSize="30sp" />
 
@@ -128,7 +132,8 @@
                     android:id="@+id/delayedOrdersCountText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-black"
+                    android:fontFamily="sans-serif"
+                    android:textStyle="bold"
                     android:textColor="@color/seal_error"
                     android:textSize="30sp" />
 

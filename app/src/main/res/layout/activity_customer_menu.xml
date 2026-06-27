@@ -15,7 +15,8 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="24dp"
-        android:fontFamily="@font/inter_extrabold"
+        android:fontFamily="sans-serif"
+        android:textStyle="bold"
         android:text="Menu"
         android:textColor="@color/seal_text_primary"
         android:textSize="34sp"
@@ -30,7 +31,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="6dp"
         android:layout_marginEnd="24dp"
-        android:fontFamily="@font/inter_light"
+        android:fontFamily="sans-serif-light"
         android:text="Pick your perfect brew to start the day."
         android:textColor="@color/seal_text_secondary"
         android:textSize="15sp"
@@ -58,7 +59,7 @@
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/filterAllButton"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
@@ -69,7 +70,7 @@
                 android:textAllCaps="false"
                 android:textColor="@color/seal_navy" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/filterCoffeeButton"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
@@ -81,7 +82,7 @@
                 android:textAllCaps="false"
                 android:textColor="@color/white" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/filterNonCoffeeButton"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
@@ -93,7 +94,7 @@
                 android:textAllCaps="false"
                 android:textColor="@color/white" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/filterSnacksButton"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
@@ -105,7 +106,7 @@
                 android:textAllCaps="false"
                 android:textColor="@color/white" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/filterDessertsButton"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"

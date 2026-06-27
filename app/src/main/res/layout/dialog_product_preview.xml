@@ -11,18 +11,15 @@
         android:id="@+id/previewImagePlaceholder"
         android:layout_width="120dp"
         android:layout_height="120dp"
-        android:background="@drawable/bg_image_placeholder"
-        android:fontFamily="sans-serif-black"
-        android:gravity="center"
-        android:textColor="@color/seal_navy"
-        android:textSize="30sp" />
+        android:background="@drawable/bg_image_placeholder" />
 
     <TextView
         android:id="@+id/previewNameText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="18dp"
-        android:fontFamily="sans-serif-black"
+        android:fontFamily="sans-serif"
+        android:textStyle="bold"
         android:gravity="center"
         android:textColor="@color/seal_text_primary"
         android:textSize="22sp" />

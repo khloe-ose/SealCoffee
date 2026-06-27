@@ -35,7 +35,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/menu_navbar_name"
-            android:fontFamily="@font/inter"
+            android:fontFamily="sans-serif"
             android:textSize="12sp" />
     </LinearLayout>
 
@@ -60,7 +60,7 @@
             android:id="@+id/navCart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/inter"
+            android:fontFamily="sans-serif"
             android:text="@string/cart_navbar_name"
             android:textSize="12sp" />
     </LinearLayout>
@@ -87,7 +87,7 @@
             android:id="@+id/navOrders"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/inter"
+            android:fontFamily="sans-serif"
             android:text="@string/orders_navbar_name"
             android:textSize="12sp" />
     </LinearLayout>
@@ -113,7 +113,7 @@
         android:id="@+id/navProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/inter"
+        android:fontFamily="sans-serif"
         android:text="@string/profile_navbar_name"
         android:textSize="12sp" />
 </LinearLayout>
