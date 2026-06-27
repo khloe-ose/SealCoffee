@@ -3,6 +3,7 @@ package com.mobdeve.s15.group4.sealcoffee
 import android.os.Bundle
 import android.widget.Button
 import android.widget.CheckBox
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -54,14 +55,14 @@ class ProductDetailsActivity : AppCompatActivity() {
     }
 
     private fun bindQuantityControls() {
-        findViewById<Button>(R.id.productDecreaseButton).setOnClickListener {
+        findViewById<ImageButton>(R.id.productDecreaseButton).setOnClickListener {
             if (quantity > 1) {
                 quantity -= 1
                 updatePrice()
             }
         }
 
-        findViewById<Button>(R.id.productIncreaseButton).setOnClickListener {
+        findViewById<ImageButton>(R.id.productIncreaseButton).setOnClickListener {
             quantity += 1
             updatePrice()
         }

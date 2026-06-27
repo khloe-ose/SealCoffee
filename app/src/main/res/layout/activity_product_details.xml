@@ -48,7 +48,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="180dp"
                 android:background="@drawable/bg_image_placeholder"
-                android:gravity="center" />
+                android:scaleType="fitCenter" />
 
             <TextView
                 android:id="@+id/productNameText"
@@ -168,16 +168,15 @@
                     android:textColor="@color/seal_text_primary"
                     android:textSize="18sp" />
 
-                <Button
+                <ImageButton
                     android:id="@+id/productDecreaseButton"
-                    android:layout_width="42dp"
-                    android:layout_height="42dp"
-                    android:background="@drawable/bg_chip"
-                    android:minWidth="0dp"
-                    android:minHeight="0dp"
-                    android:text="-"
-                    android:textColor="@color/seal_navy"
-                    android:textSize="18sp" />
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="@android:color/transparent"
+                    android:contentDescription="@string/content_description_decrease_quantity"
+                    android:padding="8dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_decrease_btn" />
 
                 <TextView
                     android:id="@+id/productQuantityText"
@@ -188,16 +187,15 @@
                     android:textColor="@color/seal_text_primary"
                     android:textSize="16sp" />
 
-                <Button
+                <ImageButton
                     android:id="@+id/productIncreaseButton"
-                    android:layout_width="42dp"
-                    android:layout_height="42dp"
-                    android:background="@drawable/bg_chip_selected"
-                    android:minWidth="0dp"
-                    android:minHeight="0dp"
-                    android:text="+"
-                    android:textColor="@color/white"
-                    android:textSize="18sp" />
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="@android:color/transparent"
+                    android:contentDescription="@string/content_description_increase_quantity"
+                    android:padding="8dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_increase_btn" />
             </LinearLayout>
 
             <TextView

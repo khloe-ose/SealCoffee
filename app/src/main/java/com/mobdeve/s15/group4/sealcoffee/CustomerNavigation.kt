@@ -46,7 +46,7 @@ object CustomerNavigation {
             CustomerDestination.ORDERS,
             selected,
             "orders",
-            OrdersActivity::class.java
+            CustomerOrdersActivity::class.java
         )
 
         bindItem(
