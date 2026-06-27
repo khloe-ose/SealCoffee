@@ -1,6 +1,9 @@
 package com.mobdeve.s15.group4.sealcoffee
 
 import android.content.Intent
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
@@ -65,13 +68,55 @@ class CartActivity : AppCompatActivity() {
                 val item = cartItems[position]
                 if (direction == ItemTouchHelper.LEFT) {
                     cartItems.removeAt(position)
-                    Toast.makeText(this@CartActivity, "${item.menuItem.name} removed from cart", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this@CartActivity,
+                        "${item.menuItem.name} removed from cart",
+                        Toast.LENGTH_SHORT
+                    ).show()
                     refreshCart()
                 } else {
-                    Toast.makeText(this@CartActivity, "Editing ${item.menuItem.name}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this@CartActivity,
+                        "Editing ${item.menuItem.name}",
+                        Toast.LENGTH_SHORT
+                    ).show()
                     showEditDialog(item)
                     cartAdapter.notifyItemChanged(position)
                 }
+            }
+
+            override fun onChildDraw(c: Canvas, recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder,
+                dX: Float, dY: Float, actionState: Int, isCurrentlyActive: Boolean) {
+                if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
+                    val itemView = viewHolder.itemView
+                    val iconSize = 100
+                    val offset = 30
+                    val iconMargin = 40
+
+                    if (dX > 0) { //swipe right to edit
+                        val editIcon = androidx.core.content.ContextCompat.getDrawable(recyclerView.context,R.drawable.ic_cart_edit)
+                        if (editIcon != null) {
+                            if (dX > iconMargin) {
+                                val iconLeft = itemView.left + iconMargin
+                                val iconTop = itemView.top + offset
+                                editIcon.setBounds(iconLeft, iconTop, iconLeft + iconSize, iconTop + iconSize)
+                                editIcon.draw(c)
+                            }
+                        }
+                    } else if (dX < 0) {  //swipe left to delete
+                        val deleteIcon = androidx.core.content.ContextCompat.getDrawable(recyclerView.context,R.drawable.ic_delete)
+                        if (deleteIcon != null) {
+                            if (dX < -iconMargin) {
+                                val iconRight = itemView.right - iconMargin
+                                val iconTop = itemView.top + offset
+                                deleteIcon.setBounds(iconRight - iconSize, iconTop, iconRight, iconTop + iconSize)
+                                deleteIcon.draw(c)
+                            }
+                        }
+
+                    }
+                }
+                super.onChildDraw(c,recyclerView,viewHolder,dX,dY,actionState,isCurrentlyActive)
             }
         }
 

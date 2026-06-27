@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.mobdeve.s15.group4.sealcoffee.data.CartItem
@@ -37,8 +38,8 @@ class CartItemAdapter(
         private val metaText = itemView.findViewById<TextView>(R.id.cartItemMetaText)
         private val priceText = itemView.findViewById<TextView>(R.id.cartItemPriceText)
         private val quantityText = itemView.findViewById<TextView>(R.id.cartItemQuantityText)
-        private val decreaseButton = itemView.findViewById<Button>(R.id.cartDecreaseButton)
-        private val increaseButton = itemView.findViewById<Button>(R.id.cartIncreaseButton)
+        private val decreaseButton = itemView.findViewById<ImageButton>(R.id.cartDecreaseButton)
+        private val increaseButton = itemView.findViewById<ImageButton>(R.id.cartIncreaseButton)
         private val editButton = itemView.findViewById<TextView>(R.id.cartEditButton)
 
         fun bind(item: CartItem) {

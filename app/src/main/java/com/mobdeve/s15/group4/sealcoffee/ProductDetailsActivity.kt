@@ -3,6 +3,7 @@ package com.mobdeve.s15.group4.sealcoffee
 import android.os.Bundle
 import android.widget.Button
 import android.widget.CheckBox
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -10,6 +11,8 @@ import com.mobdeve.s15.group4.sealcoffee.data.DummyData
 import com.mobdeve.s15.group4.sealcoffee.data.MenuItem
 
 class ProductDetailsActivity : AppCompatActivity() {
+
+
     private lateinit var menuItem: MenuItem
     private lateinit var quantityText: TextView
     private lateinit var priceText: TextView
@@ -33,7 +36,8 @@ class ProductDetailsActivity : AppCompatActivity() {
     }
 
     private fun bindDetails() {
-        findViewById<TextView>(R.id.productImagePlaceholder).text = menuItem.name.initials()
+        val imagePlaceholder = findViewById<ImageView>(R.id.productImagePlaceholder)
+        imagePlaceholder.setImageResource(menuItem.imageResId)
         findViewById<TextView>(R.id.productNameText).text = menuItem.name
         findViewById<TextView>(R.id.productCategoryText).text = menuItem.category
         findViewById<TextView>(R.id.productDescriptionText).text = menuItem.description

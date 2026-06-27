@@ -13,10 +13,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="34dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="24dp"
-        android:fontFamily="sans-serif-black"
-        android:text="Cart"
+        android:fontFamily="@font/inter_extrabold"
+        android:text="@string/cart_title"
         android:textColor="@color/seal_text_primary"
         android:textSize="34sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -30,9 +30,10 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="6dp"
         android:layout_marginEnd="24dp"
-        android:text="Review your order"
+        android:text="@string/cart_subtext"
         android:textColor="@color/seal_text_secondary"
         android:textSize="15sp"
+        android:textStyle="italic"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/cartTitleText" />
@@ -72,7 +73,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Subtotal"
+                android:text="@string/subtotal_subtitle"
                 android:textColor="@color/seal_text_secondary"
                 android:textSize="15sp" />
 
@@ -96,7 +97,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:fontFamily="sans-serif"
-                android:text="Total"
+                android:text="@string/total_subtitle"
                 android:textColor="@color/seal_text_primary"
                 android:textSize="18sp" />
 
@@ -115,7 +116,7 @@
             android:layout_width="match_parent"
             android:layout_height="54dp"
             android:layout_marginTop="16dp"
-            android:text="Place Order"
+            android:text="@string/place_order_btn"
             android:textSize="16sp" />
     </LinearLayout>
 

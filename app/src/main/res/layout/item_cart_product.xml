@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginStart="20dp"
     android:layout_marginTop="8dp"
     android:layout_marginEnd="20dp"
     android:layout_marginBottom="10dp"
+    style="@style/SealCoffeeCard"
     android:orientation="vertical">
 
     <TextView
         android:id="@+id/cartItemNameText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif"
+        android:fontFamily="@font/inter_semibold"
         android:textColor="@color/seal_text_primary"
-        android:textSize="18sp" />
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/cartItemMetaText"
@@ -23,12 +23,13 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:textColor="@color/seal_text_secondary"
-        android:textSize="13sp" />
+        android:textSize="16sp"
+        android:textStyle="italic" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="14dp"
+        android:layout_marginTop="8dp"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -37,17 +38,17 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:fontFamily="@font/inter_semibold"
+            android:fontFamily="@font/inter_bold"
             android:textColor="@color/seal_navy"
-            android:textSize="16sp" />
+            android:textSize="20sp" />
 
         <ImageButton
             android:id="@+id/cartDecreaseButton"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:background="@android:color/transparent"
-            android:contentDescription="Decrease quantity"
-            android:padding="10dp"
+            android:contentDescription="@string/content_description_decrease_quantity"
+            android:padding="8dp"
             android:scaleType="fitCenter"
             android:src="@drawable/ic_decrease_btn" />
 
@@ -62,11 +63,11 @@
 
         <ImageButton
             android:id="@+id/cartIncreaseButton"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:background="@android:color/transparent"
-            android:contentDescription="Increase quantity"
-            android:padding="10dp"
+            android:contentDescription="@string/content_description_increase_quantity"
+            android:padding="8dp"
             android:scaleType="fitCenter"
             android:src="@drawable/ic_increase_btn" />
     </LinearLayout>
@@ -74,13 +75,12 @@
     <TextView
         android:id="@+id/cartEditButton"
         android:layout_width="wrap_content"
-        android:layout_height="44dp"
-        android:layout_marginTop="4dp"
+        android:layout_height="48dp"
         android:clickable="true"
         android:focusable="true"
         android:fontFamily="@font/inter_semibold"
         android:gravity="center_vertical"
-        android:text="Edit item"
+        android:text="@string/edit_item_name"
         android:textColor="@color/seal_coffee"
-        android:textSize="14sp" />
+        android:textSize="16sp" />
 </LinearLayout>

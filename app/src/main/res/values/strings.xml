@@ -13,5 +13,13 @@
     <string name="menu_content_descriptiona">Menu</string>
     <string name="orders_content_descriptiona">Orders</string>
     <string name="menu_item_image">Menu Item Image</string>
+    <string name="content_description_decrease_quantity">Decrease quantity</string>
+    <string name="edit_item_name">Edit item</string>
+    <string name="content_description_increase_quantity">Increase quantity</string>
+    <string name="subtotal_subtitle">Subtotal</string>
+    <string name="total_subtitle">Total</string>
+    <string name="cart_subtext">Review your order</string>
+    <string name="cart_title">Cart</string>
+    <string name="place_order_btn">Place Order</string>
 
 </resources>

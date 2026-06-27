@@ -43,15 +43,12 @@
             android:paddingEnd="24dp"
             android:paddingBottom="22dp">
 
-            <TextView
+            <ImageView
                 android:id="@+id/productImagePlaceholder"
                 android:layout_width="match_parent"
                 android:layout_height="180dp"
                 android:background="@drawable/bg_image_placeholder"
-                android:fontFamily="sans-serif-black"
-                android:gravity="center"
-                android:textColor="@color/seal_navy"
-                android:textSize="44sp" />
+                android:gravity="center" />
 
             <TextView
                 android:id="@+id/productNameText"

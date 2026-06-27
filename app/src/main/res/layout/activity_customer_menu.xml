@@ -67,7 +67,7 @@
                 android:minHeight="0dp"
                 android:text="All"
                 android:textAllCaps="false"
-                android:textColor="@color/white" />
+                android:textColor="@color/seal_navy" />
 
             <Button
                 android:id="@+id/filterCoffeeButton"
@@ -79,7 +79,7 @@
                 android:minHeight="0dp"
                 android:text="Coffee"
                 android:textAllCaps="false"
-                android:textColor="@color/seal_navy" />
+                android:textColor="@color/white" />
 
             <Button
                 android:id="@+id/filterNonCoffeeButton"
@@ -91,7 +91,7 @@
                 android:minHeight="0dp"
                 android:text="Non-Coffee"
                 android:textAllCaps="false"
-                android:textColor="@color/seal_navy" />
+                android:textColor="@color/white" />
 
             <Button
                 android:id="@+id/filterSnacksButton"
@@ -103,7 +103,7 @@
                 android:minHeight="0dp"
                 android:text="Snacks"
                 android:textAllCaps="false"
-                android:textColor="@color/seal_navy" />
+                android:textColor="@color/white" />
 
             <Button
                 android:id="@+id/filterDessertsButton"
@@ -115,7 +115,7 @@
                 android:minHeight="0dp"
                 android:text="Desserts"
                 android:textAllCaps="false"
-                android:textColor="@color/seal_navy" />
+                android:textColor="@color/white" />
         </LinearLayout>
     </HorizontalScrollView>
 
