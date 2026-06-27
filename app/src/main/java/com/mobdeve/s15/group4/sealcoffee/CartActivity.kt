@@ -64,7 +64,7 @@ class CartActivity : AppCompatActivity() {
         attachCartGestures(cartRecyclerView)
 
         findViewById<Button>(R.id.placeOrderButton).setOnClickListener {
-            Toast.makeText(this, "Order placed for pickup", Toast.LENGTH_SHORT).show()
+            Toast.makeText(applicationContext, "Order placed for pickup", Toast.LENGTH_SHORT).show()
             startActivity(Intent(this, CustomerOrdersActivity::class.java))
         }
 
@@ -150,7 +150,7 @@ class CartActivity : AppCompatActivity() {
         if (cartItems[index].quantity > 1) {
             cartItems[index] = cartItems[index].copy(quantity = cartItems[index].quantity - 1)
         } else {
-            Toast.makeText(this, "Quantity cannot go below 1", Toast.LENGTH_SHORT).show()
+            Toast.makeText(applicationContext, "Quantity cannot go below 1", Toast.LENGTH_SHORT).show()
         }
         refreshCart()
     }

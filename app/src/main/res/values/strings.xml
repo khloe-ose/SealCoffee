@@ -8,10 +8,10 @@
     <string name="orders_navbar_name">Orders</string>
     <string name="cart_navbar_name">Cart</string>
     <string name="menu_navbar_name">Menu</string>
-    <string name="cart_content_descriptiona">Cart</string>
-    <string name="profile_content_descriptiona">Profile</string>
-    <string name="menu_content_descriptiona">Menu</string>
-    <string name="orders_content_descriptiona">Orders</string>
+    <string name="cart_content_description">Cart</string>
+    <string name="profile_content_description">Profile</string>
+    <string name="menu_content_description">Menu</string>
+    <string name="orders_content_description">Orders</string>
     <string name="menu_item_image">Menu Item Image</string>
     <string name="content_description_decrease_quantity">Decrease quantity</string>
     <string name="edit_item_name">Edit item</string>
@@ -26,5 +26,27 @@
     <string name="email_title">Email</string>
     <string name="contact_number_title">Contact Number</string>
     <string name="log_out_title">Log Out</string>
+    <string name="opening_message">Hello again!</string>
+    <string name="welcome_message">Please sign in to pick up where you left off. It\'s wonderful to have you back :3</string>
+    <string name="create_an_account">Create an Account</string>
+    <string name="sealcoffee_logo">SealCoffee Logo</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="log_in">Log in</string>
+    <string name="enter_your_email">Enter your email</string>
+    <string name="enter_your_password">Enter your password</string>
+    <string name="new_question">New to SealCoffee? </string>
+    <string name="sign_up">Sign Up</string>
+    <string name="last_name">Last Name</string>
+    <string name="first_name">First Name</string>
+    <string name="birthdate">Birthdate</string>
+    <string name="email_address">Email Address</string>
+    <string name="contact_number">Contact Number</string>
+    <string name="password_hint">Password</string>
+    <string name="create_account">Create Account</string>
+    <string name="log_in_link">Log In</string>
+    <string name="first_name_label">First Name</string>
+    <string name="last_name_label">Last Name</string>
+    <string name="password_label">Password</string>
 
 </resources>

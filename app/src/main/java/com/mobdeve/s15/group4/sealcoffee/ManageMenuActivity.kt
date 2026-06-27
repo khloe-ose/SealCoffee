@@ -62,7 +62,7 @@ class ManageMenuActivity : AppCompatActivity() {
                             imageResId = R.drawable.img_custom
                         )
                     )
-                    Toast.makeText(this, "Menu item added", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(applicationContext, "Menu item added", Toast.LENGTH_SHORT).show()
                 } else {
                     val index = menuItems.indexOfFirst { it.id == item.id }
                     if (index != -1) {
@@ -71,7 +71,7 @@ class ManageMenuActivity : AppCompatActivity() {
                             category = categoryInput.text.toString().ifBlank { item.category },
                             price = priceInput.text.toString().toDoubleOrNull() ?: item.price
                         )
-                        Toast.makeText(this, "Menu item updated", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(applicationContext, "Menu item updated", Toast.LENGTH_SHORT).show()
                     }
                 }
                 refreshMenu()
@@ -82,7 +82,7 @@ class ManageMenuActivity : AppCompatActivity() {
 
     private fun removeItem(item: MenuItem) {
         menuItems.removeAll { it.id == item.id }
-        Toast.makeText(this, "${item.name} removed", Toast.LENGTH_SHORT).show()
+        Toast.makeText(applicationContext, "${item.name} removed", Toast.LENGTH_SHORT).show()
         refreshMenu()
     }
 
@@ -90,7 +90,7 @@ class ManageMenuActivity : AppCompatActivity() {
         val index = menuItems.indexOfFirst { it.id == item.id }
         if (index != -1) {
             menuItems[index] = item.copy(isAvailable = !item.isAvailable)
-            Toast.makeText(this, "${item.name} availability changed", Toast.LENGTH_SHORT).show()
+            Toast.makeText(applicationContext, "${item.name} availability changed", Toast.LENGTH_SHORT).show()
             refreshMenu()
         }
     }

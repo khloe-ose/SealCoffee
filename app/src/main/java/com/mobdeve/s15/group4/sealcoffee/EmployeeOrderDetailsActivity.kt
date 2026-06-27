@@ -52,7 +52,7 @@ class EmployeeOrderDetailsActivity : AppCompatActivity() {
                 R.id.statusDelayedRadio -> "Delayed"
                 else -> "Pending"
             }
-            Toast.makeText(this, "${order.id} marked $status", Toast.LENGTH_SHORT).show()
+            Toast.makeText(applicationContext, "${order.id} marked $status", Toast.LENGTH_SHORT).show()
         }
     }
 

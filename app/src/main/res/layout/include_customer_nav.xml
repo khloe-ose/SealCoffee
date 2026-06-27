@@ -27,7 +27,7 @@
             android:id="@+id/navMenuIcon"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:contentDescription="@string/menu_content_descriptiona"
+            android:contentDescription="@string/menu_content_description"
             android:src="@drawable/ic_menu" />
 
         <TextView
@@ -53,7 +53,7 @@
             android:id="@+id/navCartIcon"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:contentDescription="@string/cart_content_descriptiona"
+            android:contentDescription="@string/cart_content_description"
             android:src="@drawable/ic_cart" />
 
         <TextView
@@ -80,7 +80,7 @@
             android:id="@+id/navOrdersIcon"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:contentDescription="@string/orders_content_descriptiona"
+            android:contentDescription="@string/orders_content_description"
             android:src="@drawable/ic_orders" />
 
         <TextView
@@ -106,7 +106,7 @@
         android:id="@+id/navProfileIcon"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:contentDescription="@string/profile_content_descriptiona"
+        android:contentDescription="@string/profile_content_description"
         android:src="@drawable/ic_profile" />
 
     <TextView

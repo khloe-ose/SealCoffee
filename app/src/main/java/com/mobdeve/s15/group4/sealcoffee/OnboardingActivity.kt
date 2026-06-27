@@ -27,7 +27,7 @@ class OnboardingActivity : AppCompatActivity() {
     }
 
     private fun openLogin() {
-        Toast.makeText(this, "Opening login", Toast.LENGTH_SHORT).show()
+        Toast.makeText(applicationContext, "Opening login", Toast.LENGTH_SHORT).show()
         startActivity(Intent(this, LoginActivity::class.java))
     }
 }

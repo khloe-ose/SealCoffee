@@ -115,7 +115,7 @@ import com.mobdeve.s15.group4.sealcoffee.R
             Order(
                 id = "ORD-1007",
                 customerName = "Mika Santos",
-                customerEmail = "mika.santos@example.com",
+                customerEmail = "mika.santos@gmail.com",
                 items = listOf(
                     OrderItem(
                         id = "order_item_1007_1",
@@ -145,7 +145,7 @@ import com.mobdeve.s15.group4.sealcoffee.R
             Order(
                 id = "ORD-1008",
                 customerName = "Mika Santos",
-                customerEmail = "mika.santos@example.com",
+                customerEmail = "mika.santos@gmail.com",
                 items = listOf(
                     OrderItem(
                         id = "order_item_1008_1",
@@ -166,7 +166,7 @@ import com.mobdeve.s15.group4.sealcoffee.R
             Order(
                 id = "ORD-1003",
                 customerName = "Mika Santos",
-                customerEmail = "mika.santos@example.com",
+                customerEmail = "mika.santos@gmail.com",
                 items = listOf(
                     OrderItem(
                         id = "order_item_1003_1",
@@ -187,7 +187,7 @@ import com.mobdeve.s15.group4.sealcoffee.R
             Order(
                 id = "ORD-0998",
                 customerName = "Mika Santos",
-                customerEmail = "mika.santos@example.com",
+                customerEmail = "mika.santos@gmail.com",
                 items = listOf(
                     OrderItem(
                         id = "order_item_0998_1",
@@ -351,7 +351,7 @@ import com.mobdeve.s15.group4.sealcoffee.R
             id = "user_customer_001",
             fullName = "Mika Santos",
             birthday = "March 14, 2002",
-            email = "mika.santos@example.com",
+            email = "mika.santos@gmail.com",
             phone = "+63 917 555 0148",
             role = "Customer",
             address = "2401 Taft Avenue, Manila",
@@ -363,7 +363,7 @@ import com.mobdeve.s15.group4.sealcoffee.R
             id = "user_employee_001",
             fullName = "Carlo Dela Cruz",
             birthday = "August 9, 1999",
-            email = "carlo.staff@sealcoffee.example",
+            email = "carlo.staff@sealcoffee.com",
             phone = "+63 917 555 0192",
             role = "Employee",
             loyaltyPoints = 0,
