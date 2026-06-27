@@ -7,7 +7,7 @@ data class MenuItem(
     val description: String,
     val ingredients: List<String> = emptyList(),
     val price: Double,
-    val imageName: String,
+    val imageResId: Int,
     val isFeatured: Boolean = false,
     val isAvailable: Boolean = true
 )

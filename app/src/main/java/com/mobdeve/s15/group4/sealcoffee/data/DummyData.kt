@@ -1,15 +1,18 @@
 package com.mobdeve.s15.group4.sealcoffee.data
 
+import com.mobdeve.s15.group4.sealcoffee.R
+
+
 object DummyData {
     val menuItems = listOf(
         MenuItem(
-            id = "coffee_seal_latte",
-            name = "Seal Latte",
+            id = "signature_latte",
+            name = "Signature Latte",
             category = "Coffee",
             description = "Espresso with steamed milk and a smooth caramel finish.",
             ingredients = listOf("Espresso", "Steamed milk", "Caramel", "Sea salt cream"),
             price = 165.0,
-            imageName = "img_seal_latte",
+            imageResId = R.drawable.img_signature_latte,
             isFeatured = true
         ),
         MenuItem(
@@ -19,7 +22,7 @@ object DummyData {
             description = "Creamy espresso blend sweetened with condensed milk.",
             ingredients = listOf("Espresso", "Fresh milk", "Condensed milk"),
             price = 175.0,
-            imageName = "img_spanish_latte",
+            imageResId = R.drawable.img_spanish_latte,
             isFeatured = true
         ),
         MenuItem(
@@ -29,7 +32,7 @@ object DummyData {
             description = "Bold espresso topped with hot water for a clean finish.",
             ingredients = listOf("Espresso", "Filtered water"),
             price = 120.0,
-            imageName = "img_americano"
+            imageResId = R.drawable.img_americano
         ),
         MenuItem(
             id = "coffee_mocha",
@@ -38,7 +41,7 @@ object DummyData {
             description = "Espresso, milk, and chocolate with a balanced sweetness.",
             ingredients = listOf("Espresso", "Milk", "Chocolate sauce"),
             price = 170.0,
-            imageName = "img_cafe_mocha"
+            imageResId = R.drawable.img_cafe_mocha
         ),
         MenuItem(
             id = "noncoffee_matcha",
@@ -47,7 +50,7 @@ object DummyData {
             description = "Earthy matcha latte with a light cream topping.",
             ingredients = listOf("Matcha", "Milk", "Vanilla cream"),
             price = 180.0,
-            imageName = "img_matcha_cream",
+            imageResId = R.drawable.img_matcha_cream,
             isFeatured = true
         ),
         MenuItem(
@@ -57,7 +60,7 @@ object DummyData {
             description = "Slow-steeped coffee served over ice.",
             ingredients = listOf("Cold brew coffee", "Ice"),
             price = 150.0,
-            imageName = "img_cold_brew"
+            imageResId = R.drawable.img_cold_brew
         ),
         MenuItem(
             id = "snack_croissant",
@@ -66,7 +69,7 @@ object DummyData {
             description = "Flaky butter croissant warmed before serving.",
             ingredients = listOf("Butter pastry", "Sea salt"),
             price = 95.0,
-            imageName = "img_butter_croissant"
+            imageResId = R.drawable.img_butter_croissant
         ),
         MenuItem(
             id = "snack_muffin",
@@ -75,16 +78,16 @@ object DummyData {
             description = "Soft muffin packed with blueberries.",
             ingredients = listOf("Blueberries", "Vanilla batter", "Sugar crumb"),
             price = 105.0,
-            imageName = "img_blueberry_muffin"
+            imageResId = R.drawable.img_blueberry_muffin
         ),
         MenuItem(
             id = "dessert_cheesecake",
             name = "Mini Cheesecake",
             category = "Desserts",
             description = "Creamy cheesecake with a buttery crumb base.",
-            ingredients = listOf("Cream cheese", "Graham crust", "Vanilla"),
+            ingredients = listOf("Cream cheese", "Strawberry", "Vanilla"),
             price = 135.0,
-            imageName = "img_mini_cheesecake",
+            imageResId = R.drawable.img_mini_cheesecake,
             isAvailable = false
         )
     )
@@ -200,8 +203,8 @@ object DummyData {
             items = listOf(
                 OrderItem(
                     id = "order_item_1011_1",
-                    menuItemId = "coffee_seal_latte",
-                    name = "Seal Latte",
+                    menuItemId = "signature_latte",
+                    name = "Signature Latte",
                     quantity = 2,
                     size = "Regular",
                     temperature = "Iced",

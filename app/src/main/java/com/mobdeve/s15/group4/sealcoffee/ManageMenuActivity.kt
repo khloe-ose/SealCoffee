@@ -59,7 +59,7 @@ class ManageMenuActivity : AppCompatActivity() {
                             category = categoryInput.text.toString().ifBlank { "Coffee" },
                             description = "Prototype menu item.",
                             price = priceInput.text.toString().toDoubleOrNull() ?: 120.0,
-                            imageName = "img_custom"
+                            imageResId = R.drawable.img_custom
                         )
                     )
                     Toast.makeText(this, "Menu item added", Toast.LENGTH_SHORT).show()

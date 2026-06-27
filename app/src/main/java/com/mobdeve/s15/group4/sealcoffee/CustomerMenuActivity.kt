@@ -3,6 +3,7 @@ package com.mobdeve.s15.group4.sealcoffee
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -52,13 +53,22 @@ class CustomerMenuActivity : AppCompatActivity() {
     private fun applyFilter() {
         filterButtons.forEach { (filter, button) ->
             val isSelected = filter == selectedFilter
-            button.setBackgroundResource(if (isSelected) R.drawable.bg_chip_selected else R.drawable.bg_chip)
-            button.setTextColor(getColor(if (isSelected) R.color.white else R.color.seal_navy))
+
+            if (isSelected) {
+
+                button.setBackgroundResource(R.drawable.bg_chip_selected)
+                button.setTextColor(getColor(R.color.seal_navy))
+            } else {
+
+                button.setBackgroundResource(R.drawable.bg_chip)
+                button.setTextColor(getColor(R.color.white))
+            }
         }
 
         val filteredItems = DummyData.menuItems.filter {
             selectedFilter == "All" || it.category == selectedFilter
         }
+
         menuAdapter.submitItems(filteredItems)
     }
 
@@ -71,7 +81,8 @@ class CustomerMenuActivity : AppCompatActivity() {
 
     private fun showQuickPreview(item: MenuItem) {
         val dialogView = layoutInflater.inflate(R.layout.dialog_product_preview, null)
-        dialogView.findViewById<TextView>(R.id.previewImagePlaceholder).text = item.name.initials()
+        val imageView = dialogView.findViewById<ImageView>(R.id.previewImagePlaceholder)
+        imageView.setImageResource(item.imageResId)
         dialogView.findViewById<TextView>(R.id.previewNameText).text = item.name
         dialogView.findViewById<TextView>(R.id.previewDescriptionText).text = item.description
 

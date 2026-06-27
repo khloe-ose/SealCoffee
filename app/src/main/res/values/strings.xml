@@ -3,4 +3,15 @@
     <string name="get_started">Get Started</string>
     <string name="onboarding_message">Order your favorite drinks and snacks from our cafe anytime</string>
     <string name="title_description">seal coffee name</string>
+    <string name="login_question">Already have an account?</string>
+    <string name="profile_navbar_name">Profile</string>
+    <string name="orders_navbar_name">Orders</string>
+    <string name="cart_navbar_name">Cart</string>
+    <string name="menu_navbar_name">Menu</string>
+    <string name="cart_content_descriptiona">Cart</string>
+    <string name="profile_content_descriptiona">Profile</string>
+    <string name="menu_content_descriptiona">Menu</string>
+    <string name="orders_content_descriptiona">Orders</string>
+    <string name="menu_item_image">Menu Item Image</string>
+
 </resources>

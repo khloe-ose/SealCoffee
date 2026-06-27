@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.mobdeve.s15.group4.sealcoffee.data.MenuItem
 
@@ -31,14 +32,14 @@ class MenuItemAdapter(
     override fun getItemCount(): Int = items.size
 
     inner class MenuItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val imagePlaceholder = itemView.findViewById<TextView>(R.id.menuItemImagePlaceholder)
+        private val imagePlaceholder = itemView.findViewById<ImageView>(R.id.menuItemImagePlaceholder)
         private val nameText = itemView.findViewById<TextView>(R.id.menuItemNameText)
         private val categoryText = itemView.findViewById<TextView>(R.id.menuItemCategoryText)
         private val priceText = itemView.findViewById<TextView>(R.id.menuItemPriceText)
         private val availabilityText = itemView.findViewById<TextView>(R.id.menuItemAvailabilityText)
 
         fun bind(item: MenuItem) {
-            imagePlaceholder.text = item.name.initials()
+            imagePlaceholder.setImageResource(item.imageResId)
             nameText.text = item.name
             categoryText.text = item.category
             priceText.text = item.price.formatPrice()

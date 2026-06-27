@@ -13,7 +13,7 @@ class OrderHistoryActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_order_history)
 
-        CustomerNavigation.bind(this, CustomerDestination.HISTORY)
+       // CustomerNavigation.bind(this, CustomerDestination.HISTORY)
 
         findViewById<RecyclerView>(R.id.orderHistoryRecyclerView).apply {
             layoutManager = LinearLayoutManager(this@OrderHistoryActivity)
