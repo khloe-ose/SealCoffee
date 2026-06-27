@@ -17,7 +17,7 @@ class OrderHistoryAdapter : RecyclerView.Adapter<OrderHistoryAdapter.OrderHistor
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OrderHistoryViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_order_history, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_customer_order_history_employee, parent, false)
         return OrderHistoryViewHolder(view)
     }
 
@@ -28,18 +28,18 @@ class OrderHistoryAdapter : RecyclerView.Adapter<OrderHistoryAdapter.OrderHistor
     override fun getItemCount(): Int = orders.size
 
     class OrderHistoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val idText = itemView.findViewById<TextView>(R.id.historyOrderIdText)
-        private val statusText = itemView.findViewById<TextView>(R.id.historyStatusText)
-        private val dateText = itemView.findViewById<TextView>(R.id.historyDateText)
-        private val itemsText = itemView.findViewById<TextView>(R.id.historyItemsText)
-        private val totalText = itemView.findViewById<TextView>(R.id.historyTotalText)
+        private val idText = itemView.findViewById<TextView>(R.id.employeeHistoryOrderText)
+        private val customerText = itemView.findViewById<TextView>(R.id.employeeHistoryCustomerText)
+        private val itemsText = itemView.findViewById<TextView>(R.id.employeeHistoryItemsText)
+        private val totalText = itemView.findViewById<TextView>(R.id.employeeHistoryTotalText)
+        private val statusText = itemView.findViewById<TextView>(R.id.employeeHistoryStatusText)
 
         fun bind(order: Order) {
             idText.text = order.id
-            statusText.text = order.status
-            dateText.text = order.placedAt
+            customerText.text = order.customerName
             itemsText.text = order.items.joinToString { "${it.quantity}x ${it.name}" }
             totalText.text = order.total.formatPrice()
+            statusText.text = order.status
         }
     }
 }

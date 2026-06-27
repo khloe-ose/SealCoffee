@@ -48,7 +48,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:background="@drawable/bg_chip"
+        android:background="@drawable/bg_chip_selected"
         android:fontFamily="sans-serif-medium"
         android:gravity="center"
         android:textSize="13sp" />

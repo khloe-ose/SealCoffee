@@ -31,24 +31,19 @@ class LoginActivity : AppCompatActivity() {
             }
 
             if (email.contains("sealcoffee.com") || email == employeeProfileData.email) {
-
                 Toast.makeText(
-                    this,
+                    applicationContext,
                     "Welcome back, Staff: ${employeeProfileData.fullName}",
                     Toast.LENGTH_SHORT
                 ).show()
                 startActivity(Intent(this, EmployeeDashboardActivity::class.java))
                 finish()
             } else {
-
                 Toast.makeText(applicationContext, "Welcome back, ${profileData.fullName}", Toast.LENGTH_SHORT)
                     .show()
                 startActivity(Intent(this, CustomerMenuActivity::class.java))
                 finish()
             }
-
-
-
         }
         findViewById<TextView>(R.id.signUpLink).setOnClickListener {
             startActivity(Intent(this, SignUpActivity::class.java))

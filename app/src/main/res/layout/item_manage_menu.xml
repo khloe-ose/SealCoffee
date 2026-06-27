@@ -51,38 +51,38 @@
         <TextView
             android:id="@+id/manageMenuEditButton"
             android:layout_width="match_parent"
-            android:layout_height="42dp"
+            android:layout_height="48dp"
             android:background="@drawable/bg_chip"
             android:clickable="true"
             android:focusable="true"
             android:fontFamily="sans-serif-medium"
             android:gravity="center"
-            android:text="Edit"
-            android:textColor="@color/seal_navy" />
+            android:text="@string/edit"
+            android:textColor="#FFFFFF" />
 
         <TextView
             android:id="@+id/manageMenuToggleButton"
             android:layout_width="match_parent"
-            android:layout_height="42dp"
+            android:layout_height="48dp"
             android:layout_marginTop="8dp"
             android:background="@drawable/bg_chip"
             android:clickable="true"
             android:focusable="true"
             android:fontFamily="sans-serif-medium"
             android:gravity="center"
-            android:textColor="@color/seal_navy" />
+            android:textColor="#FFFFFF" />
 
         <TextView
             android:id="@+id/manageMenuRemoveButton"
             android:layout_width="match_parent"
-            android:layout_height="42dp"
+            android:layout_height="48dp"
             android:layout_marginTop="8dp"
             android:background="@drawable/bg_chip"
             android:clickable="true"
             android:focusable="true"
             android:fontFamily="sans-serif-medium"
             android:gravity="center"
-            android:text="Remove"
-            android:textColor="@color/seal_error" />
+            android:text="@string/remove"
+            android:textColor="#EF9A9A" />
     </LinearLayout>
 </LinearLayout>

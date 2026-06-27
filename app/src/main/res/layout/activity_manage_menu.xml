@@ -16,7 +16,7 @@
         android:layout_marginTop="34dp"
         android:layout_marginEnd="24dp"
         android:fontFamily="sans-serif-black"
-        android:text="Manage Menu"
+        android:text="@string/manage_menu_title"
         android:textColor="@color/seal_text_primary"
         android:textSize="32sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -31,7 +31,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="18dp"
         android:layout_marginEnd="24dp"
-        android:text="Add Menu Item"
+        android:text="@string/add_menu_item"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/manageMenuTitleText" />

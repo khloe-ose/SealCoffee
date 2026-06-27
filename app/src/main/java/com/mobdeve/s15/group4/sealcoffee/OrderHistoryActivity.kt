@@ -11,11 +11,9 @@ class OrderHistoryActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_order_history)
+        setContentView(R.layout.activity_customer_order_history)
 
-       // CustomerNavigation.bind(this, CustomerDestination.HISTORY)
-
-        findViewById<RecyclerView>(R.id.orderHistoryRecyclerView).apply {
+        findViewById<RecyclerView>(R.id.customerOrderHistoryRecyclerView).apply {
             layoutManager = LinearLayoutManager(this@OrderHistoryActivity)
             adapter = orderHistoryAdapter
         }

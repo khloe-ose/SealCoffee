@@ -48,5 +48,32 @@
     <string name="first_name_label">First Name</string>
     <string name="last_name_label">Last Name</string>
     <string name="password_label">Password</string>
+    <string name="all">All</string>
+    <string name="coffee">Coffee</string>
+    <string name="snacks">Snacks</string>
+    <string name="desserts">Desserts</string>
+    <string name="non_coffee">Non-Coffee</string>
+    <string name="pick_your_perfect_brew_to_start_the_day">Pick your perfect brew to start the day.</string>
+    <string name="menu">Menu</string>
+    <string name="active_orders">Active Orders</string>
+    <string name="completed">Completed</string>
+    <string name="delayed">Delayed</string>
+    <string name="total_orders">Total Orders</string>
+    <string name="employee_dashboard">Employee Dashboard</string>
+    <string name="track_orders_and_manage_the_sealcoffee_menu">Track orders and manage the SealCoffee menu</string>
+    <string name="completed_orders">Completed Orders</string>
+    <string name="delayed_orders">Delayed Orders</string>
+    <string name="customer_order_history">Customer Order History</string>
+    <string name="active_orders_btn">Active Orders</string>
+    <string name="incoming_orders">Incoming Orders</string>
+    <string name="manage_menu">Manage Menu</string>
+    <string name="remove">Remove</string>
+    <string name="edit">Edit</string>
+    <string name="item_name">Item Name</string>
+    <string name="price">Price</string>
+    <string name="category">Category</string>
+    <string name="add_menu_item">Add Menu Item</string>
+    <string name="manage_menu_title">Manage Menu</string>
+    <string name="customer_order_history_employee">Customer Order History</string>
 
 </resources>

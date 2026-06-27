@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/seal_surface"
+    android:background="@color/seal_cream"
     android:orientation="vertical"
     android:padding="24dp">
 
@@ -11,7 +11,9 @@
         style="@style/SealCoffeeEditText"
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:hint="Item Name"
+        android:hint="@string/item_name"
+        android:textColorHint="@color/seal_text_secondary"
+        android:textColor="@color/seal_text_primary"
         android:inputType="textCapWords"
         android:singleLine="true" />
 
@@ -20,8 +22,10 @@
         style="@style/SealCoffeeEditText"
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:layout_marginTop="12dp"
-        android:hint="Category"
+        android:layout_marginTop="16dp"
+        android:hint="@string/category"
+        android:textColorHint="@color/seal_text_secondary"
+        android:textColor="@color/seal_text_primary"
         android:inputType="textCapWords"
         android:singleLine="true" />
 
@@ -30,8 +34,10 @@
         style="@style/SealCoffeeEditText"
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:layout_marginTop="12dp"
-        android:hint="Price"
+        android:layout_marginTop="16dp"
+        android:hint="@string/price"
+        android:textColorHint="@color/seal_text_secondary"
+        android:textColor="@color/seal_text_primary"
         android:inputType="numberDecimal"
         android:singleLine="true" />
 </LinearLayout>

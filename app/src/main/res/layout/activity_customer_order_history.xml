@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/seal_cream"
-    tools:context=".CustomerOrderHistoryActivity">
+    >
 
     <TextView
         android:id="@+id/customerOrderHistoryTitleText"
@@ -17,12 +17,13 @@
         android:layout_marginEnd="24dp"
         android:fontFamily="sans-serif"
         android:textStyle="bold"
-        android:text="Customer Order History"
+        android:text="@string/customer_order_history_employee"
         android:textColor="@color/seal_text_primary"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/customerOrderHistoryRecyclerView"
