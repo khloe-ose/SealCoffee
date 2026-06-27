@@ -41,7 +41,7 @@ class EmployeeDashboardActivity : AppCompatActivity() {
             startActivity(Intent(this, ManageMenuActivity::class.java))
         }
         findViewById<Button>(R.id.customerHistoryButton).setOnClickListener {
-            startActivity(Intent(this, CustomerOrderHistoryActivity::class.java))
+            //startActivity(Intent(this, CustomerOrderHistoryActivity::class.java))
         }
     }
 

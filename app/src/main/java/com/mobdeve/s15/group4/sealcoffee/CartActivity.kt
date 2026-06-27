@@ -2,13 +2,11 @@ package com.mobdeve.s15.group4.sealcoffee
 
 import android.content.Intent
 import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -27,6 +25,29 @@ class CartActivity : AppCompatActivity() {
     private lateinit var subtotalText: TextView
     private lateinit var totalText: TextView
 
+    private val editCartItemLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == RESULT_OK && result.data != null) {
+            val data = result.data!!
+            val itemId = data.getStringExtra("extra_item_id")
+            val index = cartItems.indexOfFirst { it.id == itemId }
+
+            if (index != -1) {
+                val newSize = data.getStringExtra("extra_size") ?: "Regular"
+                val newQuantity = data.getIntExtra("extra_quantity", 1)
+                val newAddOns = data.getStringArrayListExtra("extra_addons") ?: arrayListOf()
+
+                cartItems[index] = cartItems[index].copy(
+                    size = newSize,
+                    quantity = newQuantity,
+                    addOns = newAddOns
+                )
+            }
+        }
+        refreshCart()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cart)
@@ -44,7 +65,7 @@ class CartActivity : AppCompatActivity() {
 
         findViewById<Button>(R.id.placeOrderButton).setOnClickListener {
             Toast.makeText(this, "Order placed for pickup", Toast.LENGTH_SHORT).show()
-            startActivity(Intent(this, CurrentOrderStatusActivity::class.java))
+            startActivity(Intent(this, CustomerOrdersActivity::class.java))
         }
 
         refreshCart()
@@ -81,7 +102,6 @@ class CartActivity : AppCompatActivity() {
                         Toast.LENGTH_SHORT
                     ).show()
                     showEditDialog(item)
-                    cartAdapter.notifyItemChanged(position)
                 }
             }
 
@@ -90,7 +110,7 @@ class CartActivity : AppCompatActivity() {
                 if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
                     val itemView = viewHolder.itemView
                     val iconSize = 100
-                    val offset = 30
+                    val offset = 200
                     val iconMargin = 40
 
                     if (dX > 0) { //swipe right to edit
@@ -144,19 +164,18 @@ class CartActivity : AppCompatActivity() {
     }
 
     private fun showEditDialog(item: CartItem) {
-        val dialogView = layoutInflater.inflate(R.layout.dialog_edit_cart_item, null)
-        dialogView.findViewById<TextView>(R.id.editCartItemNameText).text = item.menuItem.name
-        dialogView.findViewById<TextView>(R.id.editCartItemDetailsText).text =
-            "${item.size} / ${item.temperature}"
+        val intent = Intent(this, ProductDetailsActivity::class.java).apply {
+            putExtra(ProductDetailsActivity.EXTRA_MENU_ITEM_ID, item.menuItem.id)
+            putExtra("extra_item_id", item.id)
+            putExtra("extra_quantity", item.quantity)
+            putExtra("extra_size", item.size)
+            putStringArrayListExtra("extra_addons", ArrayList(item.addOns))
+            putExtra("extra_edit_mode", true)
+        }
 
-        AlertDialog.Builder(this)
-            .setView(dialogView)
-            .setPositiveButton("Apply Changes") { _, _ ->
-                Toast.makeText(this, "Cart item updated", Toast.LENGTH_SHORT).show()
-            }
-            .setNegativeButton("Cancel", null)
-            .show()
+        editCartItemLauncher.launch(intent)
     }
+
 
     private fun refreshCart() {
         cartAdapter.submitItems(cartItems)

@@ -21,5 +21,10 @@
     <string name="cart_subtext">Review your order</string>
     <string name="cart_title">Cart</string>
     <string name="place_order_btn">Place Order</string>
+    <string name="profile_title">Profile</string>
+    <string name="birthday_title">Birthday</string>
+    <string name="email_title">Email</string>
+    <string name="contact_number_title">Contact Number</string>
+    <string name="log_out_title">Log Out</string>
 
 </resources>

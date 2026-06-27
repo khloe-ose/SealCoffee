@@ -143,6 +143,27 @@ import com.mobdeve.s15.group4.sealcoffee.R
                 pickupTime = "Today, 9:35 AM"
             ),
             Order(
+                id = "ORD-1008",
+                customerName = "Mika Santos",
+                customerEmail = "mika.santos@example.com",
+                items = listOf(
+                    OrderItem(
+                        id = "order_item_1008_1",
+                        menuItemId = "coffee_americano",
+                        name = "Americano",
+                        quantity = 1,
+                        size = "Regular",
+                        temperature = "Hot",
+                        unitPrice = 120.0
+                    )
+                ),
+                status = "Preparing",
+                orderType = "Pickup",
+                paymentMethod = "Cash",
+                placedAt = "Today, 9:16",
+                pickupTime = "Today, 9:30 AM"
+            ),
+            Order(
                 id = "ORD-1003",
                 customerName = "Mika Santos",
                 customerEmail = "mika.santos@example.com",
@@ -158,7 +179,7 @@ import com.mobdeve.s15.group4.sealcoffee.R
                     )
                 ),
                 status = "Completed",
-                orderType = "Dine-in",
+                orderType = "Pickup",
                 paymentMethod = "Cash",
                 placedAt = "Yesterday, 3:42 PM",
                 pickupTime = "Yesterday, 3:50 PM"
@@ -245,7 +266,7 @@ import com.mobdeve.s15.group4.sealcoffee.R
                     )
                 ),
                 status = "Pending",
-                orderType = "Dine-in",
+                orderType = "Pickup",
                 paymentMethod = "Cash",
                 placedAt = "Today, 9:58 AM",
                 pickupTime = "Today, 10:12 AM"
@@ -297,7 +318,7 @@ import com.mobdeve.s15.group4.sealcoffee.R
                     )
                 ),
                 status = "Completed",
-                orderType = "Dine-in",
+                orderType = "Pickup",
                 paymentMethod = "Cash",
                 placedAt = "Today, 8:55 AM",
                 pickupTime = "Today, 9:05 AM"

@@ -20,10 +20,6 @@
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".CurrentOrderStatusActivity"
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
             android:name=".CartActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
@@ -37,10 +33,6 @@
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".EmployeeDashboardActivity"
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name=".CustomerOrderHistoryActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity

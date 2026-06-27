@@ -15,7 +15,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="34dp"
         android:layout_marginEnd="24dp"
-        android:fontFamily="sans-serif-black"
+        android:fontFamily="@font/inter_extrabold"
         android:text="Product Details"
         android:textColor="@color/seal_text_primary"
         android:textSize="32sp"
@@ -55,7 +55,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:fontFamily="sans-serif-black"
+                android:fontFamily="@font/inter_semibold"
                 android:textColor="@color/seal_text_primary"
                 android:textSize="30sp" />
 
@@ -80,7 +80,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="22dp"
-                android:fontFamily="sans-serif"
+                android:fontFamily="@font/inter_semibold"
                 android:text="Ingredients"
                 android:textColor="@color/seal_text_primary"
                 android:textSize="18sp" />
@@ -94,63 +94,77 @@
                 android:textColor="@color/seal_text_secondary"
                 android:textSize="15sp" />
 
-            <TextView
+            <LinearLayout
+                android:id="@+id/productSizeContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="22dp"
-                android:fontFamily="sans-serif"
-                android:text="Size"
-                android:textColor="@color/seal_text_primary"
-                android:textSize="18sp" />
+                android:orientation="vertical">
 
-            <RadioGroup
-                android:id="@+id/productSizeGroup"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
-                android:orientation="horizontal">
-
-                <RadioButton
-                    android:id="@+id/productSizeRegular"
-                    android:layout_width="wrap_content"
+                <TextView
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:checked="true"
-                    android:text="Regular" />
+                    android:layout_marginTop="22dp"
+                    android:fontFamily="@font/inter_semibold"
+                    android:text="Size"
+                    android:textColor="@color/seal_text_primary"
+                    android:textSize="18sp" />
 
-                <RadioButton
-                    android:id="@+id/productSizeLarge"
-                    android:layout_width="wrap_content"
+                <RadioGroup
+                    android:id="@+id/productSizeGroup"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="18dp"
-                    android:text="Large" />
-            </RadioGroup>
+                    android:layout_marginTop="6dp"
+                    android:orientation="horizontal">
 
-            <TextView
+                    <RadioButton
+                        android:id="@+id/productSizeRegular"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:text="Regular" />
+
+                    <RadioButton
+                        android:id="@+id/productSizeLarge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="18dp"
+                        android:text="Large (+₱25.00)" />
+                </RadioGroup>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/productAddOnsContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="18dp"
-                android:fontFamily="sans-serif"
-                android:text="Add-ons"
-                android:textColor="@color/seal_text_primary"
-                android:textSize="18sp" />
+                android:orientation="vertical">
 
-            <CheckBox
-                android:id="@+id/addOnExtraShotCheckBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Extra espresso shot" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
+                    android:fontFamily="@font/inter_semibold"
+                    android:text="Add-ons"
+                    android:textColor="@color/seal_text_primary"
+                    android:textSize="18sp" />
 
-            <CheckBox
-                android:id="@+id/addOnOatMilkCheckBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Oat milk" />
+                <CheckBox
+                    android:id="@+id/addOnExtraShotCheckBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Extra espresso shot (+₱20.00)" />
 
-            <CheckBox
-                android:id="@+id/addOnCaramelCheckBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Caramel drizzle" />
+                <CheckBox
+                    android:id="@+id/addOnOatMilkCheckBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Oat milk (+₱30.00)" />
+
+                <CheckBox
+                    android:id="@+id/addOnCaramelCheckBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Caramel drizzle (+₱15.00)" />
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -163,7 +177,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:fontFamily="sans-serif"
+                    android:fontFamily="@font/inter_semibold"
                     android:text="Quantity"
                     android:textColor="@color/seal_text_primary"
                     android:textSize="18sp" />
@@ -182,7 +196,7 @@
                     android:id="@+id/productQuantityText"
                     android:layout_width="44dp"
                     android:layout_height="42dp"
-                    android:fontFamily="sans-serif"
+                    android:fontFamily="@font/inter_medium"
                     android:gravity="center"
                     android:textColor="@color/seal_text_primary"
                     android:textSize="16sp" />
@@ -203,7 +217,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="22dp"
-                android:fontFamily="sans-serif-black"
+                android:fontFamily="@font/inter_bold"
                 android:textColor="@color/seal_navy"
                 android:textSize="26sp" />
 
@@ -212,7 +226,7 @@
                 style="@style/SealCoffeeButtonPrimary"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="20dp"
                 android:text="Add to Cart"
                 android:textSize="16sp" />
         </LinearLayout>

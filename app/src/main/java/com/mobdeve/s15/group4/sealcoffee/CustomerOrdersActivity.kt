@@ -9,8 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mobdeve.s15.group4.sealcoffee.data.DummyData
 
 class CustomerOrdersActivity : AppCompatActivity() {
-
-    private lateinit var adapter: EmployeeCustomerHistoryAdapter
+    private lateinit var adapter: CustomerOrdersAdapter
     private lateinit var btnActive: Button
     private lateinit var btnPast: Button
     private var showActiveOrders: Boolean = true
@@ -23,7 +22,7 @@ class CustomerOrdersActivity : AppCompatActivity() {
         btnPast = findViewById(R.id.customerPastOrders)
         val recyclerView = findViewById<RecyclerView>(R.id.menuRecyclerView)
 
-        adapter = EmployeeCustomerHistoryAdapter()
+        adapter = CustomerOrdersAdapter()
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
 
