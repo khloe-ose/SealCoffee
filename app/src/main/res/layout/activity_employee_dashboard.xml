@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/employeeDashboardRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/seal_cream">
-
-    <ScrollView
-        android:id="@+id/employeeDashboardRoot"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/employeeBottomNav"
-        android:fillViewport="true">
+    android:background="@color/seal_cream"
+    android:fillViewport="true"
+    tools:context=".EmployeeDashboardActivity">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -197,14 +194,14 @@
                 android:layout_height="54dp"
                 android:layout_marginTop="12dp"
                 android:text="@string/customer_order_history" />
+
+            <Button
+                android:id="@+id/logoutButton"
+                style="@style/SealCoffeeButtonPrimary"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:layout_marginTop="12dp"
+                android:text="@string/logout" />
+
         </LinearLayout>
     </ScrollView>
-
-    <include
-        android:id="@+id/employeeBottomNav"
-        layout="@layout/include_employee_nav"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true" />
-
-</RelativeLayout>

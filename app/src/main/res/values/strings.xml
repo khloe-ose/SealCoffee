@@ -75,5 +75,6 @@
     <string name="add_menu_item">Add Menu Item</string>
     <string name="manage_menu_title">Manage Menu</string>
     <string name="customer_order_history_employee">Customer Order History</string>
+    <string name="logout">Logout</string>
 
 </resources>
