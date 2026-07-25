@@ -9,8 +9,9 @@ Final branch: `codex/final-implementation`
 Implementation commit:
 
 - `1c4909ecedb464386685649da7a04f823a7eefac` — `Implement persistent offline ordering workflows`
+- `b403bcc1d3a37a35a63d37dacf03d18ca6395d0b` — `Document final implementation and verification`
 
-The documentation/handoff commit is the branch head containing this report. The exact final head is also recorded in the operator's completion response and can be obtained with:
+This report's small commit-reference update is the final branch head. Its exact hash is recorded in the operator's completion response and can always be obtained with:
 
 ```bash
 git rev-parse HEAD
