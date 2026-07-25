@@ -222,4 +222,3 @@ The current schema version is 1 and its JSON is committed for review and future 
 2. add an explicit `Migration`,
 3. export the new JSON schema, and
 4. add a migration test before release.
-

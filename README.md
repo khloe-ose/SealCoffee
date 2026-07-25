@@ -167,4 +167,3 @@ The UI depends on the repository; the repository coordinates DAOs and transactio
 - [Class/video demo guide](docs/DEMO_GUIDE.md)
 - [Changelog](docs/CHANGELOG.md)
 - [Final completion report](docs/FINAL_COMPLETION_REPORT.md)
-

@@ -4,7 +4,8 @@
 
 This implementation converts the supplied interactive prototype into a working, offline coffee-ordering application while retaining its Kotlin/XML/Activity approach, package ID, bundled graphics, Inter font setup, and navy/cream identity. The approved SQLite and touch-gesture services are implemented as production behavior rather than demonstrations.
 
-Implementation baseline: branch `1.2`, commit `7da5eff`  
+Implementation baseline: branch `1.2`, commit `7da5eff`.
+
 Verified implementation milestone: `1c4909ecedb464386685649da7a04f823a7eefac`
 
 ## Original prototype audit
@@ -247,4 +248,3 @@ Activities retain the prototype's View-based structure. RecyclerViews use `ListA
 - Role guards run before protected layouts are used.
 - Missing menu/order IDs and empty query results show feedback/empty states and finish safely where necessary.
 - Lifecycle-aware collection prevents stopped Activities from continuously updating and refreshes them on return.
-

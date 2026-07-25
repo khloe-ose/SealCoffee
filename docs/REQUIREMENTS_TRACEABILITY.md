@@ -74,4 +74,3 @@ Status legend: **Complete** means the behavior is implemented in production code
 - Manual requirement walkthrough: all 18 requested steps passed.
 
 See [TESTING_REPORT.md](TESTING_REPORT.md) for exact commands and observations.
-

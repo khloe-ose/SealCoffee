@@ -156,4 +156,3 @@ Additional navigation/security result: after employee logout, pressing Back show
 - The connected suite ran on one Pixel 7 API 37 AVD, not the entire API 24–37/device-size matrix.
 - No remote/multi-device synchronization was tested because the approved app is deliberately local-only.
 - Real payment, camera, cloud image storage, and push notifications are outside the approved scope.
-
