@@ -5,7 +5,6 @@
     android:id="@+id/cartRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/seal_cream"
     tools:context=".CartActivity">
 
     <TextView
@@ -50,6 +49,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/cartSubtitleText"
         tools:listitem="@layout/item_cart_product" />
+
+    <TextView
+        android:id="@+id/cartEmptyText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="32dp"
+        android:gravity="center"
+        android:text="@string/cart_empty"
+        android:textColor="@color/seal_text_secondary"
+        android:textSize="16sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/cartSummaryPanel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cartSubtitleText" />
 
     <LinearLayout
         android:id="@+id/cartSummaryPanel"
@@ -118,6 +132,17 @@
             android:layout_marginTop="16dp"
             android:text="@string/place_order_btn"
             android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/cartWarningText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:text="@string/cart_unavailable_warning"
+            android:textColor="@color/seal_error"
+            android:textSize="13sp"
+            android:visibility="gone" />
     </LinearLayout>
 
     <include

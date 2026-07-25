@@ -22,4 +22,10 @@
     </style>
 
     <style name="Theme.SealCoffee" parent="Base.Theme.SealCoffee" />
+
+    <style name="Theme.SealCoffee.Navy" parent="Theme.SealCoffee">
+        <item name="android:windowBackground">@color/seal_navy</item>
+        <item name="android:navigationBarColor">@color/seal_navy</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="27">false</item>
+    </style>
 </resources>

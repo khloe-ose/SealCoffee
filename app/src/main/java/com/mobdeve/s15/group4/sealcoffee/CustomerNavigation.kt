@@ -25,7 +25,8 @@ object CustomerNavigation {
             R.id.navMenuIcon, R.id.navMenu,
             CustomerDestination.MENU,
             selected,
-            "menu",
+            R.drawable.ic_menu,
+            R.drawable.ic_menu_clicked,
             CustomerMenuActivity::class.java
         )
 
@@ -35,7 +36,8 @@ object CustomerNavigation {
             R.id.navCartIcon, R.id.navCart,
             CustomerDestination.CART,
             selected,
-            "cart",
+            R.drawable.ic_cart,
+            R.drawable.ic_cart_clicked,
             CartActivity::class.java
         )
 
@@ -45,7 +47,8 @@ object CustomerNavigation {
             R.id.navOrdersIcon, R.id.navOrders,
             CustomerDestination.ORDERS,
             selected,
-            "orders",
+            R.drawable.ic_orders,
+            R.drawable.ic_orders_clicked,
             CustomerOrdersActivity::class.java
         )
 
@@ -55,7 +58,8 @@ object CustomerNavigation {
             R.id.navProfileIcon, R.id.navProfile,
             CustomerDestination.PROFILE,
             selected,
-            "profile",
+            R.drawable.ic_profile,
+            R.drawable.ic_profile_clicked,
             ProfileActivity::class.java
         )
     }
@@ -66,7 +70,8 @@ object CustomerNavigation {
         iconId: Int, textId: Int,
         destination: CustomerDestination,
         selected: CustomerDestination,
-        iconName: String,
+        defaultIconRes: Int,
+        selectedIconRes: Int,
         activityClass: Class<out Activity>
     ) {
         val navItem = activity.findViewById<LinearLayout>(containerId)
@@ -76,16 +81,7 @@ object CustomerNavigation {
         val isSelected = destination == selected
 
 
-        val iconRes = if (isSelected) {
-            activity.resources.getIdentifier(
-                "ic_${iconName}_clicked",
-                "drawable",
-                activity.packageName
-            )
-        } else {
-            activity.resources.getIdentifier("ic_$iconName", "drawable", activity.packageName)
-        }
-        icon.setImageResource(iconRes)
+        icon.setImageResource(if (isSelected) selectedIconRes else defaultIconRes)
 
 
         text.setTextColor(

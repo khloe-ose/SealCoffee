@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <application
-        android:allowBackup="true"
+        android:name=".SealCoffeeApplication"
+        android:allowBackup="false"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
@@ -66,6 +67,7 @@
         <activity
             android:name=".LoginActivity"
             android:exported="false"
+            android:theme="@style/Theme.SealCoffee.Navy"
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".CustomerOrdersActivity"
@@ -74,6 +76,7 @@
         <activity
             android:name=".OnboardingActivity"
             android:exported="true"
+            android:theme="@style/Theme.SealCoffee.Navy"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

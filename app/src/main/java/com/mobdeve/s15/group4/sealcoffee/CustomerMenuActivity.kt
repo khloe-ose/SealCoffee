@@ -5,12 +5,18 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.mobdeve.s15.group4.sealcoffee.data.DummyData
-import com.mobdeve.s15.group4.sealcoffee.data.MenuItem
+import com.mobdeve.s15.group4.sealcoffee.data.local.MenuItemEntity
+import com.mobdeve.s15.group4.sealcoffee.domain.MenuCategory
+import com.mobdeve.s15.group4.sealcoffee.domain.UserRole
+import kotlinx.coroutines.launch
 
 class CustomerMenuActivity : AppCompatActivity() {
     private val menuAdapter = MenuItemAdapter(
@@ -19,10 +25,13 @@ class CustomerMenuActivity : AppCompatActivity() {
     )
 
     private lateinit var filterButtons: Map<String, Button>
-    private var selectedFilter = "All"
+    private var selectedFilter = FILTER_ALL
+    private var allItems: List<MenuItemEntity> = emptyList()
+    private lateinit var emptyText: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (!AuthNavigation.requireRole(this, UserRole.CUSTOMER)) return
         setContentView(R.layout.activity_customer_menu)
 
         CustomerNavigation.bind(this, CustomerDestination.MENU)
@@ -31,13 +40,14 @@ class CustomerMenuActivity : AppCompatActivity() {
             layoutManager = LinearLayoutManager(this@CustomerMenuActivity)
             adapter = menuAdapter
         }
+        emptyText = findViewById(R.id.menuEmptyText)
 
         filterButtons = mapOf(
-            "All" to findViewById(R.id.filterAllButton),
-            "Coffee" to findViewById(R.id.filterCoffeeButton),
-            "Non-Coffee" to findViewById(R.id.filterNonCoffeeButton),
-            "Snacks" to findViewById(R.id.filterSnacksButton),
-            "Desserts" to findViewById(R.id.filterDessertsButton)
+            FILTER_ALL to findViewById(R.id.filterAllButton),
+            MenuCategory.COFFEE.label to findViewById(R.id.filterCoffeeButton),
+            MenuCategory.NON_COFFEE.label to findViewById(R.id.filterNonCoffeeButton),
+            MenuCategory.SNACKS.label to findViewById(R.id.filterSnacksButton),
+            MenuCategory.DESSERTS.label to findViewById(R.id.filterDessertsButton)
         )
 
         filterButtons.forEach { (filter, button) ->
@@ -47,7 +57,14 @@ class CustomerMenuActivity : AppCompatActivity() {
             }
         }
 
-        applyFilter()
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                sealApp.repository.observeCustomerMenu().collect {
+                    allItems = it
+                    applyFilter()
+                }
+            }
+        }
     }
 
     private fun applyFilter() {
@@ -65,30 +82,35 @@ class CustomerMenuActivity : AppCompatActivity() {
             }
         }
 
-        val filteredItems = DummyData.menuItems.filter {
-            selectedFilter == "All" || it.category == selectedFilter
+        val filteredItems = allItems.filter {
+            selectedFilter == FILTER_ALL || it.category == selectedFilter
         }
-
-        menuAdapter.submitItems(filteredItems)
+        menuAdapter.submitList(filteredItems)
+        emptyText.visibility = if (filteredItems.isEmpty()) View.VISIBLE else View.GONE
     }
 
-    private fun openProductDetails(item: MenuItem) {
+    private fun openProductDetails(item: MenuItemEntity) {
         startActivity(
             Intent(this, ProductDetailsActivity::class.java)
                 .putExtra(ProductDetailsActivity.EXTRA_MENU_ITEM_ID, item.id)
         )
     }
 
-    private fun showQuickPreview(item: MenuItem) {
+    private fun showQuickPreview(item: MenuItemEntity) {
         val dialogView = layoutInflater.inflate(R.layout.dialog_product_preview, null)
         val imageView = dialogView.findViewById<ImageView>(R.id.previewImagePlaceholder)
-        imageView.setImageResource(item.imageResId)
+        imageView.setImageResource(ImageCatalog.resourceFor(item.imageKey))
+        imageView.contentDescription = item.name
         dialogView.findViewById<TextView>(R.id.previewNameText).text = item.name
         dialogView.findViewById<TextView>(R.id.previewDescriptionText).text = item.description
 
         AlertDialog.Builder(this)
             .setView(dialogView)
-            .setPositiveButton("Close", null)
+            .setPositiveButton(R.string.close, null)
             .show()
+    }
+
+    private companion object {
+        const val FILTER_ALL = "All"
     }
 }

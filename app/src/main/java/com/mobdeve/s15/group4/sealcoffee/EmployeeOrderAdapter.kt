@@ -4,29 +4,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.mobdeve.s15.group4.sealcoffee.data.Order
+import com.mobdeve.s15.group4.sealcoffee.data.local.OrderWithDetails
+import com.mobdeve.s15.group4.sealcoffee.domain.OrderStatus
 
 class EmployeeOrderAdapter(
-    private val onOrderClick: (Order) -> Unit
-) : RecyclerView.Adapter<EmployeeOrderAdapter.EmployeeOrderViewHolder>() {
-    private val orders = mutableListOf<Order>()
+    private val onOrderClick: (OrderWithDetails) -> Unit
+) : ListAdapter<OrderWithDetails, EmployeeOrderAdapter.EmployeeOrderViewHolder>(DiffCallback) {
 
-    fun submitOrders(newOrders: List<Order>) {
-        orders.clear()
-        orders.addAll(newOrders)
-        notifyDataSetChanged()
-    }
-
-    fun getOrderAt(position: Int): Order? {
-        return orders.getOrNull(position)
-    }
-
-    fun updateOrder(position: Int, order: Order) {
-        if (position !in orders.indices) return
-        orders[position] = order
-        notifyItemChanged(position)
-    }
+    fun itemAt(position: Int): OrderWithDetails? = currentList.getOrNull(position)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EmployeeOrderViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_employee_order, parent, false)
@@ -34,10 +22,8 @@ class EmployeeOrderAdapter(
     }
 
     override fun onBindViewHolder(holder: EmployeeOrderViewHolder, position: Int) {
-        holder.bind(orders[position], onOrderClick)
+        holder.bind(getItem(position), onOrderClick)
     }
-
-    override fun getItemCount(): Int = orders.size
 
     class EmployeeOrderViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val orderIdText = itemView.findViewById<TextView>(R.id.employeeOrderIdText)
@@ -47,23 +33,28 @@ class EmployeeOrderAdapter(
         private val totalText = itemView.findViewById<TextView>(R.id.employeeOrderTotalText)
         private val statusText = itemView.findViewById<TextView>(R.id.employeeOrderStatusText)
 
-        fun bind(order: Order, onOrderClick: (Order) -> Unit) {
-            orderIdText.text = order.id
-            customerText.text = order.customerName
-            timeText.text = order.placedAt
-            summaryText.text = order.items.joinToString { "${it.quantity}x ${it.name}" }
-            totalText.text = order.total.formatPrice()
-            statusText.text = order.status
-            statusText.setTextColor(itemView.context.getColor(order.status.statusColor()))
-            itemView.setOnClickListener { onOrderClick(order) }
+        fun bind(details: OrderWithDetails, onOrderClick: (OrderWithDetails) -> Unit) {
+            val status = OrderStatus.fromStorage(details.order.status) ?: OrderStatus.PENDING
+            orderIdText.text = details.order.orderNumber
+            customerText.text = itemView.context.getString(
+                R.string.employee_customer_line,
+                details.customer.fullName,
+                details.customer.email
+            )
+            timeText.text = details.order.placedAt.formatDateTime()
+            summaryText.text = details.items.joinToString { "${it.quantity}× ${it.itemNameSnapshot}" }
+            totalText.text = details.order.totalCentavos.formatMoney()
+            statusText.text = status.label
+            statusText.setTextColor(itemView.context.getColor(status.statusColor()))
+            itemView.setOnClickListener { onOrderClick(details) }
         }
     }
-}
 
-fun String.statusColor(): Int = when (this) {
-    "Completed" -> R.color.seal_success
-    "Delayed" -> R.color.seal_error
-    "Ready for Pickup" -> R.color.seal_success
-    "Preparing" -> R.color.seal_warning
-    else -> R.color.seal_navy
+    private object DiffCallback : DiffUtil.ItemCallback<OrderWithDetails>() {
+        override fun areItemsTheSame(oldItem: OrderWithDetails, newItem: OrderWithDetails) =
+            oldItem.order.id == newItem.order.id
+
+        override fun areContentsTheSame(oldItem: OrderWithDetails, newItem: OrderWithDetails) =
+            oldItem == newItem
+    }
 }

@@ -20,4 +20,10 @@
         <item name="colorError">@color/seal_error</item>
         <item name="android:colorAccent">@color/seal_navy</item>
     </style>
+
+    <style name="Theme.SealCoffee.Navy" parent="Theme.SealCoffee">
+        <item name="android:windowBackground">@color/seal_navy</item>
+        <item name="android:navigationBarColor">@color/seal_navy</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="27">false</item>
+    </style>
 </resources>

@@ -7,42 +7,58 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.mobdeve.s15.group4.sealcoffee.data.DummyData.employeeProfileData
-import com.mobdeve.s15.group4.sealcoffee.data.DummyData.profileData
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 
 class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (sealApp.session.hasSession) {
+            AuthNavigation.routeAuthenticated(this)
+            return
+        }
         setContentView(R.layout.activity_login)
 
         val emailInput = findViewById<EditText>(R.id.emailInput)
         val passwordInput = findViewById<EditText>(R.id.passwordInput)
         val loginButton = findViewById<Button>(R.id.loginButton)
 
-        // customer email = "mika.santos@gmail.com",
-        // staff email = "carlo.staff@sealcoffee.com",
         loginButton.setOnClickListener {
             val email = emailInput.text.toString().trim()
             val password = passwordInput.text.toString()
-
+            emailInput.error = null
+            passwordInput.error = null
             if (email.isEmpty() || password.isEmpty()) {
-                Toast.makeText(applicationContext, "Please fill in all fields", Toast.LENGTH_SHORT).show()
+                if (email.isEmpty()) emailInput.error = getString(R.string.email_required)
+                if (password.isEmpty()) passwordInput.error = getString(R.string.password_required)
                 return@setOnClickListener
             }
-
-            if (email.contains("sealcoffee.com") || email == employeeProfileData.email) {
-                Toast.makeText(
-                    applicationContext,
-                    "Welcome back, Staff: ${employeeProfileData.fullName}",
-                    Toast.LENGTH_SHORT
-                ).show()
-                startActivity(Intent(this, EmployeeDashboardActivity::class.java))
-                finish()
-            } else {
-                Toast.makeText(applicationContext, "Welcome back, ${profileData.fullName}", Toast.LENGTH_SHORT)
-                    .show()
-                startActivity(Intent(this, CustomerMenuActivity::class.java))
-                finish()
+            loginButton.isEnabled = false
+            lifecycleScope.launch {
+                val authentication = runCatching {
+                    sealApp.repository.authenticate(email, password)
+                }
+                if (authentication.isFailure) {
+                    Toast.makeText(
+                        this@LoginActivity,
+                        R.string.login_temporarily_unavailable,
+                        Toast.LENGTH_LONG
+                    ).show()
+                    loginButton.isEnabled = true
+                    return@launch
+                }
+                val user = authentication.getOrNull()
+                if (user == null) {
+                    Toast.makeText(
+                        this@LoginActivity,
+                        R.string.invalid_credentials,
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    loginButton.isEnabled = true
+                } else {
+                    sealApp.session.save(user)
+                    AuthNavigation.routeAuthenticated(this@LoginActivity)
+                }
             }
         }
         findViewById<TextView>(R.id.signUpLink).setOnClickListener {

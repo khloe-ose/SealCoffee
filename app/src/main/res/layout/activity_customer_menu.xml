@@ -5,7 +5,6 @@
     android:id="@+id/customerMenuRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/seal_cream"
     tools:context=".CustomerMenuActivity">
 
     <TextView
@@ -143,6 +142,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/filterScrollView"
         tools:listitem="@layout/item_menu_product" />
+
+    <TextView
+        android:id="@+id/menuEmptyText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="32dp"
+        android:gravity="center"
+        android:text="@string/no_menu_items"
+        android:textColor="@color/seal_text_secondary"
+        android:textSize="16sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/customerNavigation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/filterScrollView" />
 
     <include
         android:id="@+id/customerNavigation"

@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/employeeOrderListRoot"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/seal_cream">
+    android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/employeeOrderListTitleText"
@@ -48,4 +47,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/employeeOrderListSubtitleText"
         tools:listitem="@layout/item_employee_order" />
+
+    <TextView
+        android:id="@+id/employeeOrderEmptyText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="32dp"
+        android:gravity="center"
+        android:text="@string/no_orders_in_queue"
+        android:textColor="@color/seal_text_secondary"
+        android:textSize="16sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/employeeOrderListSubtitleText" />
 </androidx.constraintlayout.widget.ConstraintLayout>

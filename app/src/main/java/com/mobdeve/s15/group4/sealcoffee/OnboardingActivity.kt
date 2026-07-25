@@ -2,32 +2,33 @@ package com.mobdeve.s15.group4.sealcoffee
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import android.widget.Button
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 
 class OnboardingActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_onboarding)
 
-        findViewById<Button>(R.id.getStartedButton).setOnClickListener {
-            openLogin()
-        }
-        findViewById<View>(R.id.onboardingRoot).setOnClickListener {
-            openLogin()
-        }
-        findViewById<View>(R.id.onboardingContent).setOnClickListener {
-            openLogin()
-        }
-        findViewById<View>(R.id.logoBadge).setOnClickListener {
-            openLogin()
+        val getStarted = findViewById<Button>(R.id.getStartedButton)
+        getStarted.setOnClickListener { openLogin() }
+        if (sealApp.session.hasSession) {
+            getStarted.isEnabled = false
+            lifecycleScope.launch {
+                val user = sealApp.repository.getUser(sealApp.session.userId)
+                if (user != null && user.role == sealApp.session.role?.name) {
+                    AuthNavigation.routeAuthenticated(this@OnboardingActivity)
+                } else {
+                    sealApp.session.clear()
+                    getStarted.isEnabled = true
+                }
+            }
         }
     }
 
     private fun openLogin() {
-        Toast.makeText(applicationContext, "Opening login", Toast.LENGTH_SHORT).show()
         startActivity(Intent(this, LoginActivity::class.java))
     }
 }

@@ -5,7 +5,6 @@
     android:id="@+id/onboardingRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#343F6D"
 
     tools:context=".OnboardingActivity">
 

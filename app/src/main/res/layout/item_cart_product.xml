@@ -1,30 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/SealCoffeeCard"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginStart="20dp"
     android:layout_marginTop="8dp"
     android:layout_marginEnd="20dp"
     android:layout_marginBottom="10dp"
-    style="@style/SealCoffeeCard"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/cartItemNameText"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/inter_semibold"
-        android:textColor="@color/seal_text_primary"
-        android:textSize="20sp" />
+        android:gravity="top"
+        android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/cartItemMetaText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:textColor="@color/seal_text_secondary"
-        android:textSize="16sp"
-        android:textStyle="italic" />
+        <ImageView
+            android:id="@+id/cartItemImage"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:background="@drawable/bg_image_placeholder"
+            android:contentDescription="@string/menu_item_image"
+            android:scaleType="centerCrop" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/cartItemNameText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter_semibold"
+                android:textColor="@color/seal_text_primary"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/cartItemMetaText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textColor="@color/seal_text_secondary"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -49,14 +71,12 @@
             android:background="@android:color/transparent"
             android:contentDescription="@string/content_description_decrease_quantity"
             android:padding="8dp"
-            android:scaleType="fitCenter"
             android:src="@drawable/ic_decrease_btn" />
 
         <TextView
             android:id="@+id/cartItemQuantityText"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:fontFamily="sans-serif"
             android:gravity="center"
             android:textColor="@color/seal_text_primary"
             android:textSize="16sp" />
@@ -68,7 +88,6 @@
             android:background="@android:color/transparent"
             android:contentDescription="@string/content_description_increase_quantity"
             android:padding="8dp"
-            android:scaleType="fitCenter"
             android:src="@drawable/ic_increase_btn" />
     </LinearLayout>
 

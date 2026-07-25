@@ -4,7 +4,6 @@
     android:id="@+id/signUpRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F2F1EB"
     android:fillViewport="true"
     tools:context=".SignUpActivity">
 

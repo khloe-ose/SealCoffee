@@ -1,81 +1,79 @@
 package com.mobdeve.s15.group4.sealcoffee
 
+import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.mobdeve.s15.group4.sealcoffee.data.DummyData
+import com.mobdeve.s15.group4.sealcoffee.data.local.OrderWithDetails
+import com.mobdeve.s15.group4.sealcoffee.domain.OrderStatus
+import com.mobdeve.s15.group4.sealcoffee.domain.UserRole
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class CustomerOrdersActivity : AppCompatActivity() {
-    private lateinit var adapter: CustomerOrdersAdapter
-    private lateinit var btnActive: Button
-    private lateinit var btnPast: Button
-    private var showActiveOrders: Boolean = true
+    private val showActiveOrders = MutableStateFlow(true)
+    private lateinit var activeButton: Button
+    private lateinit var pastButton: Button
+    private lateinit var emptyText: TextView
+    private val adapter = CustomerOrdersAdapter(::openOrder)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (!AuthNavigation.requireRole(this, UserRole.CUSTOMER)) return
         setContentView(R.layout.activity_customer_orders)
-
-        btnActive = findViewById(R.id.customerActiveOrders)
-        btnPast = findViewById(R.id.customerPastOrders)
-        val recyclerView = findViewById<RecyclerView>(R.id.menuRecyclerView)
-
-        adapter = CustomerOrdersAdapter()
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = adapter
-
-        btnActive.setOnClickListener {
-            if (!showActiveOrders) {
-                showActiveOrders = true
-                updateFilterUI()
-                displayOrders()
-            }
-        }
-
-        btnPast.setOnClickListener {
-            if (showActiveOrders) {
-                showActiveOrders = false
-                updateFilterUI()
-                displayOrders()
-            }
-        }
-
-        updateFilterUI()
-        displayOrders()
-
         CustomerNavigation.bind(this, CustomerDestination.ORDERS)
-    }
 
-    private fun displayOrders() {
-
-        val currentUserEmail = DummyData.profileData.email
-
-        val allOrders = DummyData.customerOrders + DummyData.employeeOrders
-        val userSpecificOrders = allOrders.filter { it.customerEmail.equals(currentUserEmail) }
-
-
-        val filteredList = if (showActiveOrders) {
-            userSpecificOrders.filter { !it.status.equals("Completed") }
-        } else {
-            userSpecificOrders.filter { it.status.equals("Completed") }
+        activeButton = findViewById(R.id.customerActiveOrders)
+        pastButton = findViewById(R.id.customerPastOrders)
+        emptyText = findViewById(R.id.ordersEmptyText)
+        findViewById<RecyclerView>(R.id.menuRecyclerView).apply {
+            layoutManager = LinearLayoutManager(this@CustomerOrdersActivity)
+            adapter = this@CustomerOrdersActivity.adapter
         }
+        activeButton.setOnClickListener { showActiveOrders.value = true }
+        pastButton.setOnClickListener { showActiveOrders.value = false }
 
-        adapter.submitOrders(filteredList)
-    }
-
-    private fun updateButtonState(button: Button, isSelected: Boolean) {
-        if (isSelected) {
-            button.setBackgroundResource(R.drawable.bg_chip_selected)
-            button.setTextColor(getColor(R.color.seal_navy))
-        } else {
-            button.setBackgroundResource(R.drawable.bg_chip)
-            button.setTextColor(getColor(R.color.white))
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                showActiveOrders.flatMapLatest { active ->
+                    updateFilterUi(active)
+                    val statuses = if (active) OrderStatus.active else setOf(OrderStatus.COMPLETED)
+                    sealApp.repository.observeCustomerOrders(sealApp.session.userId, statuses)
+                }.collect { orders ->
+                    adapter.submitList(orders)
+                    emptyText.text = getString(
+                        if (showActiveOrders.value) R.string.no_active_orders else R.string.no_past_orders
+                    )
+                    emptyText.visibility = if (orders.isEmpty()) View.VISIBLE else View.GONE
+                }
+            }
         }
     }
-    private fun updateFilterUI() {
-        updateButtonState(btnActive, showActiveOrders)
-        updateButtonState(btnPast, !showActiveOrders)
+
+    private fun openOrder(order: OrderWithDetails) {
+        startActivity(
+            Intent(this, EmployeeOrderDetailsActivity::class.java)
+                .putExtra(EmployeeOrderDetailsActivity.EXTRA_ORDER_ID, order.order.id)
+        )
+    }
+
+    private fun updateFilterUi(active: Boolean) {
+        updateButtonState(activeButton, active)
+        updateButtonState(pastButton, !active)
+    }
+
+    private fun updateButtonState(button: Button, selected: Boolean) {
+        button.setBackgroundResource(if (selected) R.drawable.bg_chip_selected else R.drawable.bg_chip)
+        button.setTextColor(getColor(if (selected) R.color.seal_navy else R.color.white))
     }
 }

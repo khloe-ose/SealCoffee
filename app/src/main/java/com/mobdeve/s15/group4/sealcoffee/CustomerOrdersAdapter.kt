@@ -4,101 +4,95 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.mobdeve.s15.group4.sealcoffee.data.Order
+import com.mobdeve.s15.group4.sealcoffee.data.local.OrderWithDetails
+import com.mobdeve.s15.group4.sealcoffee.domain.OrderStatus
 
-class CustomerOrdersAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-
-    private var orders: List<Order> = ArrayList()
-
-    companion object {
-        private const val TYPE_ACTIVE = 1
-        private const val TYPE_PAST = 2
+class CustomerOrdersAdapter(
+    private val onOrderClick: (OrderWithDetails) -> Unit
+) : ListAdapter<OrderWithDetails, RecyclerView.ViewHolder>(DiffCallback) {
+    private companion object {
+        const val TYPE_ACTIVE = 1
+        const val TYPE_PAST = 2
     }
 
-    fun submitOrders(newList: List<Order>) {
-        this.orders = newList
-        notifyDataSetChanged()
-    }
-
-    override fun getItemViewType(position: Int): Int {
-        val order = orders[position]
-        return if (order.status.equals("Completed", ignoreCase = true)) {
+    override fun getItemViewType(position: Int): Int =
+        if (OrderStatus.fromStorage(getItem(position).order.status) == OrderStatus.COMPLETED) {
             TYPE_PAST
         } else {
             TYPE_ACTIVE
         }
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         return if (viewType == TYPE_ACTIVE) {
-            val view = inflater.inflate(R.layout.item_current_order, parent, false)
-            ActiveOrderViewHolder(view)
+            ActiveOrderViewHolder(inflater.inflate(R.layout.item_current_order, parent, false))
         } else {
-            val view = inflater.inflate(R.layout.item_order_history, parent, false)
-            PastOrderViewHolder(view)
+            PastOrderViewHolder(inflater.inflate(R.layout.item_order_history, parent, false))
         }
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val order = orders[position]
+        val order = getItem(position)
+        when (holder) {
+            is ActiveOrderViewHolder -> holder.bind(order)
+            is PastOrderViewHolder -> holder.bind(order)
+        }
+        holder.itemView.setOnClickListener { onOrderClick(order) }
+    }
 
-        if (holder is ActiveOrderViewHolder) {
-            holder.orderId.text = order.id
-            holder.orderType.text = order.orderType
-            holder.itemsList.text = order.items.joinToString { "${it.quantity}x ${it.name}" }
-            holder.totalText.text = order.total.formatPrice()
+    class ActiveOrderViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val orderId: TextView = itemView.findViewById(R.id.currentOrderIdText)
+        private val orderType: TextView = itemView.findViewById(R.id.currentOrderTypeText)
+        private val statusTitle: TextView = itemView.findViewById(R.id.currentStatus)
+        private val statusDesc: TextView = itemView.findViewById(R.id.currentStatusDescriptionText)
+        private val itemsList: TextView = itemView.findViewById(R.id.currentItemsText)
+        private val totalText: TextView = itemView.findViewById(R.id.currentTotalText)
 
-            val context = holder.itemView.context
-            when (order.status.lowercase()) {
-                "pending" -> {
-                    holder.statusTitle.text = "Pending"
-                    holder.statusDesc.text = "Your order has been received."
-
+        fun bind(details: OrderWithDetails) {
+            val order = details.order
+            val status = OrderStatus.fromStorage(order.status) ?: OrderStatus.PENDING
+            orderId.text = order.orderNumber
+            orderType.text = order.orderType
+            statusTitle.text = status.label
+            statusTitle.setTextColor(itemView.context.getColor(status.statusColor()))
+            statusDesc.text = itemView.context.getString(
+                when (status) {
+                    OrderStatus.PENDING -> R.string.status_pending_description
+                    OrderStatus.PREPARING -> R.string.status_preparing_description
+                    OrderStatus.READY_FOR_PICKUP -> R.string.status_ready_description
+                    OrderStatus.DELAYED -> R.string.status_delayed_description
+                    OrderStatus.COMPLETED -> R.string.status_completed_description
                 }
-                "preparing" -> {
-                    holder.statusTitle.text = "Preparing"
-                    holder.statusDesc.text = "Our barista is working on your order."
-
-                }
-                "ready for pickup" -> {
-                    holder.statusTitle.text = "Ready for Pickup"
-                    holder.statusDesc.text = "Your drinks and snacks are ready at the counter."
-
-                }
-                "delayed" -> {
-                    holder.statusTitle.text = "Delayed"
-                    holder.statusDesc.text = "We will notify you if preparation takes longer than expected."
-
-                }
-            }
-
-        } else if (holder is PastOrderViewHolder) {
-            holder.orderId.text = order.id
-            holder.statusText.text = order.status
-            holder.dateText.text = order.placedAt
-            holder.itemsText.text = order.items.joinToString { "${it.quantity}x ${it.name}" }
-            holder.totalText.text = order.total.formatPrice()
+            )
+            itemsList.text = details.items.joinToString { "${it.quantity}× ${it.itemNameSnapshot}" }
+            totalText.text = order.totalCentavos.formatMoney()
         }
     }
 
-    override fun getItemCount(): Int = orders.size
+    class PastOrderViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val orderId: TextView = itemView.findViewById(R.id.historyOrderIdText)
+        private val statusText: TextView = itemView.findViewById(R.id.historyStatusText)
+        private val dateText: TextView = itemView.findViewById(R.id.historyDateText)
+        private val itemsText: TextView = itemView.findViewById(R.id.historyItemsText)
+        private val totalText: TextView = itemView.findViewById(R.id.historyTotalText)
 
-    class ActiveOrderViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val orderId: TextView = itemView.findViewById(R.id.currentOrderIdText)
-        val orderType: TextView = itemView.findViewById(R.id.currentOrderTypeText)
-        val statusTitle: TextView = itemView.findViewById(R.id.currentStatus)
-        val statusDesc: TextView = itemView.findViewById(R.id.currentStatusDescriptionText)
-        val itemsList: TextView = itemView.findViewById(R.id.currentItemsText)
-        val totalText: TextView = itemView.findViewById(R.id.currentTotalText)
+        fun bind(details: OrderWithDetails) {
+            orderId.text = details.order.orderNumber
+            statusText.text = OrderStatus.fromStorage(details.order.status)?.label ?: details.order.status
+            dateText.text = details.order.placedAt.formatDateTime()
+            itemsText.text = details.items.joinToString { "${it.quantity}× ${it.itemNameSnapshot}" }
+            totalText.text = details.order.totalCentavos.formatMoney()
+        }
     }
 
-    class PastOrderViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val orderId: TextView = itemView.findViewById(R.id.historyOrderIdText)
-        val statusText: TextView = itemView.findViewById(R.id.historyStatusText)
-        val dateText: TextView = itemView.findViewById(R.id.historyDateText)
-        val itemsText: TextView = itemView.findViewById(R.id.historyItemsText)
-        val totalText: TextView = itemView.findViewById(R.id.historyTotalText)
+    private object DiffCallback : DiffUtil.ItemCallback<OrderWithDetails>() {
+        override fun areItemsTheSame(oldItem: OrderWithDetails, newItem: OrderWithDetails) =
+            oldItem.order.id == newItem.order.id
+
+        override fun areContentsTheSame(oldItem: OrderWithDetails, newItem: OrderWithDetails) =
+            oldItem == newItem
     }
 }
