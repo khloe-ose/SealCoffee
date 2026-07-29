@@ -6,9 +6,9 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.snackbar.Snackbar
 import com.mobdeve.s15.group4.sealcoffee.data.RegistrationResult
 import com.mobdeve.s15.group4.sealcoffee.domain.RegistrationField
 import com.mobdeve.s15.group4.sealcoffee.domain.RegistrationInput
@@ -66,7 +66,7 @@ class SignUpActivity : AppCompatActivity() {
                 when (val result = sealApp.repository.register(input)) {
                     is RegistrationResult.Success -> {
                         sealApp.session.save(result.user)
-                        Toast.makeText(this@SignUpActivity, R.string.account_created, Toast.LENGTH_SHORT).show()
+                        Snackbar.make(createButton, R.string.account_created, Snackbar.LENGTH_SHORT).show()
                         AuthNavigation.routeAuthenticated(this@SignUpActivity)
                     }
                     is RegistrationResult.Invalid -> {
@@ -88,7 +88,7 @@ class SignUpActivity : AppCompatActivity() {
                         createButton.isEnabled = true
                     }
                     is RegistrationResult.Failure -> {
-                        Toast.makeText(this@SignUpActivity, result.message, Toast.LENGTH_LONG).show()
+                        Snackbar.make(createButton, result.message, Snackbar.LENGTH_LONG).show()
                         createButton.isEnabled = true
                     }
                 }

@@ -1,5 +1,6 @@
 package com.mobdeve.s15.group4.sealcoffee
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.HapticFeedbackConstants
 import android.view.View
@@ -33,20 +34,36 @@ class MenuItemAdapter(
         private val availabilityText = itemView.findViewById<TextView>(R.id.menuItemAvailabilityText)
 
         fun bind(item: MenuItemEntity) {
+            val context = itemView.context
+
             imagePlaceholder.setImageResource(ImageCatalog.resourceFor(item.imageKey))
             imagePlaceholder.contentDescription = item.name
             nameText.text = item.name
             categoryText.text = item.category
             priceText.text = item.basePriceCentavos.formatMoney()
-            availabilityText.text = itemView.context.getString(
-                if (item.available) R.string.available else R.string.unavailable
-            )
-            availabilityText.setTextColor(
-                itemView.context.getColor(
-                    if (item.available) R.color.seal_success else R.color.seal_error
-                )
-            )
-            itemView.alpha = if (item.available) 1.0f else 0.62f
+
+            if (item.available) {
+                // Normal / Available State
+                availabilityText.visibility = View.GONE
+
+                itemView.alpha = 1.0f
+                imagePlaceholder.alpha = 1.0f
+                nameText.setTextColor(context.getColor(R.color.seal_text_primary))
+                categoryText.setTextColor(context.getColor(R.color.seal_text_secondary))
+                priceText.setTextColor(context.getColor(R.color.seal_navy))
+            } else {
+                // Unavailable State
+                availabilityText.visibility = View.VISIBLE
+                availabilityText.text = context.getString(R.string.unavailable)
+                availabilityText.setTextColor(context.getColor(R.color.seal_error))
+
+                itemView.alpha = 1.0f
+                imagePlaceholder.alpha = 0.45f
+                nameText.setTextColor(context.getColor(R.color.seal_text_secondary))
+                categoryText.setTextColor(context.getColor(R.color.seal_text_secondary))
+                priceText.setTextColor(context.getColor(R.color.seal_text_secondary))
+            }
+
             itemView.setOnClickListener { onItemClick(item) }
             itemView.setOnLongClickListener {
                 itemView.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
@@ -55,7 +72,6 @@ class MenuItemAdapter(
             }
         }
     }
-
     private object DiffCallback : DiffUtil.ItemCallback<MenuItemEntity>() {
         override fun areItemsTheSame(oldItem: MenuItemEntity, newItem: MenuItemEntity) =
             oldItem.id == newItem.id
