@@ -17,14 +17,9 @@
         android:theme="@style/Theme.SealCoffee">
 
         <activity
-            android:name=".LoginActivity"
-            android:exported="true"
-            android:theme="@style/Theme.SealCoffee.Navy"
-            android:windowSoftInputMode="adjustResize">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:name=".TestAuthActivity"
+            android:exported="true">
+
         </activity>
 
         <activity
