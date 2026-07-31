@@ -1,11 +1,11 @@
 package com.mobdeve.s15.group4.sealcoffee
 
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
-import android.view.View
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
@@ -14,6 +14,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mobdeve.s15.group4.sealcoffee.data.local.MenuItemEntity
+import com.mobdeve.s15.group4.sealcoffee.domain.MenuCategory
 import com.mobdeve.s15.group4.sealcoffee.domain.UserRole
 import kotlinx.coroutines.launch
 
@@ -23,10 +24,10 @@ class CustomerMenuActivity : AppCompatActivity() {
         onItemLongClick = ::showQuickPreview
     )
 
-    private lateinit var emptyText: TextView
-    private lateinit var filterMap: Map<String, androidx.cardview.widget.CardView>
-    private var selectedFilter = "All"
+    private lateinit var filterButtons: Map<String, Button>
+    private var selectedFilter = FILTER_ALL
     private var allItems: List<MenuItemEntity> = emptyList()
+    private lateinit var emptyText: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,68 +36,57 @@ class CustomerMenuActivity : AppCompatActivity() {
 
         CustomerNavigation.bind(this, CustomerDestination.MENU)
 
-        emptyText = findViewById(R.id.menuEmptyText)
-
         findViewById<RecyclerView>(R.id.menuRecyclerView).apply {
             layoutManager = LinearLayoutManager(this@CustomerMenuActivity)
             adapter = menuAdapter
         }
+        emptyText = findViewById(R.id.menuEmptyText)
 
-        filterMap = mapOf(
-            "All" to findViewById(R.id.cardFilterAll),
-            "Coffee" to findViewById(R.id.cardFilterCoffee),
-            "Non-Coffee" to findViewById(R.id.cardFilterNonCoffee),
-            "Snacks" to findViewById(R.id.cardFilterSnacks),
-            "Desserts" to findViewById(R.id.cardFilterDesserts)
+        filterButtons = mapOf(
+            FILTER_ALL to findViewById(R.id.filterAllButton),
+            MenuCategory.COFFEE.label to findViewById(R.id.filterCoffeeButton),
+            MenuCategory.NON_COFFEE.label to findViewById(R.id.filterNonCoffeeButton),
+            MenuCategory.SNACKS.label to findViewById(R.id.filterSnacksButton),
+            MenuCategory.DESSERTS.label to findViewById(R.id.filterDessertsButton)
         )
 
-        filterMap.forEach { (category, cardView) ->
-            cardView.setOnClickListener {
-                selectedFilter = category
-                updateFilterUI()
-                applyFilterAndSubmit()
+        filterButtons.forEach { (filter, button) ->
+            button.setOnClickListener {
+                selectedFilter = filter
+                applyFilter()
             }
         }
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                sealApp.repository.observeCustomerMenu().collect { items ->
-                    allItems = items
-                    applyFilterAndSubmit()
+                sealApp.repository.observeCustomerMenu().collect {
+                    allItems = it
+                    applyFilter()
                 }
             }
         }
     }
 
-    private fun updateFilterUI() {
-        filterMap.forEach { (category, cardView) ->
-            val textView = cardView.getChildAt(0) as? TextView
-            if (category == selectedFilter) {
-                // Active state
-                cardView.setCardBackgroundColor(Color.parseColor("#1E3A8A"))
-                textView?.setTextColor(Color.WHITE)
+    private fun applyFilter() {
+        filterButtons.forEach { (filter, button) ->
+            val isSelected = filter == selectedFilter
+
+            if (isSelected) {
+
+                button.setBackgroundResource(R.drawable.bg_chip_selected)
+                button.setTextColor(getColor(R.color.seal_navy))
             } else {
-                // Inactive state
-                cardView.setCardBackgroundColor(Color.parseColor("#E5E7EB"))
-                textView?.setTextColor(Color.parseColor("#374151"))
+
+                button.setBackgroundResource(R.drawable.bg_chip)
+                button.setTextColor(getColor(R.color.white))
             }
         }
-    }
 
-    private fun applyFilterAndSubmit() {
-        val filtered = if (selectedFilter == "All") {
-            allItems
-        } else {
-            allItems.filter { it.category.equals(selectedFilter, ignoreCase = true) }
+        val filteredItems = allItems.filter {
+            selectedFilter == FILTER_ALL || it.category == selectedFilter
         }
-
-        menuAdapter.submitList(filtered)
-        if (filtered.isEmpty()) {
-            emptyText.visibility = View.VISIBLE
-            emptyText.text = "No items found for '$selectedFilter'."
-        } else {
-            emptyText.visibility = View.GONE
-        }
+        menuAdapter.submitList(filteredItems)
+        emptyText.visibility = if (filteredItems.isEmpty()) View.VISIBLE else View.GONE
     }
 
     private fun openProductDetails(item: MenuItemEntity) {
@@ -118,5 +108,9 @@ class CustomerMenuActivity : AppCompatActivity() {
             .setView(dialogView)
             .setPositiveButton(R.string.close, null)
             .show()
+    }
+
+    private companion object {
+        const val FILTER_ALL = "All"
     }
 }

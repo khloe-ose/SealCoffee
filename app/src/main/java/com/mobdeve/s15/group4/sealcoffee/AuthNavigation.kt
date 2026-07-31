@@ -2,6 +2,7 @@ package com.mobdeve.s15.group4.sealcoffee
 
 import android.app.Activity
 import android.content.Intent
+import android.widget.Toast
 import com.mobdeve.s15.group4.sealcoffee.domain.UserRole
 
 val Activity.sealApp: SealCoffeeApplication
@@ -12,7 +13,7 @@ object AuthNavigation {
         val session = activity.sealApp.session
         if (session.hasSession && session.role == expectedRole) return true
         session.clear()
-
+        Toast.makeText(activity, R.string.session_required, Toast.LENGTH_SHORT).show()
         activity.startActivity(
             Intent(activity, LoginActivity::class.java)
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
