@@ -2,12 +2,12 @@ package com.mobdeve.s15.group4.sealcoffee
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.cardview.widget.CardView
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -24,7 +24,8 @@ class CustomerMenuActivity : AppCompatActivity() {
         onItemLongClick = ::showQuickPreview
     )
 
-    private lateinit var filterButtons: Map<String, Button>
+    private lateinit var filterCards: Map<String, CardView>
+    private lateinit var filterTexts: Map<String, TextView>
     private var selectedFilter = FILTER_ALL
     private var allItems: List<MenuItemEntity> = emptyList()
     private lateinit var emptyText: TextView
@@ -42,16 +43,24 @@ class CustomerMenuActivity : AppCompatActivity() {
         }
         emptyText = findViewById(R.id.menuEmptyText)
 
-        filterButtons = mapOf(
-            FILTER_ALL to findViewById(R.id.filterAllButton),
-            MenuCategory.COFFEE.label to findViewById(R.id.filterCoffeeButton),
-            MenuCategory.NON_COFFEE.label to findViewById(R.id.filterNonCoffeeButton),
-            MenuCategory.SNACKS.label to findViewById(R.id.filterSnacksButton),
-            MenuCategory.DESSERTS.label to findViewById(R.id.filterDessertsButton)
+        filterCards = mapOf(
+            FILTER_ALL to findViewById(R.id.cardFilterAll),
+            MenuCategory.COFFEE.label to findViewById(R.id.cardFilterCoffee),
+            MenuCategory.NON_COFFEE.label to findViewById(R.id.cardFilterNonCoffee),
+            MenuCategory.SNACKS.label to findViewById(R.id.cardFilterSnacks),
+            MenuCategory.DESSERTS.label to findViewById(R.id.cardFilterDesserts)
         )
 
-        filterButtons.forEach { (filter, button) ->
-            button.setOnClickListener {
+        filterTexts = mapOf(
+            FILTER_ALL to findViewById(R.id.filterAll),
+            MenuCategory.COFFEE.label to findViewById(R.id.filterCoffee),
+            MenuCategory.NON_COFFEE.label to findViewById(R.id.filterNonCoffee),
+            MenuCategory.SNACKS.label to findViewById(R.id.filterSnacks),
+            MenuCategory.DESSERTS.label to findViewById(R.id.filterDesserts)
+        )
+
+        filterCards.forEach { (filter, card) ->
+            card.setOnClickListener {
                 selectedFilter = filter
                 applyFilter()
             }
@@ -68,17 +77,16 @@ class CustomerMenuActivity : AppCompatActivity() {
     }
 
     private fun applyFilter() {
-        filterButtons.forEach { (filter, button) ->
+        filterCards.forEach { (filter, card) ->
             val isSelected = filter == selectedFilter
+            val textView = filterTexts[filter]
 
             if (isSelected) {
-
-                button.setBackgroundResource(R.drawable.bg_chip_selected)
-                button.setTextColor(getColor(R.color.seal_navy))
+                card.setCardBackgroundColor(getColor(R.color.seal_navy))
+                textView?.setTextColor(getColor(R.color.white))
             } else {
-
-                button.setBackgroundResource(R.drawable.bg_chip)
-                button.setTextColor(getColor(R.color.white))
+                card.setCardBackgroundColor(android.graphics.Color.parseColor("#E5E7EB"))
+                textView?.setTextColor(android.graphics.Color.parseColor("#374151"))
             }
         }
 
