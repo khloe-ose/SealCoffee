@@ -7,8 +7,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.mobdeve.s15.group4.sealcoffee.domain.UserRole
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 
 class ProfileActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,23 +22,35 @@ class ProfileActivity : AppCompatActivity() {
         CustomerNavigation.bind(this, CustomerDestination.PROFILE)
 
         lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                sealApp.repository.observeUser(sealApp.session.userId).collect { profile ->
-                    if (profile == null) {
-                        sealApp.session.clear()
-                        AuthNavigation.routeAuthenticated(this@ProfileActivity)
-                        return@collect
+            try {
+                val firebaseUser = FirebaseAuth.getInstance().currentUser
+                if (firebaseUser != null) {
+                    val docSnapshot = FirebaseFirestore.getInstance()
+                        .collection("users")
+                        .document(firebaseUser.uid)
+                        .get()
+                        .await()
+
+                    if (docSnapshot.exists()) {
+                        val fullName = docSnapshot.getString("full_name") ?: "User"
+                        val birthDate = docSnapshot.getString("birth_date") ?: ""
+                        val email = docSnapshot.getString("email") ?: ""
+                        val contactNumber = docSnapshot.getString("contact_number") ?: ""
+
+                        findViewById<TextView>(R.id.profileInitialsText).text = fullName.initials()
+                        findViewById<TextView>(R.id.profileNameText).text = fullName
+                        findViewById<TextView>(R.id.profileBirthdayText).text = birthDate
+                        findViewById<TextView>(R.id.profileEmailText).text = email
+                        findViewById<TextView>(R.id.profileContactText).text = contactNumber
                     }
-                    findViewById<TextView>(R.id.profileInitialsText).text = profile.fullName.initials()
-                    findViewById<TextView>(R.id.profileNameText).text = profile.fullName
-                    findViewById<TextView>(R.id.profileBirthdayText).text = profile.birthDate
-                    findViewById<TextView>(R.id.profileEmailText).text = profile.email
-                    findViewById<TextView>(R.id.profileContactText).text = profile.contactNumber
                 }
+            } catch (e: Exception) {
+
             }
         }
 
         findViewById<Button>(R.id.logoutButton).setOnClickListener {
+            FirebaseAuth.getInstance().signOut()
             AuthNavigation.logout(this)
         }
     }

@@ -1,0 +1,29 @@
+{
+    "project_info": {
+    "project_number": "817102902523",
+    "project_id": "seal-coffee",
+    "storage_bucket": "seal-coffee.firebasestorage.app"
+    },
+    "client": [
+    {
+    "client_info": {
+    "mobilesdk_app_id": "1:817102902523:android:213bfff6b05e76ab3d8c5e",
+    "android_client_info": {
+    "package_name": "com.mobdeve.s15.group4.sealcoffee"
+    }
+    },
+    "oauth_client": [],
+    "api_key": [
+    {
+    "current_key": "AIzaSyA5yaJsXREquuC5mFF6ZfgHBuH6fjmJR0Q"
+    }
+    ],
+    "services": {
+    "appinvite_service": {
+    "other_platform_oauth_client": []
+    }
+    }
+    }
+    ],
+    "configuration_version": "1"
+    }

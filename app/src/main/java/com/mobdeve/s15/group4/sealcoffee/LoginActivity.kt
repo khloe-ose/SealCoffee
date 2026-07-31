@@ -8,6 +8,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.mobdeve.s15.group4.sealcoffee.domain.UserRole
 import kotlinx.coroutines.launch
 
 class LoginActivity : AppCompatActivity() {
@@ -56,7 +57,15 @@ class LoginActivity : AppCompatActivity() {
                     ).show()
                     loginButton.isEnabled = true
                 } else {
-                    sealApp.session.save(user)
+
+                    val parsedRole = try {
+                        UserRole.valueOf(user.role.uppercase())
+                    } catch (e: Exception) {
+                        UserRole.CUSTOMER
+                    }
+
+                    sealApp.session.save(user.copy(role = parsedRole.name))
+
                     AuthNavigation.routeAuthenticated(this@LoginActivity)
                 }
             }

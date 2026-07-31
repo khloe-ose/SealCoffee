@@ -17,6 +17,9 @@ import com.mobdeve.s15.group4.sealcoffee.domain.ProductOptions
 import com.mobdeve.s15.group4.sealcoffee.domain.RegistrationInput
 import com.mobdeve.s15.group4.sealcoffee.domain.RegistrationValidator
 import com.mobdeve.s15.group4.sealcoffee.domain.UserRole
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.tasks.await
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -74,45 +77,86 @@ class SealCoffeeRepository(val database: AppDatabase) {
     suspend fun getOrder(id: Long) = orders.getOrderDetails(id)
     suspend fun getUser(id: Long) = users.findById(id)
 
+    private val auth: FirebaseAuth = FirebaseAuth.getInstance()
+    private val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
+
     suspend fun register(input: RegistrationInput): RegistrationResult {
         val errors = RegistrationValidator.validate(input)
         if (errors.isNotEmpty()) return RegistrationResult.Invalid(errors)
         val email = RegistrationValidator.normaliseEmail(input.email)
-        if (users.findByEmail(email) != null) return RegistrationResult.DuplicateEmail
 
-        val password = input.password.toCharArray()
         return try {
-            val digest = PasswordHasher.create(password)
+
+            val authResult = auth.createUserWithEmailAndPassword(email, input.password).await()
+            val firebaseUser = authResult.user ?: return RegistrationResult.Failure("Authentication failed")
+            val userId = firebaseUser.uid
+
             val fullName = "${input.firstName.trim()} ${input.lastName.trim()}".replace(Regex("\\s+"), " ")
-            val entity = UserEntity(
+
+            val userProfile = mapOf(
+                "id" to userId,
+                "full_name" to fullName,
+                "birth_date" to input.birthDateIso.trim(),
+                "email" to email,
+                "contact_number" to input.contactNumber.trim(),
+                "role" to "CUSTOMER",
+                "created_at" to System.currentTimeMillis()
+            )
+
+            // Save profile
+            firestore.collection("users").document(userId).set(userProfile).await()
+
+
+            val userEntity = UserEntity(
+                id = userId.hashCode().toLong(),
                 fullName = fullName,
                 birthDate = input.birthDateIso.trim(),
                 email = email,
                 contactNumber = input.contactNumber.trim(),
-                passwordHash = digest.hash,
-                passwordSalt = digest.salt,
-                role = UserRole.CUSTOMER.name,
+                passwordHash = "",
+                passwordSalt = "",
+                role = "CUSTOMER",
                 createdAt = System.currentTimeMillis()
             )
-            val id = users.insert(entity)
-            RegistrationResult.Success(entity.copy(id = id))
-        } catch (_: SQLiteConstraintException) {
-            RegistrationResult.DuplicateEmail
-        } catch (error: Exception) {
-            RegistrationResult.Failure(error.message ?: "Unable to create the account")
-        } finally {
-            password.fill('\u0000')
+
+            RegistrationResult.Success(userEntity)
+        } catch (e: Exception) {
+            if (e.message?.contains("email address is already in use", ignoreCase = true) == true) {
+                RegistrationResult.DuplicateEmail
+            } else {
+                RegistrationResult.Failure(e.message ?: "Unable to create the account")
+            }
         }
     }
 
     suspend fun authenticate(emailInput: String, passwordInput: String): UserEntity? {
         val email = RegistrationValidator.normaliseEmail(emailInput)
-        val user = users.findByEmail(email) ?: return null
-        val password = passwordInput.toCharArray()
         return try {
-            user.takeIf { PasswordHasher.verify(password, user.passwordHash, user.passwordSalt) }
-        } finally {
-            password.fill('\u0000')
+            val authResult = auth.signInWithEmailAndPassword(email, passwordInput).await()
+            val firebaseUser = authResult.user ?: return null
+
+            val docSnapshot = firestore.collection("users").document(firebaseUser.uid).get().await()
+
+            // Fallback if the user exists in Auth but doesn't have a full Firestore doc yet
+            val fullName = if (docSnapshot.exists()) docSnapshot.getString("full_name") ?: "" else "User"
+            val role = if (docSnapshot.exists()) docSnapshot.getString("role") ?: "CUSTOMER" else "CUSTOMER"
+            val contact = if (docSnapshot.exists()) docSnapshot.getString("contact_number") ?: "" else ""
+            val birthDate = if (docSnapshot.exists()) docSnapshot.getString("birth_date") ?: "" else ""
+
+            UserEntity(
+                id = firebaseUser.uid.hashCode().toLong(),
+                fullName = fullName,
+                birthDate = birthDate,
+                email = email,
+                contactNumber = contact,
+                passwordHash = "",
+                passwordSalt = "",
+                role = role,
+                createdAt = System.currentTimeMillis()
+            )
+        } catch (e: Exception) {
+            android.util.Log.e("AuthDebug", "Login failed: ${e.message}", e)
+            null
         }
     }
 

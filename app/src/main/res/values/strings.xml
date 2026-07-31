@@ -28,7 +28,7 @@
     <string name="log_out_title">Log Out</string>
     <string name="opening_message">Hello again!</string>
     <string name="welcome_message">Please sign in to pick up where you left off. It\'s wonderful to have you back :3</string>
-    <string name="create_an_account">Create an Account</string>
+    <string name="create_an_account"><u>Create an Account</u></string>
     <string name="sealcoffee_logo">SealCoffee Logo</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
@@ -44,7 +44,7 @@
     <string name="contact_number">Contact Number</string>
     <string name="password_hint">Password</string>
     <string name="create_account">Create Account</string>
-    <string name="log_in_link">Log In</string>
+    <string name="log_in_link"><u>Log In</u></string>
     <string name="first_name_label">First Name</string>
     <string name="last_name_label">Last Name</string>
     <string name="password_label">Password</string>
@@ -181,5 +181,6 @@
     <string name="add_on_oat_milk_price">Oat milk (+₱30.00)</string>
     <string name="add_on_caramel_price">Caramel drizzle (+₱15.00)</string>
     <string name="quantity">Quantity</string>
+    <string name="sign_up_message">Fill in your details to get started</string>
 
 </resources>
