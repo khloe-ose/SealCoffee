@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/employeeDashboardRoot"
     android:layout_width="match_parent"
@@ -7,200 +8,267 @@
     android:fillViewport="true"
     tools:context=".EmployeeDashboardActivity">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingStart="24dp"
+        android:paddingTop="32dp"
+        android:paddingEnd="24dp"
+        android:paddingBottom="36dp">
+
+        <!-- Header Section -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-black"
+            android:text="@string/employee_dashboard"
+            android:textColor="@color/seal_text_primary"
+            android:textSize="32sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="@string/track_orders_and_manage_the_sealcoffee_menu"
+            android:textColor="@color/seal_text_secondary"
+            android:textSize="15sp" />
+
+        <!-- Divider Line -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:background="#E5E7EB" />
+
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingStart="24dp"
-            android:paddingTop="34dp"
-            android:paddingEnd="24dp"
-            android:paddingBottom="32dp">
+            android:layout_marginTop="16dp"
+            android:baselineAligned="false"
+            android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-black"
-                android:text="@string/employee_dashboard"
-                android:textColor="@color/seal_text_primary"
-                android:textSize="32sp" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
-                android:text="@string/track_orders_and_manage_the_sealcoffee_menu"
-                android:textColor="@color/seal_text_secondary"
-                android:textSize="15sp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="22dp"
-                android:baselineAligned="false"
-                android:orientation="horizontal">
+            <androidx.cardview.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="110dp"
+                android:layout_weight="1"
+                app:cardBackgroundColor="@android:color/white"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp"
+                app:cardUseCompatPadding="true">
 
                 <LinearLayout
-                    style="@style/SealCoffeeCard"
-                    android:layout_width="0dp"
-                    android:layout_height="120dp"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/total_orders"
                         android:textColor="@color/seal_text_secondary"
-                        android:textSize="14sp" />
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/totalOrdersCountText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
                         android:fontFamily="sans-serif-black"
                         android:textColor="@color/seal_navy"
-                        android:textSize="30sp" />
-
+                        android:textSize="26sp"
+                        tools:text="24" />
                 </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="110dp"
+                android:layout_weight="1"
+                app:cardBackgroundColor="@android:color/white"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp"
+                app:cardUseCompatPadding="true">
 
                 <LinearLayout
-                    style="@style/SealCoffeeCard"
-                    android:layout_width="0dp"
-                    android:layout_height="120dp"
-                    android:layout_marginStart="12dp"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/active_orders"
                         android:textColor="@color/seal_text_secondary"
-                        android:textSize="14sp" />
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/activeOrdersCountText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
                         android:fontFamily="sans-serif-black"
                         android:textColor="@color/seal_warning"
-                        android:textSize="30sp" />
-
+                        android:textSize="26sp"
+                        tools:text="5" />
                 </LinearLayout>
-            </LinearLayout>
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:baselineAligned="false"
-                android:orientation="horizontal">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:baselineAligned="false"
+            android:orientation="horizontal">
+
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="110dp"
+                android:layout_weight="1"
+                app:cardBackgroundColor="@android:color/white"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp"
+                app:cardUseCompatPadding="true">
 
                 <LinearLayout
-                    style="@style/SealCoffeeCard"
-                    android:layout_width="0dp"
-                    android:layout_height="120dp"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/completed"
                         android:textColor="@color/seal_text_secondary"
-                        android:textSize="14sp" />
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/completedOrdersCountText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
                         android:fontFamily="sans-serif-black"
                         android:textColor="@color/seal_success"
-                        android:textSize="30sp" />
-
+                        android:textSize="26sp"
+                        tools:text="18" />
                 </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="110dp"
+                android:layout_weight="1"
+                app:cardBackgroundColor="@android:color/white"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp"
+                app:cardUseCompatPadding="true">
 
                 <LinearLayout
-                    style="@style/SealCoffeeCard"
-                    android:layout_width="0dp"
-                    android:layout_height="120dp"
-                    android:layout_marginStart="12dp"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/delayed"
                         android:textColor="@color/seal_text_secondary"
-                        android:textSize="14sp" />
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/delayedOrdersCountText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
                         android:fontFamily="sans-serif-black"
                         android:textColor="@color/seal_error"
-                        android:textSize="30sp" />
-
+                        android:textSize="26sp"
+                        tools:text="1" />
                 </LinearLayout>
-            </LinearLayout>
-
-            <Button
-                android:id="@+id/incomingOrdersButton"
-                style="@style/SealCoffeeButtonPrimary"
-                android:layout_width="match_parent"
-                android:layout_height="54dp"
-                android:layout_marginTop="26dp"
-                android:text="@string/incoming_orders" />
-
-            <Button
-                android:id="@+id/activeOrdersButton"
-                style="@style/SealCoffeeButtonPrimary"
-                android:layout_width="match_parent"
-                android:layout_height="54dp"
-                android:layout_marginTop="12dp"
-                android:text="@string/active_orders_btn" />
-
-            <Button
-                android:id="@+id/completedOrdersButton"
-                style="@style/SealCoffeeButtonPrimary"
-                android:layout_width="match_parent"
-                android:layout_height="54dp"
-                android:layout_marginTop="12dp"
-                android:text="@string/completed_orders" />
-
-            <Button
-                android:id="@+id/delayedOrdersButton"
-                style="@style/SealCoffeeButtonPrimary"
-                android:layout_width="match_parent"
-                android:layout_height="54dp"
-                android:layout_marginTop="12dp"
-                android:text="@string/delayed_orders" />
-
-            <Button
-                android:id="@+id/manageMenuButton"
-                style="@style/SealCoffeeButtonPrimary"
-                android:layout_width="match_parent"
-                android:layout_height="54dp"
-                android:layout_marginTop="12dp"
-                android:text="@string/manage_menu" />
-
-            <Button
-                android:id="@+id/customerHistoryButton"
-                style="@style/SealCoffeeButtonPrimary"
-                android:layout_width="match_parent"
-                android:layout_height="54dp"
-                android:layout_marginTop="12dp"
-                android:text="@string/customer_order_history" />
-
-            <Button
-                android:id="@+id/logoutButton"
-                style="@style/SealCoffeeButtonPrimary"
-                android:layout_width="match_parent"
-                android:layout_height="54dp"
-                android:layout_marginTop="12dp"
-                android:text="@string/logout" />
-
+            </androidx.cardview.widget.CardView>
         </LinearLayout>
-    </ScrollView>
+
+        <!-- Divider Line -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="#E5E7EB" />
+
+        <Button
+            android:id="@+id/incomingOrdersButton"
+            style="@style/SealCoffeeButtonPrimary"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:layout_marginTop="4dp"
+            android:text="@string/incoming_orders" />
+
+        <Button
+            android:id="@+id/activeOrdersButton"
+            style="@style/SealCoffeeButtonPrimary"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:layout_marginTop="12dp"
+            android:text="@string/active_orders_btn" />
+
+        <Button
+            android:id="@+id/completedOrdersButton"
+            style="@style/SealCoffeeButtonPrimary"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:layout_marginTop="12dp"
+            android:text="@string/completed_orders" />
+
+        <Button
+            android:id="@+id/delayedOrdersButton"
+            style="@style/SealCoffeeButtonPrimary"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:layout_marginTop="12dp"
+            android:text="@string/delayed_orders" />
+
+        <Button
+            android:id="@+id/manageMenuButton"
+            style="@style/SealCoffeeButtonPrimary"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:layout_marginTop="12dp"
+            android:text="@string/manage_menu" />
+
+        <Button
+            android:id="@+id/customerHistoryButton"
+            style="@style/SealCoffeeButtonPrimary"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:layout_marginTop="12dp"
+            android:text="@string/customer_order_history" />
+
+        <Button
+            android:id="@+id/settingsButton"
+            style="@style/SealCoffeeButtonPrimary"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:layout_marginTop="20dp"
+            android:backgroundTint="#94A3B8"
+            android:text="Account Settings" />
+
+    </LinearLayout>
+</ScrollView>

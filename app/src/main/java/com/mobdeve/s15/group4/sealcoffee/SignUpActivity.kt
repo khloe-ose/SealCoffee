@@ -68,6 +68,7 @@ class SignUpActivity : AppCompatActivity() {
                         sealApp.session.save(result.user)
                         Toast.makeText(this@SignUpActivity, R.string.account_created, Toast.LENGTH_SHORT).show()
                         AuthNavigation.routeAuthenticated(this@SignUpActivity)
+
                     }
                     is RegistrationResult.Invalid -> {
                         result.errors.forEach { (field, message) ->

@@ -95,10 +95,10 @@ class SealCoffeeRepository(val database: AppDatabase) {
 
             val userProfile = mapOf(
                 "id" to userId,
-                "full_name" to fullName,
-                "birth_date" to input.birthDateIso.trim(),
+                "fullName" to fullName,
+                "birthDate" to input.birthDateIso.trim(),
                 "email" to email,
-                "contact_number" to input.contactNumber.trim(),
+                "contactNumber" to input.contactNumber.trim(),
                 "role" to "CUSTOMER",
                 "created_at" to System.currentTimeMillis()
             )
