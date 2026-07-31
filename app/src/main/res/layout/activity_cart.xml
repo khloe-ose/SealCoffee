@@ -5,7 +5,6 @@
     android:id="@+id/cartRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/seal_cream"
     tools:context=".CartActivity">
 
     <TextView
@@ -13,10 +12,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="34dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="24dp"
-        android:fontFamily="sans-serif-black"
-        android:text="Cart"
+        android:fontFamily="@font/inter_extrabold"
+        android:text="@string/cart_title"
         android:textColor="@color/seal_text_primary"
         android:textSize="34sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -30,9 +29,10 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="6dp"
         android:layout_marginEnd="24dp"
-        android:text="Review your order"
+        android:text="@string/cart_subtext"
         android:textColor="@color/seal_text_secondary"
         android:textSize="15sp"
+        android:textStyle="italic"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/cartTitleText" />
@@ -49,6 +49,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/cartSubtitleText"
         tools:listitem="@layout/item_cart_product" />
+
+    <TextView
+        android:id="@+id/cartEmptyText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="32dp"
+        android:gravity="center"
+        android:text="@string/cart_empty"
+        android:textColor="@color/seal_text_secondary"
+        android:textSize="16sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/cartSummaryPanel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cartSubtitleText" />
 
     <LinearLayout
         android:id="@+id/cartSummaryPanel"
@@ -72,7 +87,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Subtotal"
+                android:text="@string/subtotal_subtitle"
                 android:textColor="@color/seal_text_secondary"
                 android:textSize="15sp" />
 
@@ -95,8 +110,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:fontFamily="sans-serif-bold"
-                android:text="Total"
+                android:fontFamily="sans-serif"
+                android:text="@string/total_subtitle"
                 android:textColor="@color/seal_text_primary"
                 android:textSize="18sp" />
 
@@ -104,7 +119,7 @@
                 android:id="@+id/cartTotalText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-bold"
+                android:fontFamily="sans-serif"
                 android:textColor="@color/seal_navy"
                 android:textSize="18sp" />
         </LinearLayout>
@@ -115,8 +130,19 @@
             android:layout_width="match_parent"
             android:layout_height="54dp"
             android:layout_marginTop="16dp"
-            android:text="Place Order"
+            android:text="@string/place_order_btn"
             android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/cartWarningText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:text="@string/cart_unavailable_warning"
+            android:textColor="@color/seal_error"
+            android:textSize="13sp"
+            android:visibility="gone" />
     </LinearLayout>
 
     <include

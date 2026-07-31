@@ -5,23 +5,32 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.mobdeve.s15.group4.sealcoffee.data.DummyData
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import com.mobdeve.s15.group4.sealcoffee.domain.UserRole
+import kotlinx.coroutines.launch
 
 class EmployeeDashboardActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (!AuthNavigation.requireRole(this, UserRole.EMPLOYEE)) return
         setContentView(R.layout.activity_employee_dashboard)
-
-        val orders = DummyData.employeeOrders
-        findViewById<TextView>(R.id.totalOrdersCountText).text = orders.size.toString()
-        findViewById<TextView>(R.id.activeOrdersCountText).text =
-            orders.count { it.status in activeStatuses }.toString()
-        findViewById<TextView>(R.id.completedOrdersCountText).text =
-            orders.count { it.status == "Completed" }.toString()
-        findViewById<TextView>(R.id.delayedOrdersCountText).text =
-            orders.count { it.status == "Delayed" }.toString()
-
         bindNavigation()
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                sealApp.repository.observeDashboardCounts().collect { counts ->
+                    findViewById<TextView>(R.id.totalOrdersCountText).text =
+                        getString(R.string.count_value, counts.totalCount)
+                    findViewById<TextView>(R.id.activeOrdersCountText).text =
+                        getString(R.string.count_value, counts.activeCount)
+                    findViewById<TextView>(R.id.completedOrdersCountText).text =
+                        getString(R.string.count_value, counts.completedCount)
+                    findViewById<TextView>(R.id.delayedOrdersCountText).text =
+                        getString(R.string.count_value, counts.delayedCount)
+                }
+            }
+        }
     }
 
     private fun bindNavigation() {
@@ -41,11 +50,10 @@ class EmployeeDashboardActivity : AppCompatActivity() {
             startActivity(Intent(this, ManageMenuActivity::class.java))
         }
         findViewById<Button>(R.id.customerHistoryButton).setOnClickListener {
-            startActivity(Intent(this, CustomerOrderHistoryActivity::class.java))
+            startActivity(Intent(this, OrderHistoryActivity::class.java))
         }
-    }
-
-    companion object {
-        val activeStatuses = setOf("Pending", "Preparing", "Ready for Pickup")
+        findViewById<Button>(R.id.logoutButton).setOnClickListener {
+            AuthNavigation.logout(this)
+        }
     }
 }

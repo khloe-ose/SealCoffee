@@ -4,7 +4,6 @@
     android:id="@+id/employeeOrderDetailsRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/seal_cream"
     android:fillViewport="true"
     tools:context=".EmployeeOrderDetailsActivity">
 
@@ -21,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-black"
-            android:text="Order Details"
+            android:text="@string/order_details"
             android:textColor="@color/seal_text_primary"
             android:textSize="32sp" />
 
@@ -64,14 +63,23 @@
                 android:layout_marginTop="6dp"
                 android:textColor="@color/seal_text_secondary"
                 android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/employeeDetailsStatusText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/inter_semibold"
+                android:textColor="@color/seal_navy"
+                android:textSize="15sp" />
         </LinearLayout>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="22dp"
-            android:fontFamily="sans-serif-bold"
-            android:text="Items and modifications"
+            android:fontFamily="sans-serif"
+            android:text="@string/items_and_modifications"
             android:textColor="@color/seal_text_primary"
             android:textSize="18sp" />
 
@@ -86,10 +94,18 @@
             android:textSize="15sp" />
 
         <TextView
-            android:id="@+id/employeeDetailsTotalText"
+            android:id="@+id/employeeDetailsSubtotalText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
+            android:textColor="@color/seal_text_secondary"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/employeeDetailsTotalText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:fontFamily="sans-serif-black"
             android:textColor="@color/seal_navy"
             android:textSize="26sp" />
@@ -106,31 +122,31 @@
                 android:id="@+id/statusPendingRadio"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Pending" />
+                android:text="@string/status_pending" />
 
             <RadioButton
                 android:id="@+id/statusPreparingRadio"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Preparing" />
+                android:text="@string/status_preparing" />
 
             <RadioButton
                 android:id="@+id/statusReadyRadio"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Ready for Pickup" />
+                android:text="@string/status_ready_for_pickup" />
 
             <RadioButton
                 android:id="@+id/statusCompletedRadio"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Completed" />
+                android:text="@string/status_completed" />
 
             <RadioButton
                 android:id="@+id/statusDelayedRadio"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Delayed" />
+                android:text="@string/status_delayed" />
         </RadioGroup>
 
         <Button
@@ -139,6 +155,6 @@
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:layout_marginTop="18dp"
-            android:text="Apply Status" />
+            android:text="@string/apply_status" />
     </LinearLayout>
 </ScrollView>

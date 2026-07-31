@@ -4,7 +4,6 @@
     android:id="@+id/signUpRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/seal_cream"
     android:fillViewport="true"
     tools:context=".SignUpActivity">
 
@@ -23,74 +22,140 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-black"
-            android:text="Sign Up"
-            android:textColor="@color/seal_text_primary"
-            android:textSize="40sp" />
+            android:text="@string/sign_up"
+            android:textColor="@color/seal_navy"
+            android:textSize="36sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/first_name_label"
+            android:textColor="@color/seal_navy"
+            android:textSize="13sp"
+            android:fontFamily="sans-serif-medium" />
 
         <EditText
             android:id="@+id/firstNameInput"
             style="@style/SealCoffeeEditText"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="6dp"
             android:autofillHints="givenName"
-            android:hint="First Name"
+            android:hint="@string/first_name"
             android:inputType="textPersonName"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
             android:singleLine="true" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="@string/last_name_label"
+            android:textColor="@color/seal_navy"
+            android:textSize="13sp"
+            android:fontFamily="sans-serif-medium" />
 
         <EditText
             android:id="@+id/lastNameInput"
             style="@style/SealCoffeeEditText"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:layout_marginTop="14dp"
+            android:layout_marginTop="6dp"
             android:autofillHints="familyName"
-            android:hint="Last Name"
+            android:hint="@string/last_name"
             android:inputType="textPersonName"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
             android:singleLine="true" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="@string/birthdate"
+            android:textColor="@color/seal_navy"
+            android:textSize="13sp"
+            android:fontFamily="sans-serif-medium" />
 
         <EditText
             android:id="@+id/birthdateInput"
             style="@style/SealCoffeeEditText"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:layout_marginTop="14dp"
+            android:layout_marginTop="6dp"
             android:autofillHints="birthDateFull"
-            android:hint="Birthdate"
+            android:hint="@string/birthdate"
             android:inputType="date"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
             android:singleLine="true" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="@string/email_address"
+            android:textColor="@color/seal_navy"
+            android:textSize="13sp"
+            android:fontFamily="sans-serif-medium" />
 
         <EditText
             android:id="@+id/signUpEmailInput"
             style="@style/SealCoffeeEditText"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:layout_marginTop="14dp"
+            android:layout_marginTop="6dp"
             android:autofillHints="emailAddress"
-            android:hint="Email Address"
+            android:hint="@string/email_address"
             android:inputType="textEmailAddress"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
             android:singleLine="true" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="@string/contact_number"
+            android:textColor="@color/seal_navy"
+            android:textSize="13sp"
+            android:fontFamily="sans-serif-medium" />
 
         <EditText
             android:id="@+id/contactNumberInput"
             style="@style/SealCoffeeEditText"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:layout_marginTop="14dp"
+            android:layout_marginTop="6dp"
             android:autofillHints="phone"
-            android:hint="Contact Number"
+            android:hint="@string/contact_number"
             android:inputType="phone"
-            android:singleLine="true" />
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:singleLine="true"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="@string/password_label"
+            android:textColor="@color/seal_navy"
+            android:textSize="13sp"
+            android:fontFamily="sans-serif-medium" />
 
         <EditText
             android:id="@+id/signUpPasswordInput"
             style="@style/SealCoffeeEditText"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:layout_marginTop="14dp"
+            android:layout_marginTop="6dp"
             android:autofillHints="newPassword"
-            android:hint="Password"
+            android:hint="@string/password_hint"
             android:inputType="textPassword"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
             android:singleLine="true" />
 
         <Button
@@ -99,20 +164,39 @@
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:layout_marginTop="28dp"
-            android:text="Create Account"
+            android:text="@string/create_account"
             android:textSize="16sp" />
 
-        <TextView
-            android:id="@+id/loginLink"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="48dp"
             android:layout_marginTop="18dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:fontFamily="sans-serif-medium"
-            android:gravity="center"
-            android:text="Already have an account? Log in"
-            android:textColor="@color/seal_navy"
-            android:textSize="15sp" />
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
+                android:fontFamily="@font/inter_medium"
+                android:text="@string/login_question"
+                android:textColor="@color/seal_text_secondary"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/loginLink"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:clickable="true"
+                android:focusable="true"
+                android:fontFamily="@font/inter_semibold"
+                android:gravity="center"
+                android:minWidth="48dp"
+                android:text="@string/log_in_link"
+                android:textColor="@color/seal_navy"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
     </LinearLayout>
 </ScrollView>

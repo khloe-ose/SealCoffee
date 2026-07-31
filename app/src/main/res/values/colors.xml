@@ -1,22 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="seal_navy">#10243E</color>
-    <color name="seal_navy_dark">#08172A</color>
-    <color name="seal_navy_pressed">#1C3554</color>
-    <color name="seal_navy_disabled">#7D8897</color>
-    <color name="seal_cream">#F4F0EA</color>
+    <color name="seal_navy">#343F6D</color>
+    <color name="seal_navy_pressed">#49568C</color>
+    <color name="seal_navy_disabled">#8F97B5</color>
+    <color name="seal_cream">#F2F1EB</color>
     <color name="seal_cream_dark">#E7DED3</color>
     <color name="seal_surface">#FFFDF8</color>
     <color name="seal_card">#FFFFFF</color>
     <color name="seal_card_stroke">#E9E1D8</color>
-    <color name="seal_input_fill">#FFF9F0</color>
     <color name="seal_input_stroke">#D8CEC1</color>
-    <color name="seal_text_primary">#172033</color>
+    <color name="seal_text_primary">#22273D</color>
     <color name="seal_text_secondary">#6F6A63</color>
     <color name="seal_coffee">#8A5A38</color>
     <color name="seal_success">#2E7D5B</color>
     <color name="seal_warning">#B7791F</color>
     <color name="seal_error">#B23B3B</color>
-    <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 </resources>

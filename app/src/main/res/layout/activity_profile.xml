@@ -5,7 +5,6 @@
     android:id="@+id/profileRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/seal_cream"
     tools:context=".ProfileActivity">
 
     <TextView
@@ -13,10 +12,11 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="34dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="24dp"
-        android:fontFamily="sans-serif-black"
-        android:text="Profile"
+        android:fontFamily="sans-serif"
+        android:textStyle="bold"
+        android:text="@string/profile_title"
         android:textColor="@color/seal_text_primary"
         android:textSize="34sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -49,7 +49,8 @@
                 android:layout_height="96dp"
                 android:layout_gravity="center_horizontal"
                 android:background="@drawable/bg_logo_badge"
-                android:fontFamily="sans-serif-black"
+                android:fontFamily="sans-serif"
+                android:textStyle="bold"
                 android:gravity="center"
                 android:textColor="@color/seal_navy"
                 android:textSize="30sp" />
@@ -59,7 +60,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="18dp"
-                android:fontFamily="sans-serif-black"
+                android:fontFamily="sans-serif"
+                android:textStyle="bold"
                 android:gravity="center"
                 android:textColor="@color/seal_text_primary"
                 android:textSize="26sp" />
@@ -68,8 +70,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="26dp"
-                android:fontFamily="sans-serif-bold"
-                android:text="Birthday"
+                android:fontFamily="sans-serif"
+                android:text="@string/birthday_title"
                 android:textColor="@color/seal_text_secondary"
                 android:textSize="13sp" />
 
@@ -85,8 +87,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="18dp"
-                android:fontFamily="sans-serif-bold"
-                android:text="Email"
+                android:fontFamily="sans-serif"
+                android:text="@string/email_title"
                 android:textColor="@color/seal_text_secondary"
                 android:textSize="13sp" />
 
@@ -102,8 +104,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="18dp"
-                android:fontFamily="sans-serif-bold"
-                android:text="Contact Number"
+                android:fontFamily="sans-serif"
+                android:text="@string/contact_number_title"
                 android:textColor="@color/seal_text_secondary"
                 android:textSize="13sp" />
 
@@ -121,7 +123,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:layout_marginTop="28dp"
-                android:text="Log out"
+                android:text="@string/log_out_title"
                 android:textSize="16sp" />
         </LinearLayout>
     </ScrollView>

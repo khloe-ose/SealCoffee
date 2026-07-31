@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:drawable="@drawable/ic_sealcoffee_logo"
+        android:width="58dp"
+        android:height="46dp"
+        android:gravity="center"
+        android:left="4dp"/>
+</layer-list>

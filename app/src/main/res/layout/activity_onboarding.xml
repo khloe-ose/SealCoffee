@@ -5,83 +5,79 @@
     android:id="@+id/onboardingRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/seal_navy"
-    android:paddingStart="28dp"
-    android:paddingEnd="28dp"
+
     tools:context=".OnboardingActivity">
 
     <LinearLayout
         android:id="@+id/onboardingContent"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="172dp"
         android:gravity="center"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@id/getStartedButton"
+        android:paddingStart="28dp"
+        android:paddingEnd="28dp"
+        app:layout_constraintBottom_toTopOf="@id/onboardingSubtitle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_chainStyle="packed"
-        app:layout_constraintVertical_bias="0.46">
+        app:layout_constraintTop_toTopOf="parent">
 
         <FrameLayout
             android:id="@+id/logoBadge"
-            android:layout_width="156dp"
-            android:layout_height="156dp"
-            android:background="@drawable/bg_logo_badge"
+            android:layout_width="269dp"
+            android:layout_height="212dp"
+            android:background="@drawable/ic_sealcoffee_logo"
             android:elevation="8dp">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fontFamily="sans-serif-black"
-                android:gravity="center"
-                android:text="SC"
-                android:textColor="@color/seal_navy"
-                android:textSize="46sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|center_horizontal"
-                android:layout_marginBottom="26dp"
-                android:fontFamily="sans-serif-medium"
-                android:text=":3"
-                android:textColor="@color/seal_coffee"
-                android:textSize="20sp" />
         </FrameLayout>
 
-        <TextView
+        <ImageView
             android:id="@+id/brandTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="34dp"
-            android:fontFamily="sans-serif-black"
+            android:layout_marginTop="-7dp"
+            android:contentDescription="@string/title_description"
             android:gravity="center"
-            android:text="SealCoffee"
-            android:textColor="@color/seal_cream"
-            android:textSize="42sp" />
+            app:srcCompat="@drawable/ic_sealcoffee_title" />
 
-        <TextView
-            android:id="@+id/onboardingSubtitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:gravity="center"
-            android:lineSpacingExtra="4dp"
-            android:text="Order your favorite drinks and snacks from our cafe anytime"
-            android:textColor="@color/seal_cream_dark"
-            android:textSize="17sp" />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/onboardingSubtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:fontFamily="@font/inter_medium"
+        android:gravity="center"
+        android:lineSpacingExtra="4dp"
+        android:paddingStart="28dp"
+        android:paddingEnd="28dp"
+        android:text="@string/onboarding_message"
+        android:textColor="#FFFFFF"
+        android:textSize="17sp"
+        app:layout_constraintBottom_toTopOf="@id/getStartedButton"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/onboardingContent" />
 
     <Button
         android:id="@+id/getStartedButton"
-        style="@style/SealCoffeeButtonCream"
         android:layout_width="0dp"
-        android:layout_height="56dp"
-        android:layout_marginBottom="40dp"
-        android:text="Get Started"
-        android:textSize="16sp"
+        android:layout_height="80dp"
+        android:backgroundTint="#F7F6F0"
+        android:fontFamily="@font/inter_semibold"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:text="@string/get_started"
+        android:textColor="#2B3A72"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:cornerRadius="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="VisualLintButtonSize" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

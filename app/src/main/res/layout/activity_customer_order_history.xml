@@ -5,8 +5,7 @@
     android:id="@+id/customerOrderHistoryRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/seal_cream"
-    tools:context=".CustomerOrderHistoryActivity">
+    >
 
     <TextView
         android:id="@+id/customerOrderHistoryTitleText"
@@ -15,13 +14,32 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="34dp"
         android:layout_marginEnd="24dp"
-        android:fontFamily="sans-serif-black"
-        android:text="Customer Order History"
+        android:fontFamily="sans-serif"
+        android:textStyle="bold"
+        android:text="@string/customer_order_history_employee"
         android:textColor="@color/seal_text_primary"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/customerHistorySearchInput"
+        style="@style/SealCoffeeEditText"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:hint="@string/search_customer_history"
+        android:importantForAutofill="no"
+        android:inputType="text"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:singleLine="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/customerOrderHistoryTitleText" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/customerOrderHistoryRecyclerView"
@@ -33,6 +51,21 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/customerOrderHistoryTitleText"
+        app:layout_constraintTop_toBottomOf="@id/customerHistorySearchInput"
         tools:listitem="@layout/item_customer_order_history_employee" />
+
+    <TextView
+        android:id="@+id/customerHistoryEmptyText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="32dp"
+        android:gravity="center"
+        android:text="@string/no_customer_history"
+        android:textColor="@color/seal_text_secondary"
+        android:textSize="16sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/customerHistorySearchInput" />
 </androidx.constraintlayout.widget.ConstraintLayout>

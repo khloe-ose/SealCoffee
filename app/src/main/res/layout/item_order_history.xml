@@ -20,7 +20,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:fontFamily="sans-serif-bold"
+            android:fontFamily="sans-serif"
             android:textColor="@color/seal_text_primary"
             android:textSize="17sp" />
 
@@ -28,7 +28,7 @@
             android:id="@+id/historyStatusText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_chip"
+            android:background="@drawable/bg_chip_selected"
             android:fontFamily="sans-serif-medium"
             android:gravity="center"
             android:textColor="@color/seal_success"
@@ -56,7 +56,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:fontFamily="sans-serif-bold"
+        android:fontFamily="sans-serif"
         android:textColor="@color/seal_navy"
         android:textSize="16sp" />
 </LinearLayout>

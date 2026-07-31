@@ -5,7 +5,6 @@
     android:id="@+id/customerMenuRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/seal_cream"
     tools:context=".CustomerMenuActivity">
 
     <TextView
@@ -13,10 +12,11 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="34dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="24dp"
-        android:fontFamily="sans-serif-black"
-        android:text="Menu"
+        android:fontFamily="@font/inter"
+        android:textStyle="bold"
+        android:text="@string/menu"
         android:textColor="@color/seal_text_primary"
         android:textSize="34sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -30,9 +30,11 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="6dp"
         android:layout_marginEnd="24dp"
-        android:text="Choose your cafe favorites"
+        android:fontFamily="@font/inter"
+        android:text="@string/pick_your_perfect_brew_to_start_the_day"
         android:textColor="@color/seal_text_secondary"
         android:textSize="15sp"
+        android:textStyle="italic"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/menuTitleText" />
@@ -51,6 +53,7 @@
         app:layout_constraintTop_toBottomOf="@id/menuSubtitleText">
 
         <LinearLayout
+            style="?android:attr/buttonBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
@@ -58,62 +61,72 @@
 
             <Button
                 android:id="@+id/filterAllButton"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
+                android:layout_height="48dp"
                 android:background="@drawable/bg_chip_selected"
+                android:minWidth="48dp"
+                android:minHeight="0dp"
+                android:text="@string/all"
+                android:textAllCaps="false"
+                android:textColor="@color/seal_navy"
+                app:backgroundTint="@null" />
+
+            <Button
+                android:id="@+id/filterCoffeeButton"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/bg_chip"
+                app:backgroundTint="@null"
                 android:minWidth="0dp"
                 android:minHeight="0dp"
-                android:text="All"
+                android:text="@string/coffee"
                 android:textAllCaps="false"
                 android:textColor="@color/white" />
 
             <Button
-                android:id="@+id/filterCoffeeButton"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_marginStart="8dp"
-                android:background="@drawable/bg_chip"
-                android:minWidth="0dp"
-                android:minHeight="0dp"
-                android:text="Coffee"
-                android:textAllCaps="false"
-                android:textColor="@color/seal_navy" />
-
-            <Button
                 android:id="@+id/filterNonCoffeeButton"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
+                android:layout_height="48dp"
                 android:layout_marginStart="8dp"
                 android:background="@drawable/bg_chip"
+                app:backgroundTint="@null"
                 android:minWidth="0dp"
                 android:minHeight="0dp"
-                android:text="Non-Coffee"
+                android:text="@string/non_coffee"
                 android:textAllCaps="false"
-                android:textColor="@color/seal_navy" />
+                android:textColor="@color/white" />
 
             <Button
                 android:id="@+id/filterSnacksButton"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
+                android:layout_height="48dp"
                 android:layout_marginStart="8dp"
                 android:background="@drawable/bg_chip"
+                app:backgroundTint="@null"
                 android:minWidth="0dp"
                 android:minHeight="0dp"
-                android:text="Snacks"
+                android:text="@string/snacks"
                 android:textAllCaps="false"
-                android:textColor="@color/seal_navy" />
+                android:textColor="@color/white" />
 
             <Button
                 android:id="@+id/filterDessertsButton"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
+                android:layout_height="48dp"
                 android:layout_marginStart="8dp"
                 android:background="@drawable/bg_chip"
+                app:backgroundTint="@null"
                 android:minWidth="0dp"
                 android:minHeight="0dp"
-                android:text="Desserts"
+                android:text="@string/desserts"
                 android:textAllCaps="false"
-                android:textColor="@color/seal_navy" />
+                android:textColor="@color/white" />
         </LinearLayout>
     </HorizontalScrollView>
 
@@ -129,6 +142,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/filterScrollView"
         tools:listitem="@layout/item_menu_product" />
+
+    <TextView
+        android:id="@+id/menuEmptyText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="32dp"
+        android:gravity="center"
+        android:text="@string/no_menu_items"
+        android:textColor="@color/seal_text_secondary"
+        android:textSize="16sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/customerNavigation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/filterScrollView" />
 
     <include
         android:id="@+id/customerNavigation"

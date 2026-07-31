@@ -1,37 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/seal_surface"
-    android:orientation="vertical"
-    android:padding="24dp">
+    android:fillViewport="true">
 
-    <EditText
-        android:id="@+id/menuEditorNameInput"
-        style="@style/SealCoffeeEditText"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:hint="Item Name"
-        android:inputType="textCapWords"
-        android:singleLine="true" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
 
-    <EditText
-        android:id="@+id/menuEditorCategoryInput"
-        style="@style/SealCoffeeEditText"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_marginTop="12dp"
-        android:hint="Category"
-        android:inputType="textCapWords"
-        android:singleLine="true" />
+        <EditText
+            android:id="@+id/menuEditorNameInput"
+            style="@style/SealCoffeeEditText"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:hint="@string/item_name"
+            android:importantForAutofill="no"
+            android:inputType="textCapWords"
+            android:maxLength="60"
+            android:paddingStart="14dp"
+            android:paddingEnd="14dp" />
 
-    <EditText
-        android:id="@+id/menuEditorPriceInput"
-        style="@style/SealCoffeeEditText"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_marginTop="12dp"
-        android:hint="Price"
-        android:inputType="numberDecimal"
-        android:singleLine="true" />
-</LinearLayout>
+        <Spinner
+            android:id="@+id/menuEditorCategorySpinner"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/bg_input_rounded"
+            android:contentDescription="@string/category"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp" />
+
+        <EditText
+            android:id="@+id/menuEditorDescriptionInput"
+            style="@style/SealCoffeeEditText"
+            android:layout_width="match_parent"
+            android:layout_height="88dp"
+            android:layout_marginTop="12dp"
+            android:gravity="top"
+            android:hint="@string/description"
+            android:importantForAutofill="no"
+            android:inputType="textCapSentences|textMultiLine"
+            android:maxLength="300"
+            android:padding="14dp" />
+
+        <EditText
+            android:id="@+id/menuEditorIngredientsInput"
+            style="@style/SealCoffeeEditText"
+            android:layout_width="match_parent"
+            android:layout_height="72dp"
+            android:layout_marginTop="12dp"
+            android:gravity="top"
+            android:hint="@string/ingredients_comma_separated"
+            android:importantForAutofill="no"
+            android:inputType="textCapSentences|textMultiLine"
+            android:maxLength="300"
+            android:padding="14dp" />
+
+        <EditText
+            android:id="@+id/menuEditorPriceInput"
+            style="@style/SealCoffeeEditText"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="12dp"
+            android:hint="@string/price_php"
+            android:importantForAutofill="no"
+            android:inputType="numberDecimal"
+            android:paddingStart="14dp"
+            android:paddingEnd="14dp" />
+
+        <CheckBox
+            android:id="@+id/menuEditorAvailableCheckBox"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/available_to_customers" />
+    </LinearLayout>
+</ScrollView>
