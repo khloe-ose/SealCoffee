@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     style="@style/SealCoffeeCard"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -66,16 +67,16 @@
 
         <ImageButton
             android:id="@+id/cartDecreaseButton"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:background="@android:color/transparent"
             android:contentDescription="@string/content_description_decrease_quantity"
-            android:padding="8dp"
+            android:scaleType="fitCenter"
             android:src="@drawable/ic_decrease_btn" />
 
         <TextView
             android:id="@+id/cartItemQuantityText"
-            android:layout_width="40dp"
+            android:layout_width="36dp"
             android:layout_height="40dp"
             android:gravity="center"
             android:textColor="@color/seal_text_primary"
@@ -83,11 +84,11 @@
 
         <ImageButton
             android:id="@+id/cartIncreaseButton"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:background="@android:color/transparent"
             android:contentDescription="@string/content_description_increase_quantity"
-            android:padding="8dp"
+            android:scaleType="fitCenter"
             android:src="@drawable/ic_increase_btn" />
     </LinearLayout>
 

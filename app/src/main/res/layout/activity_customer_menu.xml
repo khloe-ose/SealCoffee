@@ -2,34 +2,55 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/customerMenuRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".CustomerMenuActivity">
 
     <TextView
         android:id="@+id/menuTitleText"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="Menu"
-        android:textSize="28sp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="24dp"
+        android:fontFamily="@font/inter"
+        android:text="@string/menu"
+        android:textColor="@color/seal_text_primary"
+        android:textSize="34sp"
         android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/menuSubtitleText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="24dp"
+        android:fontFamily="@font/inter"
+        android:text="@string/pick_your_perfect_brew_to_start_the_day"
+        android:textColor="@color/seal_text_secondary"
+        android:textSize="15sp"
+        android:textStyle="italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/menuTitleText" />
 
     <HorizontalScrollView
         android:id="@+id/filterScrollView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
+        android:layout_marginTop="16dp"
         android:clipToPadding="false"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
         android:scrollbars="none"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/menuTitleText">
+        app:layout_constraintTop_toBottomOf="@id/menuSubtitleText">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -42,18 +63,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
+                app:cardBackgroundColor="@color/seal_navy"
                 app:cardCornerRadius="20dp"
-                app:cardElevation="0dp"
-                app:cardBackgroundColor="#1E3A8A">
+                app:cardElevation="0dp">
+
                 <TextView
                     android:id="@+id/filterAll"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingHorizontal="16dp"
                     android:paddingVertical="8dp"
-                    android:text="All"
-                    android:textColor="#FFFFFF"
-                    />
+                    android:text="@string/all"
+                    android:textColor="#FFFFFF" />
             </androidx.cardview.widget.CardView>
 
             <!-- Coffee Chip -->
@@ -62,16 +83,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
+                app:cardBackgroundColor="#E5E7EB"
                 app:cardCornerRadius="20dp"
-                app:cardElevation="0dp"
-                app:cardBackgroundColor="#E5E7EB">
+                app:cardElevation="0dp">
+
                 <TextView
                     android:id="@+id/filterCoffee"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingHorizontal="16dp"
                     android:paddingVertical="8dp"
-                    android:text="Coffee"
+                    android:text="@string/coffee"
                     android:textColor="#374151" />
             </androidx.cardview.widget.CardView>
 
@@ -81,16 +103,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
+                app:cardBackgroundColor="#E5E7EB"
                 app:cardCornerRadius="20dp"
-                app:cardElevation="0dp"
-                app:cardBackgroundColor="#E5E7EB">
+                app:cardElevation="0dp">
+
                 <TextView
                     android:id="@+id/filterNonCoffee"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingHorizontal="16dp"
                     android:paddingVertical="8dp"
-                    android:text="Non-Coffee"
+                    android:text="@string/non_coffee"
                     android:textColor="#374151" />
             </androidx.cardview.widget.CardView>
 
@@ -100,16 +123,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
+                app:cardBackgroundColor="#E5E7EB"
                 app:cardCornerRadius="20dp"
-                app:cardElevation="0dp"
-                app:cardBackgroundColor="#E5E7EB">
+                app:cardElevation="0dp">
+
                 <TextView
                     android:id="@+id/filterSnacks"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingHorizontal="16dp"
                     android:paddingVertical="8dp"
-                    android:text="Snacks"
+                    android:text="@string/snacks"
                     android:textColor="#374151" />
             </androidx.cardview.widget.CardView>
 
@@ -118,16 +142,17 @@
                 android:id="@+id/cardFilterDesserts"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                app:cardBackgroundColor="#E5E7EB"
                 app:cardCornerRadius="20dp"
-                app:cardElevation="0dp"
-                app:cardBackgroundColor="#E5E7EB">
+                app:cardElevation="0dp">
+
                 <TextView
                     android:id="@+id/filterDesserts"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingHorizontal="16dp"
                     android:paddingVertical="8dp"
-                    android:text="Desserts"
+                    android:text="@string/desserts"
                     android:textColor="#374151" />
             </androidx.cardview.widget.CardView>
 
@@ -138,9 +163,10 @@
         android:id="@+id/menuEmptyText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="32dp"
         android:gravity="center"
-        android:text="Loading menu items..."
+        android:text="@string/loading_message"
+        android:textColor="@color/seal_text_secondary"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -151,6 +177,8 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="12dp"
+        android:clipToPadding="false"
+        android:paddingBottom="12dp"
         app:layout_constraintBottom_toTopOf="@id/customerNavigation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
