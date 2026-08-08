@@ -7,154 +7,203 @@ import android.widget.RadioGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
-import com.mobdeve.s15.group4.sealcoffee.data.StringListCodec
-import com.mobdeve.s15.group4.sealcoffee.data.local.OrderWithDetails
-import com.mobdeve.s15.group4.sealcoffee.domain.OrderStatus
-import com.mobdeve.s15.group4.sealcoffee.domain.UserRole
-import kotlinx.coroutines.launch
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
-/**
- * Shared order detail surface. Customers can only load their own orders; employee-only
- * status controls are hidden for customer sessions.
- */
 class EmployeeOrderDetailsActivity : AppCompatActivity() {
-    private var details: OrderWithDetails? = null
+    private val db = FirebaseFirestore.getInstance()
+    private val auth = FirebaseAuth.getInstance()
+
     private lateinit var statusGroup: RadioGroup
     private lateinit var applyButton: Button
-    private val isEmployee: Boolean get() = sealApp.session.role == UserRole.EMPLOYEE
+    private var orderDocumentId: String? = null
+    private var isEmployeeUser = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (!AuthNavigation.requireAuthenticated(this)) return
-        setContentView(R.layout.activity_employee_order_details)
-        statusGroup = findViewById(R.id.employeeStatusRadioGroup)
-        applyButton = findViewById(R.id.applyStatusButton)
-        statusGroup.visibility = if (isEmployee) View.VISIBLE else View.GONE
-        applyButton.visibility = if (isEmployee) View.VISIBLE else View.GONE
-        applyButton.setOnClickListener { applyStatus() }
-    }
 
-    override fun onResume() {
-        super.onResume()
-        if (!::statusGroup.isInitialized) return
-        loadOrder()
+        AuthNavigation.requireRole(this, "employee") { isAuthorized ->
+            if (!isAuthorized) return@requireRole
+
+            isEmployeeUser = true
+
+            setContentView(R.layout.activity_employee_order_details)
+            statusGroup = findViewById(R.id.employeeStatusRadioGroup)
+            applyButton = findViewById(R.id.applyStatusButton)
+
+            orderDocumentId = intent.getStringExtra(EXTRA_ORDER_NUMBER) ?: intent.getStringExtra(EXTRA_ORDER_ID)
+
+            val currentUser = auth.currentUser
+            if (currentUser == null) {
+                Toast.makeText(this, "Not authenticated", Toast.LENGTH_SHORT).show()
+                finish()
+                return@requireRole
+            }
+
+            statusGroup.visibility = View.VISIBLE
+            applyButton.visibility = View.VISIBLE
+            applyButton.setOnClickListener { applyStatus() }
+
+            loadOrder()
+        }
     }
 
     private fun loadOrder() {
-        lifecycleScope.launch {
-            val orderId = intent.getLongExtra(EXTRA_ORDER_ID, 0L)
-            val loaded = sealApp.repository.getOrder(orderId)
-            if (loaded == null) {
-                Toast.makeText(this@EmployeeOrderDetailsActivity, R.string.order_not_found, Toast.LENGTH_LONG).show()
-                finish()
-                return@launch
-            }
-            if (
-                sealApp.session.role == UserRole.CUSTOMER &&
-                loaded.order.customerId != sealApp.session.userId
-            ) {
-                Toast.makeText(this@EmployeeOrderDetailsActivity, R.string.order_access_denied, Toast.LENGTH_LONG).show()
-                finish()
-                return@launch
-            }
-            details = loaded
-            render(loaded)
-        }
-    }
+        val targetId = orderDocumentId ?: return
 
-    private fun render(details: OrderWithDetails) {
-        val order = details.order
-        val status = OrderStatus.fromStorage(order.status) ?: OrderStatus.PENDING
-        findViewById<TextView>(R.id.employeeDetailsOrderIdText).text = order.orderNumber
-        findViewById<TextView>(R.id.employeeDetailsCustomerText).text = getString(
-            R.string.customer_contact_summary,
-            details.customer.fullName,
-            details.customer.contactNumber,
-            details.customer.email
-        )
-        findViewById<TextView>(R.id.employeeDetailsTimeText).text = order.placedAt.formatDateTime()
-        findViewById<TextView>(R.id.employeeDetailsPaymentText).text = getString(
-            R.string.payment_summary,
-            order.orderType,
-            order.paymentLabel
-        )
-        findViewById<TextView>(R.id.employeeDetailsStatusText).apply {
-            text = getString(R.string.current_status, status.label)
-            setTextColor(getColor(status.statusColor()))
-        }
-        findViewById<TextView>(R.id.employeeDetailsItemsText).text =
-            details.items.joinToString("\n\n") { item ->
-                buildString {
-                    append(
-                        getString(
-                            R.string.order_item_quantity_name_size,
-                            item.quantity,
-                            item.itemNameSnapshot,
-                            item.sizeSnapshot
-                        )
-                    )
-                    val addOns = StringListCodec.decode(item.addOnsSnapshotCsv)
-                    if (addOns.isNotEmpty()) {
-                        append(getString(R.string.order_add_ons_line, addOns.joinToString()))
-                    }
-                    if (item.notesSnapshot.isNotBlank()) {
-                        append(getString(R.string.order_notes_line, item.notesSnapshot))
-                    }
-                    append(getString(R.string.order_line_amount, item.lineTotalCentavos.formatMoney()))
+        db.collection("orders").document(targetId).get()
+            .addOnSuccessListener { doc ->
+                if (doc.exists()) {
+                    validateAndRender(doc.id, doc.data)
+                } else {
+                    db.collection("orders").whereEqualTo("orderNumber", targetId).get()
+                        .addOnSuccessListener { querySnapshot ->
+                            if (!querySnapshot.isEmpty) {
+                                val matchDoc = querySnapshot.documents[0]
+                                validateAndRender(matchDoc.id, matchDoc.data)
+                            } else {
+                                Toast.makeText(this, R.string.order_not_found, Toast.LENGTH_LONG).show()
+                                finish()
+                            }
+                        }
+                        .addOnFailureListener {
+                            Toast.makeText(this, R.string.order_not_found, Toast.LENGTH_LONG).show()
+                            finish()
+                        }
                 }
             }
-        findViewById<TextView>(R.id.employeeDetailsSubtotalText).text =
-            getString(R.string.subtotal_value, order.subtotalCentavos.formatMoney())
-        findViewById<TextView>(R.id.employeeDetailsTotalText).text =
-            getString(R.string.total_value, order.totalCentavos.formatMoney())
-        statusGroup.check(
-            when (status) {
-                OrderStatus.PENDING -> R.id.statusPendingRadio
-                OrderStatus.PREPARING -> R.id.statusPreparingRadio
-                OrderStatus.READY_FOR_PICKUP -> R.id.statusReadyRadio
-                OrderStatus.COMPLETED -> R.id.statusCompletedRadio
-                OrderStatus.DELAYED -> R.id.statusDelayedRadio
+            .addOnFailureListener {
+                Toast.makeText(this, "Failed to load order", Toast.LENGTH_SHORT).show()
             }
-        )
-        val editable = isEmployee && status != OrderStatus.COMPLETED
-        for (index in 0 until statusGroup.childCount) {
-            statusGroup.getChildAt(index).isEnabled = editable
+    }
+
+    private fun validateAndRender(docId: String, data: Map<String, Any>?) {
+        if (data == null) {
+            Toast.makeText(this, R.string.order_not_found, Toast.LENGTH_LONG).show()
+            finish()
+            return
         }
-        if (isEmployee) {
-            applyButton.isEnabled = editable
-            applyButton.text = getString(
-                if (editable) R.string.apply_status else R.string.completed_order_final
-            )
+
+        orderDocumentId = docId
+        render(data)
+    }
+
+    private fun render(order: Map<String, Any>) {
+        val orderNum = order["orderNumber"] as? String ?: ""
+        val customerName = order["customerName"] as? String ?: "Customer"
+        val customerContact = order["customerContact"] as? String ?: ""
+        val customerEmail = order["customerEmail"] as? String ?: ""
+        val status = (order["status"] as? String ?: "PENDING").uppercase()
+        val orderType = order["orderType"] as? String ?: "Pickup"
+        val paymentLabel = order["paymentLabel"] as? String ?: "Cash"
+        val subtotal = (order["subtotalCentavos"] as? Number)?.toLong() ?: 0L
+        val total = (order["totalCentavos"] as? Number)?.toLong() ?: 0L
+
+        val placedAtLong = when (val placedAtTime = order["placedAt"]) {
+            is com.google.firebase.Timestamp -> placedAtTime.toDate().time
+            is Number -> placedAtTime.toLong()
+            else -> System.currentTimeMillis()
+        }
+
+        findViewById<TextView>(R.id.employeeDetailsOrderIdText).text = orderNum
+
+        val customerSummary = if (customerContact.isNotBlank() || customerEmail.isNotBlank()) {
+            getString(R.string.customer_contact_summary, customerName, customerContact, customerEmail)
+        } else {
+            customerName
+        }
+        findViewById<TextView>(R.id.employeeDetailsCustomerText).text = customerSummary
+
+        findViewById<TextView>(R.id.employeeDetailsTimeText).text = android.text.format.DateFormat.format("yyyy-MM-dd HH:mm", placedAtLong)
+        findViewById<TextView>(R.id.employeeDetailsPaymentText).text = getString(R.string.payment_summary, orderType, paymentLabel)
+
+        val statusLabel = when (status) {
+            "PENDING" -> "Pending"
+            "PREPARING" -> "Preparing"
+            "READY_FOR_PICKUP" -> "Ready for Pickup"
+            "COMPLETED" -> "Completed"
+            "DELAYED" -> "Delayed"
+            else -> status
+        }
+        findViewById<TextView>(R.id.employeeDetailsStatusText).text = getString(R.string.current_status, statusLabel)
+
+        @Suppress("UNCHECKED_CAST")
+        val items = order["items"] as? List<Map<String, Any>> ?: emptyList()
+        val itemsStr = items.joinToString("\n\n") { item ->
+            buildString {
+                val qty = (item["quantity"] as? Number)?.toInt() ?: 1
+                val name = item["name"] as? String ?: item["itemName"] as? String ?: item["itemNameSnapshot"] as? String ?: "Item"
+                val size = item["size"] as? String ?: item["sizeSnapshot"] as? String ?: ""
+                append("• $name (×$qty)")
+                if (size.isNotBlank()) {
+                    append("\n  Size: $size")
+                }
+                @Suppress("UNCHECKED_CAST")
+                val addOns = item["addOns"] as? List<String> ?: emptyList()
+                if (addOns.isNotEmpty()) {
+                    append("\n  Add-ons: ${addOns.joinToString()}")
+                }
+                val notes = item["notes"] as? String ?: item["notesSnapshot"] as? String ?: ""
+                if (notes.isNotBlank()) {
+                    append("\n  Note: \"$notes\"")
+                }
+                val lineTotal = (item["totalPriceCentavos"] as? Number)?.toLong() ?: (item["lineTotalCentavos"] as? Number)?.toLong() ?: 0L
+                append("\n  Price: ₱%.2f".format(lineTotal / 100.0))
+            }
+        }
+
+        findViewById<TextView>(R.id.employeeDetailsItemsText).text = itemsStr
+        findViewById<TextView>(R.id.employeeDetailsSubtotalText).text = getString(R.string.subtotal_value, "₱%.2f".format(subtotal / 100.0))
+        findViewById<TextView>(R.id.employeeDetailsTotalText).text = getString(R.string.total_value, "₱%.2f".format(total / 100.0))
+
+        when (status) {
+            "PENDING" -> statusGroup.check(R.id.statusPendingRadio)
+            "PREPARING" -> statusGroup.check(R.id.statusPreparingRadio)
+            "READY_FOR_PICKUP" -> statusGroup.check(R.id.statusReadyRadio)
+            "COMPLETED" -> statusGroup.check(R.id.statusCompletedRadio)
+            "DELAYED" -> statusGroup.check(R.id.statusDelayedRadio)
+        }
+
+        if (status == "COMPLETED") {
+            statusGroup.visibility = View.GONE
+            applyButton.visibility = View.GONE
+        } else {
+            statusGroup.visibility = View.VISIBLE
+            applyButton.visibility = View.VISIBLE
+
+            for (i in 0 until statusGroup.childCount) {
+                statusGroup.getChildAt(i).isEnabled = true
+            }
+            applyButton.isEnabled = true
+            applyButton.text = getString(R.string.apply_status)
         }
     }
 
     private fun applyStatus() {
-        val order = details ?: return
-        val status = when (statusGroup.checkedRadioButtonId) {
-            R.id.statusPreparingRadio -> OrderStatus.PREPARING
-            R.id.statusReadyRadio -> OrderStatus.READY_FOR_PICKUP
-            R.id.statusCompletedRadio -> OrderStatus.COMPLETED
-            R.id.statusDelayedRadio -> OrderStatus.DELAYED
-            else -> OrderStatus.PENDING
+        val targetId = orderDocumentId ?: return
+        val newStatus = when (statusGroup.checkedRadioButtonId) {
+            R.id.statusPreparingRadio -> "PREPARING"
+            R.id.statusReadyRadio -> "READY_FOR_PICKUP"
+            R.id.statusCompletedRadio -> "COMPLETED"
+            R.id.statusDelayedRadio -> "DELAYED"
+            else -> "PENDING"
         }
+
         applyButton.isEnabled = false
-        lifecycleScope.launch {
-            if (sealApp.repository.updateOrderStatus(order.order.id, status)) {
-                Toast.makeText(
-                    this@EmployeeOrderDetailsActivity,
-                    getString(R.string.order_marked_status, order.order.orderNumber, status.label),
-                    Toast.LENGTH_SHORT
-                ).show()
+        db.collection("orders").document(targetId)
+            .update("status", newStatus)
+            .addOnSuccessListener {
+                Toast.makeText(this, getString(R.string.order_marked_status, targetId, newStatus), Toast.LENGTH_SHORT).show()
                 loadOrder()
-            } else {
-                Toast.makeText(this@EmployeeOrderDetailsActivity, R.string.status_update_failed, Toast.LENGTH_LONG).show()
             }
-            applyButton.isEnabled = true
-        }
+            .addOnFailureListener {
+                Toast.makeText(this, R.string.status_update_failed, Toast.LENGTH_LONG).show()
+                applyButton.isEnabled = true
+            }
     }
 
     companion object {
+        const val EXTRA_ORDER_NUMBER = "extra_order_number"
         const val EXTRA_ORDER_ID = "extra_order_id"
     }
 }

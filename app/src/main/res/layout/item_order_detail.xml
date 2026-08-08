@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clipChildren="false"
+    android:orientation="vertical"
+    android:paddingVertical="12dp">
+
+    <!-- Item Name & Quantity -->
+    <TextView
+        android:id="@+id/itemDetailNameText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/inter_semibold"
+        android:textColor="@color/seal_text_primary"
+        android:textSize="14sp" />
+
+    <!-- Size -->
+    <TextView
+        android:id="@+id/itemDetailSizeText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="2dp"
+        android:fontFamily="@font/inter"
+        android:textColor="@color/seal_text_secondary"
+        android:textSize="13sp"
+        android:visibility="gone" />
+
+    <!-- Add-ons -->
+    <TextView
+        android:id="@+id/itemDetailAddOnsText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="2dp"
+        android:fontFamily="@font/inter"
+        android:textColor="@color/seal_text_secondary"
+        android:textSize="13sp"
+        android:visibility="gone" />
+
+    <!-- Notes -->
+    <TextView
+        android:id="@+id/itemDetailNoteText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="2dp"
+        android:fontFamily="@font/inter"
+        android:textColor="@color/seal_text_secondary"
+        android:textSize="13sp"
+        android:visibility="gone" />
+
+    <!-- Price -->
+    <TextView
+        android:id="@+id/itemDetailPriceText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/inter_medium"
+        android:textColor="@color/seal_text_primary"
+        android:textSize="13sp" />
+
+    <!-- Divider -->
+    <View
+        android:id="@+id/itemDetailDivider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="12dp"
+        android:background="#E5E7EB" />
+</LinearLayout>

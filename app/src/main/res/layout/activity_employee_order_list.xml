@@ -4,21 +4,35 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/employeeOrderListRoot"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:ignore="ButtonStyle">
+
+    <ImageButton
+        android:id="@+id/employeeOrderBackButton"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/back"
+        android:src="@drawable/ic_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/seal_text_primary" />
 
     <TextView
         android:id="@+id/employeeOrderListTitleText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="34dp"
+        android:layout_marginStart="0dp"
         android:layout_marginEnd="24dp"
-        android:fontFamily="sans-serif-black"
+        android:fontFamily="@font/inter_bold"
         android:textColor="@color/seal_text_primary"
-        android:textSize="32sp"
+        android:textSize="26sp"
+        app:layout_constraintBottom_toBottomOf="@id/employeeOrderBackButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/employeeOrderBackButton"
+        app:layout_constraintTop_toTopOf="@id/employeeOrderBackButton"
         tools:text="Incoming Orders" />
 
     <TextView
@@ -26,21 +40,22 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="6dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="24dp"
+        android:fontFamily="@font/inter"
         android:textColor="@color/seal_text_secondary"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/employeeOrderListTitleText"
+        app:layout_constraintTop_toBottomOf="@id/employeeOrderBackButton"
         tools:text="New and in-progress orders" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/employeeOrderRecyclerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginTop="12dp"
         android:clipToPadding="false"
-        android:paddingTop="18dp"
         android:paddingBottom="18dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -53,6 +68,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="32dp"
+        android:fontFamily="@font/inter"
         android:gravity="center"
         android:text="@string/no_orders_in_queue"
         android:textColor="@color/seal_text_secondary"

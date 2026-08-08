@@ -1,6 +1,5 @@
 package com.mobdeve.s15.group4.sealcoffee
 
-import com.mobdeve.s15.group4.sealcoffee.domain.OrderStatus
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -22,6 +21,10 @@ object ImageCatalog {
     }
 }
 
+fun Int.formatMoney(): String =
+    NumberFormat.getCurrencyInstance(Locale.forLanguageTag("en-PH"))
+        .format(BigDecimal.valueOf(this.toLong()).movePointLeft(2))
+
 fun Long.formatMoney(): String =
     NumberFormat.getCurrencyInstance(Locale.forLanguageTag("en-PH"))
         .format(BigDecimal.valueOf(this).movePointLeft(2))
@@ -32,10 +35,3 @@ fun Long.formatDateTime(): String =
 fun String.initials(): String =
     trim().split(Regex("\\s+")).filter(String::isNotEmpty).take(2)
         .joinToString("") { it.take(1).uppercase(Locale.getDefault()) }
-
-fun OrderStatus.statusColor(): Int = when (this) {
-    OrderStatus.COMPLETED, OrderStatus.READY_FOR_PICKUP -> R.color.seal_success
-    OrderStatus.DELAYED -> R.color.seal_error
-    OrderStatus.PREPARING -> R.color.seal_warning
-    OrderStatus.PENDING -> R.color.seal_navy
-}

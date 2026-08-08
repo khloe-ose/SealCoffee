@@ -7,13 +7,14 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.mobdeve.s15.group4.sealcoffee.data.local.MenuItemEntity
+import java.text.NumberFormat
+import java.util.Locale
 
 class ManageMenuAdapter(
-    private val onEdit: (MenuItemEntity) -> Unit,
-    private val onRemove: (MenuItemEntity) -> Unit,
-    private val onToggle: (MenuItemEntity) -> Unit
-) : ListAdapter<MenuItemEntity, ManageMenuAdapter.ManageMenuViewHolder>(DiffCallback) {
+    private val onEdit: (FirestoreMenuItem) -> Unit,
+    private val onRemove: (FirestoreMenuItem) -> Unit,
+    private val onToggle: (FirestoreMenuItem) -> Unit
+) : ListAdapter<FirestoreMenuItem, ManageMenuAdapter.ManageMenuViewHolder>(DiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ManageMenuViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_manage_menu, parent, false)
@@ -34,14 +35,18 @@ class ManageMenuAdapter(
         private val toggleButton = itemView.findViewById<TextView>(R.id.manageMenuToggleButton)
 
         fun bind(
-            item: MenuItemEntity,
-            onEdit: (MenuItemEntity) -> Unit,
-            onRemove: (MenuItemEntity) -> Unit,
-            onToggle: (MenuItemEntity) -> Unit
+            item: FirestoreMenuItem,
+            onEdit: (FirestoreMenuItem) -> Unit,
+            onRemove: (FirestoreMenuItem) -> Unit,
+            onToggle: (FirestoreMenuItem) -> Unit
         ) {
             nameText.text = item.name
             categoryText.text = item.category
-            priceText.text = item.basePriceCentavos.formatMoney()
+
+            val formattedMoney = NumberFormat.getCurrencyInstance(Locale("en", "PH"))
+                .format(item.basePriceCentavos / 100.0)
+            priceText.text = formattedMoney
+
             availabilityText.text = itemView.context.getString(
                 if (item.available) R.string.available else R.string.unavailable
             )
@@ -57,11 +62,11 @@ class ManageMenuAdapter(
         }
     }
 
-    private object DiffCallback : DiffUtil.ItemCallback<MenuItemEntity>() {
-        override fun areItemsTheSame(oldItem: MenuItemEntity, newItem: MenuItemEntity) =
+    private object DiffCallback : DiffUtil.ItemCallback<FirestoreMenuItem>() {
+        override fun areItemsTheSame(oldItem: FirestoreMenuItem, newItem: FirestoreMenuItem) =
             oldItem.id == newItem.id
 
-        override fun areContentsTheSame(oldItem: MenuItemEntity, newItem: MenuItemEntity) =
+        override fun areContentsTheSame(oldItem: FirestoreMenuItem, newItem: FirestoreMenuItem) =
             oldItem == newItem
     }
 }

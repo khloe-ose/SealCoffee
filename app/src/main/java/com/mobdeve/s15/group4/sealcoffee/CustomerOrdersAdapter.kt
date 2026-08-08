@@ -7,23 +7,65 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.mobdeve.s15.group4.sealcoffee.data.local.OrderWithDetails
-import com.mobdeve.s15.group4.sealcoffee.domain.OrderStatus
+import com.google.firebase.Timestamp
+import java.text.NumberFormat
+import java.text.SimpleDateFormat
+import java.util.Locale
+
+data class FirestoreOrderModel(
+    val id: String = "",
+    val orderNumber: String = "",
+    val orderType: String = "",
+    val status: String = "PENDING",
+    val placedAt: Long = 0L,
+    val totalCentavos: Long = 0L,
+    val items: List<FirestoreOrderItem> = emptyList()
+) {
+    companion object {
+        fun formatMoney(centavos: Long): String {
+            val locale = Locale.Builder().setLanguage("en").setRegion("PH").build()
+            return NumberFormat.getCurrencyInstance(locale)
+                .format(centavos / 100.0)
+        }
+
+        fun formatDate(placedAt: Any?): String {
+            when (placedAt) {
+                is Timestamp -> {
+                    return SimpleDateFormat("MMM dd, yyyy • hh:mm a", Locale.getDefault())
+                        .format(placedAt.toDate())
+                }
+                is Number -> {
+                    return SimpleDateFormat("MMM dd, yyyy • hh:mm a", Locale.getDefault())
+                        .format(java.util.Date(placedAt.toLong()))
+                }
+                else -> return ""
+            }
+        }
+    }
+}
+
+data class FirestoreOrderItem(
+    val name: String = "",
+    val quantity: Int = 1,
+    val size: String? = null,
+    val addOns: List<String> = emptyList(),
+    val notes: String? = null,
+    val totalPriceCentavos: Long = 0L
+)
 
 class CustomerOrdersAdapter(
-    private val onOrderClick: (OrderWithDetails) -> Unit
-) : ListAdapter<OrderWithDetails, RecyclerView.ViewHolder>(DiffCallback) {
+    private val onOrderClick: (FirestoreOrderModel) -> Unit
+) : ListAdapter<FirestoreOrderModel, RecyclerView.ViewHolder>(DiffCallback) {
+
     private companion object {
         const val TYPE_ACTIVE = 1
         const val TYPE_PAST = 2
     }
 
-    override fun getItemViewType(position: Int): Int =
-        if (OrderStatus.fromStorage(getItem(position).order.status) == OrderStatus.COMPLETED) {
-            TYPE_PAST
-        } else {
-            TYPE_ACTIVE
-        }
+    override fun getItemViewType(position: Int): Int {
+        val status = getItem(position).status.uppercase()
+        return if (status == "COMPLETED") TYPE_PAST else TYPE_ACTIVE
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -51,24 +93,28 @@ class CustomerOrdersAdapter(
         private val itemsList: TextView = itemView.findViewById(R.id.currentItemsText)
         private val totalText: TextView = itemView.findViewById(R.id.currentTotalText)
 
-        fun bind(details: OrderWithDetails) {
-            val order = details.order
-            val status = OrderStatus.fromStorage(order.status) ?: OrderStatus.PENDING
+        fun bind(order: FirestoreOrderModel) {
+            val statusUpper = order.status.uppercase()
             orderId.text = order.orderNumber
             orderType.text = order.orderType
-            statusTitle.text = status.label
-            statusTitle.setTextColor(itemView.context.getColor(status.statusColor()))
-            statusDesc.text = itemView.context.getString(
-                when (status) {
-                    OrderStatus.PENDING -> R.string.status_pending_description
-                    OrderStatus.PREPARING -> R.string.status_preparing_description
-                    OrderStatus.READY_FOR_PICKUP -> R.string.status_ready_description
-                    OrderStatus.DELAYED -> R.string.status_delayed_description
-                    OrderStatus.COMPLETED -> R.string.status_completed_description
-                }
-            )
-            itemsList.text = details.items.joinToString { "${it.quantity}× ${it.itemNameSnapshot}" }
-            totalText.text = order.totalCentavos.formatMoney()
+            statusTitle.text = order.status
+
+            val (descRes, colorRes) = when (statusUpper) {
+                "PENDING" -> Pair(R.string.status_pending_description, R.color.seal_navy)
+                "PREPARING" -> Pair(R.string.status_preparing_description, R.color.seal_navy)
+                "READY_FOR_PICKUP" -> Pair(R.string.status_ready_description, R.color.seal_success)
+                "DELAYED" -> Pair(R.string.status_delayed_description, R.color.seal_error)
+                else -> Pair(R.string.status_completed_description, R.color.seal_success)
+            }
+
+            statusTitle.setTextColor(itemView.context.getColor(colorRes))
+            statusDesc.text = itemView.context.getString(descRes)
+
+            itemsList.text = order.items.joinToString(separator = "\n") { item ->
+                val sizeText = if (!item.size.isNullOrBlank()) " (${item.size})" else ""
+                "${item.quantity}× ${item.name}$sizeText"
+            }
+            totalText.text = FirestoreOrderModel.formatMoney(order.totalCentavos)
         }
     }
 
@@ -79,20 +125,23 @@ class CustomerOrdersAdapter(
         private val itemsText: TextView = itemView.findViewById(R.id.historyItemsText)
         private val totalText: TextView = itemView.findViewById(R.id.historyTotalText)
 
-        fun bind(details: OrderWithDetails) {
-            orderId.text = details.order.orderNumber
-            statusText.text = OrderStatus.fromStorage(details.order.status)?.label ?: details.order.status
-            dateText.text = details.order.placedAt.formatDateTime()
-            itemsText.text = details.items.joinToString { "${it.quantity}× ${it.itemNameSnapshot}" }
-            totalText.text = details.order.totalCentavos.formatMoney()
+        fun bind(order: FirestoreOrderModel) {
+            orderId.text = order.orderNumber
+            statusText.text = order.status
+            dateText.text = FirestoreOrderModel.formatDate(order.placedAt)
+            itemsText.text = order.items.joinToString(separator = "\n") { item ->
+                val sizeText = if (!item.size.isNullOrBlank()) " (${item.size})" else ""
+                "${item.quantity}× ${item.name}$sizeText"
+            }
+            totalText.text = FirestoreOrderModel.formatMoney(order.totalCentavos)
         }
     }
 
-    private object DiffCallback : DiffUtil.ItemCallback<OrderWithDetails>() {
-        override fun areItemsTheSame(oldItem: OrderWithDetails, newItem: OrderWithDetails) =
-            oldItem.order.id == newItem.order.id
+    private object DiffCallback : DiffUtil.ItemCallback<FirestoreOrderModel>() {
+        override fun areItemsTheSame(oldItem: FirestoreOrderModel, newItem: FirestoreOrderModel) =
+            oldItem.id == newItem.id
 
-        override fun areContentsTheSame(oldItem: OrderWithDetails, newItem: OrderWithDetails) =
+        override fun areContentsTheSame(oldItem: FirestoreOrderModel, newItem: FirestoreOrderModel) =
             oldItem == newItem
     }
 }

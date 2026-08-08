@@ -1,9 +1,7 @@
+
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.ksp)
-
-        id("com.google.gms.google-services")
-
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -16,7 +14,7 @@ android {
 
     defaultConfig {
         applicationId = "com.mobdeve.s15.group4.sealcoffee"
-        minSdk = 24
+        minSdk = 23
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
@@ -26,18 +24,16 @@ android {
 
     buildTypes {
         release {
-            optimization {
-                enable = false
-            }
+            isMinifyEnabled = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
-    }
-    testOptions {
-        animationsDisabled = true
-        unitTests.isIncludeAndroidResources = true
     }
 }
 
@@ -49,22 +45,14 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.recyclerview)
     implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.room.runtime)
-    implementation(libs.androidx.room.ktx)
     implementation(libs.kotlinx.coroutines.android)
-    ksp(libs.androidx.room.compiler)
     testImplementation(libs.junit)
     testImplementation(libs.kotlinx.coroutines.test)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.room.testing)
     androidTestImplementation(libs.kotlinx.coroutines.test)
     implementation(platform("com.google.firebase:firebase-bom:34.16.0"))
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.firebase:firebase-firestore")
-}
-
-ksp {
-    arg("room.schemaLocation", "$projectDir/schemas")
 }

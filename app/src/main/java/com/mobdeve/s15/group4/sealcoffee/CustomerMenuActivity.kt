@@ -1,6 +1,5 @@
 package com.mobdeve.s15.group4.sealcoffee
 
-import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
@@ -13,70 +12,93 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.mobdeve.s15.group4.sealcoffee.data.local.MenuItemEntity
-import com.mobdeve.s15.group4.sealcoffee.domain.UserRole
+import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.launch
 
 class CustomerMenuActivity : AppCompatActivity() {
     private val menuAdapter = MenuItemAdapter(
-        onItemClick = ::openProductDetails,
+        onItemClick = { item ->
+
+        },
         onItemLongClick = ::showQuickPreview
     )
 
     private lateinit var emptyText: TextView
     private lateinit var filterMap: Map<String, androidx.cardview.widget.CardView>
     private var selectedFilter = "All"
-    private var allItems: List<MenuItemEntity> = emptyList()
+    private var allItems: List<FirestoreMenuItem> = emptyList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (!AuthNavigation.requireRole(this, UserRole.CUSTOMER)) return
-        setContentView(R.layout.activity_customer_menu)
 
-        CustomerNavigation.bind(this, CustomerDestination.MENU)
+        AuthNavigation.requireRole(this, "customer") { isAuthorized ->
+            if (!isAuthorized) return@requireRole
 
-        emptyText = findViewById(R.id.menuEmptyText)
+            setContentView(R.layout.activity_customer_menu)
 
-        findViewById<RecyclerView>(R.id.menuRecyclerView).apply {
-            layoutManager = LinearLayoutManager(this@CustomerMenuActivity)
-            adapter = menuAdapter
-        }
+            CustomerNavigation.bind(this, CustomerDestination.MENU)
 
-        filterMap = mapOf(
-            "All" to findViewById(R.id.cardFilterAll),
-            "Coffee" to findViewById(R.id.cardFilterCoffee),
-            "Non-Coffee" to findViewById(R.id.cardFilterNonCoffee),
-            "Snacks" to findViewById(R.id.cardFilterSnacks),
-            "Desserts" to findViewById(R.id.cardFilterDesserts)
-        )
+            emptyText = findViewById(R.id.menuEmptyText)
 
-        filterMap.forEach { (category, cardView) ->
-            cardView.setOnClickListener {
-                selectedFilter = category
-                updateFilterUI()
-                applyFilterAndSubmit()
+            findViewById<RecyclerView>(R.id.menuRecyclerView).apply {
+                layoutManager = LinearLayoutManager(this@CustomerMenuActivity)
+                adapter = menuAdapter
             }
-        }
 
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                sealApp.repository.observeCustomerMenu().collect { items ->
-                    allItems = items
+            filterMap = mapOf(
+                "All" to findViewById(R.id.cardFilterAll),
+                "Coffee" to findViewById(R.id.cardFilterCoffee),
+                "Non-Coffee" to findViewById(R.id.cardFilterNonCoffee),
+                "Snacks" to findViewById(R.id.cardFilterSnacks),
+                "Desserts" to findViewById(R.id.cardFilterDesserts)
+            )
+
+            filterMap.forEach { (category, cardView) ->
+                cardView.setOnClickListener {
+                    selectedFilter = category
+                    updateFilterUI()
                     applyFilterAndSubmit()
                 }
             }
+
+            lifecycleScope.launch {
+                repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    observeFirestoreMenu().collect { items ->
+                        allItems = items
+                        applyFilterAndSubmit()
+                    }
+                }
+            }
         }
+    }
+
+    private fun observeFirestoreMenu(): Flow<List<FirestoreMenuItem>> = callbackFlow {
+        val db = FirebaseFirestore.getInstance()
+        val listener = db.collection("menu")
+            .whereEqualTo("archived", false)
+            .addSnapshotListener { snapshot, error ->
+                if (error != null) {
+                    close(error)
+                    return@addSnapshotListener
+                }
+                val items = snapshot?.documents?.mapNotNull { doc ->
+                    doc.toObject(FirestoreMenuItem::class.java)?.copy(id = doc.id)
+                } ?: emptyList()
+                trySend(items)
+            }
+        awaitClose { listener.remove() }
     }
 
     private fun updateFilterUI() {
         filterMap.forEach { (category, cardView) ->
             val textView = cardView.getChildAt(0) as? TextView
             if (category == selectedFilter) {
-                // Active state
-                cardView.setCardBackgroundColor(Color.parseColor("#1E3A8A"))
+                cardView.setCardBackgroundColor(getColor(R.color.seal_navy))
                 textView?.setTextColor(Color.WHITE)
             } else {
-                // Inactive state
                 cardView.setCardBackgroundColor(Color.parseColor("#E5E7EB"))
                 textView?.setTextColor(Color.parseColor("#374151"))
             }
@@ -90,8 +112,14 @@ class CustomerMenuActivity : AppCompatActivity() {
             allItems.filter { it.category.equals(selectedFilter, ignoreCase = true) }
         }
 
-        menuAdapter.submitList(filtered)
-        if (filtered.isEmpty()) {
+        val sortedList = filtered.sortedWith(
+            compareByDescending<FirestoreMenuItem> { it.available }
+                .thenBy { it.category }
+                .thenBy { it.name }
+        )
+
+        menuAdapter.submitList(sortedList)
+        if (sortedList.isEmpty()) {
             emptyText.visibility = View.VISIBLE
             emptyText.text = "No items found for '$selectedFilter'."
         } else {
@@ -99,14 +127,7 @@ class CustomerMenuActivity : AppCompatActivity() {
         }
     }
 
-    private fun openProductDetails(item: MenuItemEntity) {
-        startActivity(
-            Intent(this, ProductDetailsActivity::class.java)
-                .putExtra(ProductDetailsActivity.EXTRA_MENU_ITEM_ID, item.id)
-        )
-    }
-
-    private fun showQuickPreview(item: MenuItemEntity) {
+    private fun showQuickPreview(item: FirestoreMenuItem) {
         val dialogView = layoutInflater.inflate(R.layout.dialog_product_preview, null)
         val imageView = dialogView.findViewById<ImageView>(R.id.previewImagePlaceholder)
         imageView.setImageResource(ImageCatalog.resourceFor(item.imageKey))

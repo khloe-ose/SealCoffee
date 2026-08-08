@@ -21,7 +21,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-black"
+            android:fontFamily="@font/inter_bold"
             android:text="@string/employee_dashboard"
             android:textColor="@color/seal_text_primary"
             android:textSize="32sp" />
@@ -79,7 +79,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:fontFamily="sans-serif-black"
+                        android:fontFamily="@font/inter_extrabold"
                         android:textColor="@color/seal_navy"
                         android:textSize="26sp"
                         tools:text="24" />
@@ -116,7 +116,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:fontFamily="sans-serif-black"
+                        android:fontFamily="@font/inter_extrabold"
                         android:textColor="@color/seal_warning"
                         android:textSize="26sp"
                         tools:text="5" />
@@ -160,7 +160,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:fontFamily="sans-serif-black"
+                        android:fontFamily="@font/inter_extrabold"
                         android:textColor="@color/seal_success"
                         android:textSize="26sp"
                         tools:text="18" />
@@ -197,7 +197,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:fontFamily="sans-serif-black"
+                        android:fontFamily="@font/inter_extrabold"
                         android:textColor="@color/seal_error"
                         android:textSize="26sp"
                         tools:text="1" />
@@ -272,3 +272,5 @@
 
     </LinearLayout>
 </ScrollView>
+
+

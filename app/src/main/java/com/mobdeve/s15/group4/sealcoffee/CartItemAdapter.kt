@@ -9,18 +9,15 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.mobdeve.s15.group4.sealcoffee.data.StringListCodec
-import com.mobdeve.s15.group4.sealcoffee.data.local.CartItemWithMenu
-import com.mobdeve.s15.group4.sealcoffee.domain.PricingCalculator
 import java.text.NumberFormat
 
 class CartItemAdapter(
-    private val onDecrease: (CartItemWithMenu) -> Unit,
-    private val onIncrease: (CartItemWithMenu) -> Unit,
-    private val onEdit: (CartItemWithMenu) -> Unit
-) : ListAdapter<CartItemWithMenu, CartItemAdapter.CartItemViewHolder>(DiffCallback) {
+    private val onDecrease: (Map<String, Any>) -> Unit,
+    private val onIncrease: (Map<String, Any>) -> Unit,
+    private val onEdit: (Map<String, Any>) -> Unit
+) : ListAdapter<Map<String, Any>, CartItemAdapter.CartItemViewHolder>(DiffCallback) {
 
-    fun itemAt(position: Int): CartItemWithMenu? = currentList.getOrNull(position)
+    fun itemAt(position: Int): Map<String, Any>? = currentList.getOrNull(position)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CartItemViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_cart_product, parent, false)
@@ -39,49 +36,53 @@ class CartItemAdapter(
         private val increaseButton = itemView.findViewById<ImageButton>(R.id.cartIncreaseButton)
         private val editButton = itemView.findViewById<TextView>(R.id.cartEditButton)
 
-        fun bind(item: CartItemWithMenu) {
-            image.setImageResource(ImageCatalog.resourceFor(item.menuItem.imageKey))
-            image.contentDescription = item.menuItem.name
-            nameText.text = item.menuItem.name
-            val addOns = StringListCodec.decode(item.cartItem.addOnsCsv)
+        fun bind(item: Map<String, Any>) {
+            val itemName = item["name"] as? String ?: "Item"
+            nameText.text = itemName
+
+            val rawImageKey = item["imageKey"] as? String ?: ""
+            val cleanKey = rawImageKey.substringBeforeLast(".").removePrefix("img_")
+            val imageRes = ImageCatalog.resourceFor(cleanKey)
+            image.setImageResource(if (imageRes != 0) imageRes else R.drawable.ic_launcher_foreground)
+            image.contentDescription = itemName
+
+            val size = item["size"] as? String ?: "Regular"
+            @Suppress("UNCHECKED_CAST")
+            val addOns = item["addOns"] as? List<String> ?: emptyList()
+            val notes = item["notes"] as? String ?: ""
+
             metaText.text = buildString {
-                append(item.cartItem.size)
+                append(size)
                 if (addOns.isNotEmpty()) append(" • ${addOns.joinToString()}")
-                if (item.cartItem.notes.isNotBlank()) {
-                    append("\n${itemView.context.getString(R.string.cart_item_notes, item.cartItem.notes)}")
-                }
-                if (!item.menuItem.available || item.menuItem.archived) {
-                    append("\n${itemView.context.getString(R.string.cart_item_unavailable)}")
+                if (notes.isNotBlank()) {
+                    append("\n${itemView.context.getString(R.string.cart_item_notes, notes)}")
                 }
             }
-            metaText.setTextColor(
-                itemView.context.getColor(
-                    if (item.menuItem.available && !item.menuItem.archived) {
-                        R.color.seal_text_secondary
-                    } else {
-                        R.color.seal_error
-                    }
-                )
-            )
-            val unit = PricingCalculator.unitPriceCentavos(
-                item.menuItem.basePriceCentavos,
-                item.menuItem.category,
-                item.cartItem.size,
-                addOns
-            )
-            priceText.text = PricingCalculator.lineTotalCentavos(unit, item.cartItem.quantity).formatMoney()
-            quantityText.text = NumberFormat.getIntegerInstance().format(item.cartItem.quantity)
+            metaText.setTextColor(itemView.context.getColor(R.color.seal_text_secondary))
+
+            val unitPrice = (item["unitPriceCentavos"] as? Number)?.toInt() ?: 0
+            val quantity = (item["quantity"] as? Number)?.toInt() ?: 1
+            val lineTotal = unitPrice * quantity
+
+            priceText.text = lineTotal.formatMoney()
+            quantityText.text = NumberFormat.getIntegerInstance().format(quantity)
+
             decreaseButton.setOnClickListener { onDecrease(item) }
             increaseButton.setOnClickListener { onIncrease(item) }
             editButton.setOnClickListener { onEdit(item) }
         }
     }
 
-    private object DiffCallback : DiffUtil.ItemCallback<CartItemWithMenu>() {
-        override fun areItemsTheSame(oldItem: CartItemWithMenu, newItem: CartItemWithMenu) =
-            oldItem.cartItem.id == newItem.cartItem.id
+    private object DiffCallback : DiffUtil.ItemCallback<Map<String, Any>>() {
+        override fun areItemsTheSame(oldItem: Map<String, Any>, newItem: Map<String, Any>): Boolean {
+            // Firestore document ID mapping fixes comparison failure during item loading
+            val oldId = oldItem["id"] ?: oldItem["cartItemId"]
+            val newId = newItem["id"] ?: newItem["cartItemId"]
+            return oldId == newId
+        }
 
-        override fun areContentsTheSame(oldItem: CartItemWithMenu, newItem: CartItemWithMenu) =
-            oldItem == newItem
+        override fun areContentsTheSame(oldItem: Map<String, Any>, newItem: Map<String, Any>): Boolean {
+            return oldItem == newItem
+        }
     }
 }

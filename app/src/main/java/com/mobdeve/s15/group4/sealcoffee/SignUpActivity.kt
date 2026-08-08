@@ -1,28 +1,40 @@
 package com.mobdeve.s15.group4.sealcoffee
 
-import android.content.Intent
 import android.app.DatePickerDialog
+import android.content.Intent
 import android.os.Bundle
+import android.util.Patterns
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
-import com.mobdeve.s15.group4.sealcoffee.data.RegistrationResult
-import com.mobdeve.s15.group4.sealcoffee.domain.RegistrationField
-import com.mobdeve.s15.group4.sealcoffee.domain.RegistrationInput
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 import java.util.Calendar
 import java.util.Locale
 
 class SignUpActivity : AppCompatActivity() {
+
+    private val auth by lazy { FirebaseAuth.getInstance() }
+    private val firestore by lazy { FirebaseFirestore.getInstance() }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (sealApp.session.hasSession) {
-            AuthNavigation.routeAuthenticated(this)
+
+        if (auth.currentUser != null) {
+            startActivity(Intent(this, CustomerMenuActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            })
+            finish()
             return
         }
+
         setContentView(R.layout.activity_sign_up)
 
         val firstName = findViewById<EditText>(R.id.firstNameInput)
@@ -36,7 +48,10 @@ class SignUpActivity : AppCompatActivity() {
         birthDate.isFocusable = false
         birthDate.isClickable = true
         birthDate.setOnClickListener {
-            val calendar = Calendar.getInstance().apply { add(Calendar.YEAR, -18) }
+            val calendar = Calendar.getInstance()
+            calendar.add(Calendar.YEAR, -18)
+            val maxAllowedMillis = calendar.timeInMillis
+
             DatePickerDialog(
                 this,
                 { _, year, month, day ->
@@ -47,49 +62,101 @@ class SignUpActivity : AppCompatActivity() {
                 calendar.get(Calendar.MONTH),
                 calendar.get(Calendar.DAY_OF_MONTH)
             ).apply {
-                datePicker.maxDate = System.currentTimeMillis()
+                datePicker.maxDate = maxAllowedMillis
             }.show()
         }
 
         createButton.setOnClickListener {
             listOf(firstName, lastName, birthDate, email, contact, password).forEach { it.error = null }
-            val input = RegistrationInput(
-                firstName = firstName.text.toString(),
-                lastName = lastName.text.toString(),
-                birthDateIso = birthDate.text.toString(),
-                email = email.text.toString(),
-                contactNumber = contact.text.toString(),
-                password = password.text.toString()
-            )
+
+            val fNameStr = firstName.text.toString().trim()
+            val lNameStr = lastName.text.toString().trim()
+            val dobStr = birthDate.text.toString().trim()
+            val emailStr = email.text.toString().trim()
+            val contactStr = contact.text.toString().trim()
+            val passStr = password.text.toString()
+            val cleanContact = contactStr.replace(Regex("[^0-9]"), "")
+
+            var hasError = false
+
+            if (fNameStr.isEmpty()) {
+                firstName.error = "First name is required."
+                hasError = true
+            }
+
+            if (lNameStr.isEmpty()) {
+                lastName.error = "Last name is required."
+                hasError = true
+            }
+
+            if (dobStr.isEmpty()) {
+                birthDate.error = "Birthdate is required."
+                birthDate.requestFocus()
+                hasError = true
+            }
+
+            if (emailStr.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(emailStr).matches()) {
+                email.error = "Please enter a valid email address."
+                hasError = true
+            }
+
+            if (contactStr.isEmpty() || cleanContact.length < 10 || cleanContact.length > 12) {
+                contact.error = "Please enter a valid contact number."
+                hasError = true
+            }
+
+            if (passStr.length < 8) {
+                password.error = "Password must be at least 8 characters long."
+                hasError = true
+            } else if (!passStr.any { it.isDigit() } || !passStr.any { it.isLetter() }) {
+                password.error = "Password must include both letters and numbers."
+                hasError = true
+            }
+
+            if (hasError) return@setOnClickListener
+
             createButton.isEnabled = false
+
             lifecycleScope.launch {
-                when (val result = sealApp.repository.register(input)) {
-                    is RegistrationResult.Success -> {
-                        sealApp.session.save(result.user)
-                        Snackbar.make(createButton, R.string.account_created, Snackbar.LENGTH_SHORT).show()
-                        AuthNavigation.routeAuthenticated(this@SignUpActivity)
-                    }
-                    is RegistrationResult.Invalid -> {
-                        result.errors.forEach { (field, message) ->
-                            when (field) {
-                                RegistrationField.FIRST_NAME -> firstName.error = message
-                                RegistrationField.LAST_NAME -> lastName.error = message
-                                RegistrationField.BIRTH_DATE -> birthDate.error = message
-                                RegistrationField.EMAIL -> email.error = message
-                                RegistrationField.CONTACT_NUMBER -> contact.error = message
-                                RegistrationField.PASSWORD -> password.error = message
-                            }
-                        }
-                        createButton.isEnabled = true
-                    }
-                    RegistrationResult.DuplicateEmail -> {
-                        email.error = getString(R.string.email_already_registered)
+                try {
+
+                    val authResult = auth.createUserWithEmailAndPassword(emailStr, passStr).await()
+                    val uid = authResult.user?.uid ?: throw Exception("Failed to retrieve user UID.")
+
+                    val fullName = "$fNameStr $lNameStr"
+                    val userDoc = mapOf(
+                        "uid" to uid,
+                        "email" to emailStr,
+                        "fullName" to fullName,
+                        "firstName" to fNameStr,
+                        "lastName" to lNameStr,
+                        "birthDate" to dobStr,
+                        "contactNumber" to contactStr,
+                        "role" to "customer",
+                        "createdAt" to System.currentTimeMillis()
+                    )
+
+                    firestore.collection("users").document(uid).set(userDoc).await()
+
+                    Toast.makeText(this@SignUpActivity, "Welcome Customer!", Toast.LENGTH_SHORT).show()
+
+                    startActivity(Intent(this@SignUpActivity, CustomerMenuActivity::class.java).apply {
+                        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    })
+                    finish()
+
+                } catch (e: Exception) {
+                    createButton.isEnabled = true
+                    val errorMessage = e.localizedMessage ?: "Unknown error"
+
+                    android.util.Log.e("SignUpActivity", "Registration/Firestore error: ", e)
+
+                    if (errorMessage.contains("email address is already in use", ignoreCase = true) ||
+                        e is FirebaseAuthUserCollisionException) {
+                        email.error = "Unable to complete registration with this email. Please try logging in or use a different address."
                         email.requestFocus()
-                        createButton.isEnabled = true
-                    }
-                    is RegistrationResult.Failure -> {
-                        Snackbar.make(createButton, result.message, Snackbar.LENGTH_LONG).show()
-                        createButton.isEnabled = true
+                    } else {
+                        Snackbar.make(createButton, "Error: $errorMessage", Snackbar.LENGTH_LONG).show()
                     }
                 }
             }

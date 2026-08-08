@@ -1,6 +1,6 @@
 package com.mobdeve.s15.group4.sealcoffee
 
-import android.graphics.Color
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.HapticFeedbackConstants
 import android.view.View
@@ -10,12 +10,12 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.mobdeve.s15.group4.sealcoffee.data.local.MenuItemEntity
+import com.mobdeve.s15.group4.sealcoffee.ImageCatalog
 
 class MenuItemAdapter(
-    private val onItemClick: (MenuItemEntity) -> Unit,
-    private val onItemLongClick: (MenuItemEntity) -> Unit
-) : ListAdapter<MenuItemEntity, MenuItemAdapter.MenuItemViewHolder>(DiffCallback) {
+    private val onItemClick: (FirestoreMenuItem) -> Unit,
+    private val onItemLongClick: (FirestoreMenuItem) -> Unit
+) : ListAdapter<FirestoreMenuItem, MenuItemAdapter.MenuItemViewHolder>(DiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MenuItemViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_menu_product, parent, false)
@@ -33,7 +33,7 @@ class MenuItemAdapter(
         private val priceText = itemView.findViewById<TextView>(R.id.menuItemPriceText)
         private val availabilityText = itemView.findViewById<TextView>(R.id.menuItemAvailabilityText)
 
-        fun bind(item: MenuItemEntity) {
+        fun bind(item: FirestoreMenuItem) {
             val context = itemView.context
 
             imagePlaceholder.setImageResource(ImageCatalog.resourceFor(item.imageKey))
@@ -64,7 +64,15 @@ class MenuItemAdapter(
                 priceText.setTextColor(context.getColor(R.color.seal_text_secondary))
             }
 
-            itemView.setOnClickListener { onItemClick(item) }
+            // Regular click launches ProductDetailsActivity passing the menu item ID
+            itemView.setOnClickListener {
+                onItemClick(item)
+                val intent = Intent(context, ProductDetailsActivity::class.java).apply {
+                    putExtra(ProductDetailsActivity.EXTRA_MENU_ITEM_ID, item.id)
+                }
+                context.startActivity(intent)
+            }
+
             itemView.setOnLongClickListener {
                 itemView.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
                 onItemLongClick(item)
@@ -72,11 +80,12 @@ class MenuItemAdapter(
             }
         }
     }
-    private object DiffCallback : DiffUtil.ItemCallback<MenuItemEntity>() {
-        override fun areItemsTheSame(oldItem: MenuItemEntity, newItem: MenuItemEntity) =
+
+    private object DiffCallback : DiffUtil.ItemCallback<FirestoreMenuItem>() {
+        override fun areItemsTheSame(oldItem: FirestoreMenuItem, newItem: FirestoreMenuItem) =
             oldItem.id == newItem.id
 
-        override fun areContentsTheSame(oldItem: MenuItemEntity, newItem: MenuItemEntity) =
+        override fun areContentsTheSame(oldItem: FirestoreMenuItem, newItem: FirestoreMenuItem) =
             oldItem == newItem
     }
 }

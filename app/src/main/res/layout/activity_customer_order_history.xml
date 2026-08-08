@@ -5,32 +5,47 @@
     android:id="@+id/customerOrderHistoryRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    >
+    tools:ignore="ButtonStyle">
+
+    <ImageButton
+        android:id="@+id/customerOrderHistoryBackButton"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/back"
+        android:src="@drawable/ic_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/seal_text_primary" />
 
     <TextView
         android:id="@+id/customerOrderHistoryTitleText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="34dp"
+        android:layout_marginStart="0dp"
         android:layout_marginEnd="24dp"
-        android:fontFamily="sans-serif"
-        android:textStyle="bold"
+        android:ellipsize="end"
+        android:fontFamily="@font/inter_bold"
+        android:maxLines="1"
         android:text="@string/customer_order_history_employee"
         android:textColor="@color/seal_text_primary"
-        android:textSize="30sp"
+        android:textSize="26sp"
+        app:layout_constraintBottom_toBottomOf="@id/customerOrderHistoryBackButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toEndOf="@id/customerOrderHistoryBackButton"
+        app:layout_constraintTop_toTopOf="@id/customerOrderHistoryBackButton" />
 
     <EditText
         android:id="@+id/customerHistorySearchInput"
         style="@style/SealCoffeeEditText"
         android:layout_width="0dp"
-        android:layout_height="56dp"
+        android:layout_height="48dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="24dp"
+        android:fontFamily="@font/inter"
         android:hint="@string/search_customer_history"
         android:importantForAutofill="no"
         android:inputType="text"
@@ -39,14 +54,14 @@
         android:singleLine="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/customerOrderHistoryTitleText" />
+        app:layout_constraintTop_toBottomOf="@id/customerOrderHistoryBackButton" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/customerOrderHistoryRecyclerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginTop="12dp"
         android:clipToPadding="false"
-        android:paddingTop="18dp"
         android:paddingBottom="18dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -59,6 +74,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="32dp"
+        android:fontFamily="@font/inter"
         android:gravity="center"
         android:text="@string/no_customer_history"
         android:textColor="@color/seal_text_secondary"

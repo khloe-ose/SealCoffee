@@ -7,7 +7,6 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 
-
 enum class CustomerDestination {
     MENU,
     CART,
@@ -18,7 +17,6 @@ enum class CustomerDestination {
 object CustomerNavigation {
 
     fun bind(activity: Activity, selected: CustomerDestination) {
-
         bindItem(
             activity,
             R.id.navMenuButton,
@@ -74,20 +72,17 @@ object CustomerNavigation {
         selectedIconRes: Int,
         activityClass: Class<out Activity>
     ) {
-        val navItem = activity.findViewById<LinearLayout>(containerId)
-        val icon = activity.findViewById<ImageView>(iconId)
-        val text = activity.findViewById<TextView>(textId)
+        val navItem = activity.findViewById<LinearLayout>(containerId) ?: return
+        val icon = activity.findViewById<ImageView>(iconId) ?: return
+        val text = activity.findViewById<TextView>(textId) ?: return
 
         val isSelected = destination == selected
 
-
         icon.setImageResource(if (isSelected) selectedIconRes else defaultIconRes)
 
-
         text.setTextColor(
-            ContextCompat.getColor(activity, if (isSelected) R.color.white else R.color.seal_navy)
+            ContextCompat.getColor(activity, if (isSelected) android.R.color.white else R.color.seal_navy)
         )
-
 
         navItem.setBackgroundResource(
             if (isSelected)
@@ -98,13 +93,10 @@ object CustomerNavigation {
 
         navItem.setOnClickListener {
             if (!isSelected) {
-                activity.startActivity(
-                    Intent(activity, activityClass)
-                        .addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
-                )
+                val intent = Intent(activity, activityClass)
+                activity.startActivity(intent)
+                activity.finish() // Ends the current activity to optimize memory and prevent stacking
             }
-
         }
-
     }
 }

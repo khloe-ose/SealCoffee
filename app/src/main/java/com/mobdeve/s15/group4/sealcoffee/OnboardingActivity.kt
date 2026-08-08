@@ -4,31 +4,30 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.launch
+import com.google.firebase.auth.FirebaseAuth
 
 class OnboardingActivity : AppCompatActivity() {
+
+    private val auth by lazy { FirebaseAuth.getInstance() }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        FirestoreUserSeedUtility.seedUsersIfNeeded()
+        FirestoreSeedUtility.seedInfoIfNeeded()
+
+        val currentUser = auth.currentUser
+        if (currentUser != null) {
+            AuthNavigation.routeAuthenticated(this)
+            return
+        }
+
         setContentView(R.layout.activity_onboarding)
 
         val getStarted = findViewById<Button>(R.id.getStartedButton)
-        getStarted.setOnClickListener { openLogin() }
-        if (sealApp.session.hasSession) {
-            getStarted.isEnabled = false
-            lifecycleScope.launch {
-                val user = sealApp.repository.getUser(sealApp.session.userId)
-                if (user != null && user.role == sealApp.session.role?.name) {
-                    AuthNavigation.routeAuthenticated(this@OnboardingActivity)
-                } else {
-                    sealApp.session.clear()
-                    getStarted.isEnabled = true
-                }
-            }
+        getStarted.setOnClickListener {
+            startActivity(Intent(this, LoginActivity::class.java))
+            finish()
         }
-    }
-
-    private fun openLogin() {
-        startActivity(Intent(this, LoginActivity::class.java))
     }
 }

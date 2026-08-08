@@ -15,8 +15,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="24dp"
-        android:fontFamily="sans-serif"
-        android:textStyle="bold"
+        android:fontFamily="@font/inter_bold"
         android:text="@string/orders_title"
         android:textColor="@color/seal_text_primary"
         android:textSize="34sp"
@@ -29,10 +28,11 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="6dp"
+        android:layout_marginTop="4dp"
         android:layout_marginEnd="24dp"
-        android:fontFamily="sans-serif-light"
+        android:fontFamily="@font/inter"
         android:text="@string/orders_subtitle"
+        android:textColor="@color/seal_text_secondary"
         android:textSize="15sp"
         android:textStyle="italic"
         app:layout_constraintEnd_toEndOf="parent"
@@ -42,11 +42,11 @@
     <HorizontalScrollView
         android:id="@+id/filterScrollView"
         android:layout_width="0dp"
-        android:layout_height="56dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:clipToPadding="false"
-        android:paddingStart="20dp"
-        android:paddingEnd="20dp"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
         android:scrollbars="none"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -54,62 +54,77 @@
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
+            android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/customerActiveOrders"
+            <!-- Active Chip -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardCustomerActiveOrders"
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:background="@drawable/bg_chip_selected"
-                android:minWidth="0dp"
-                android:minHeight="0dp"
-                android:text="@string/active"
-                android:textAllCaps="false"
-                android:textColor="@color/seal_navy" />
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                app:cardBackgroundColor="@color/seal_navy"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="0dp">
 
-            <Button
-                android:id="@+id/customerPastOrders"
+                <TextView
+                    android:id="@+id/customerActiveOrders"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="8dp"
+                    android:text="@string/active"
+                    android:textColor="#FFFFFF" />
+            </androidx.cardview.widget.CardView>
+
+            <!-- Past Chip -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardCustomerPastOrders"
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_marginStart="8dp"
-                android:background="@drawable/bg_chip"
-                android:minWidth="0dp"
-                android:minHeight="0dp"
-                android:text="@string/past"
-                android:textAllCaps="false"
-                android:textColor="@color/white" />
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="#E5E7EB"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="0dp">
+
+                <TextView
+                    android:id="@+id/customerPastOrders"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="8dp"
+                    android:text="@string/past"
+                    android:textColor="#374151" />
+            </androidx.cardview.widget.CardView>
+
         </LinearLayout>
     </HorizontalScrollView>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/menuRecyclerView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:clipToPadding="false"
-        android:paddingTop="8dp"
-        android:paddingBottom="14dp"
-        app:layout_constraintBottom_toTopOf="@id/customerNavigation"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/filterScrollView"
-        tools:listitem="@layout/item_menu_product" />
 
     <TextView
         android:id="@+id/ordersEmptyText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="32dp"
+        android:layout_marginTop="32dp"
         android:gravity="center"
         android:text="@string/no_active_orders"
         android:textColor="@color/seal_text_secondary"
         android:textSize="16sp"
         android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@id/customerNavigation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/filterScrollView" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/menuRecyclerView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="12dp"
+        android:clipToPadding="false"
+        android:paddingBottom="12dp"
+        app:layout_constraintBottom_toTopOf="@id/customerNavigation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/filterScrollView"
+        tools:listitem="@layout/item_menu_product" />
 
     <include
         android:id="@+id/customerNavigation"
@@ -119,4 +134,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

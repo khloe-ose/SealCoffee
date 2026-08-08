@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
-        android:name=".SealCoffeeApplication"
-        android:allowBackup="false"
+        android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
@@ -16,65 +14,50 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SealCoffee">
 
+        <!-- Customer Menu Activity -->
         <activity
-            android:name=".TestAuthActivity"
-            android:exported="true">
-
+            android:name=".OnboardingActivity"
+            android:exported="true"
+            android:theme="@style/Theme.SealCoffee.Navy"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
+
+        <activity
+            android:name=".LoginActivity"
+            android:exported="true"
+            android:theme="@style/Theme.SealCoffee.Navy"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name=".CustomerMenuActivity"
+            android:exported="true"
+            android:windowSoftInputMode="adjustResize"/>
 
         <activity
             android:name=".SignUpActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
 
-        <!-- Added a temporary blank MainActivity for testing login routing -->
-        <activity
-            android:name=".MainActivity"
-            android:exported="false" />
-        <activity
-            android:name=".CustomerMenuActivity"
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize" />
-
-        <activity
-            android:name=".EmployeeDashboardActivity"
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".ProfileActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
 
         <activity android:name=".ProductDetailsActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".OnboardingActivity" android:exported="true" android:theme="@style/Theme.SealCoffee.Navy" android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".ProfileActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".OrderHistoryActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
         <activity android:name=".CartActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".ManageMenuActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".DelayedOrdersActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".CompletedOrdersActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".ActiveOrdersActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".EmployeeOrderDetailsActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".IncomingOrdersActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".CustomerOrdersActivity" android:exported="false" android:windowSoftInputMode="adjustResize" /><!-- ========================================== -->
-        <!-- Temporarily disabled so I can check each one yung need i-edit na styles -->
-        <!-- ========================================== -->
-        <!--
-        <activity android:name=".OnboardingActivity" android:exported="true" android:theme="@style/Theme.SealCoffee.Navy" android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".ProfileActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".OrderHistoryActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".CartActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
-
-        <activity android:name=".CustomerMenuActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".EmployeeDashboardActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".ManageMenuActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".DelayedOrdersActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".CompletedOrdersActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".ActiveOrdersActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".EmployeeOrderDetailsActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".IncomingOrdersActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
         <activity android:name=".CustomerOrdersActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".CustomerOrderDetailsActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".EmployeeDashboardActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".EmployeeOrderDetailsActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".IncomingOrdersActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".ActiveOrdersActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".DelayedOrdersActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".CompletedOrdersActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".OrderHistoryActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".ManageMenuActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
 
-        <meta-data
-            android:name="preloaded_fonts"
-            android:resource="@array/preloaded_fonts" />
-        -->
+        <activity android:name=".TestActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
     </application>
 
 </manifest>

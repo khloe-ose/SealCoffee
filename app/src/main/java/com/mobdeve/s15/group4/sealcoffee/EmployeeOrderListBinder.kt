@@ -4,50 +4,65 @@ import android.content.Intent
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Typeface
+import android.util.TypedValue
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
-import android.util.TypedValue
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.mobdeve.s15.group4.sealcoffee.domain.OrderStatus
-import kotlinx.coroutines.launch
+import com.google.firebase.firestore.FirebaseFirestore
 
 object EmployeeOrderListBinder {
     fun bind(
         activity: AppCompatActivity,
         title: String,
         subtitle: String,
-        statuses: Set<OrderStatus>
+        statuses: Set<String>
     ) {
         activity.findViewById<TextView>(R.id.employeeOrderListTitleText).text = title
         activity.findViewById<TextView>(R.id.employeeOrderListSubtitleText).text = subtitle
         val emptyText = activity.findViewById<TextView>(R.id.employeeOrderEmptyText)
-        val adapter = EmployeeOrderAdapter { details ->
+
+        val adapter = EmployeeOrderAdapter { order ->
+            val orderNumber = order["orderNumber"] as? String ?: return@EmployeeOrderAdapter
             activity.startActivity(
                 Intent(activity, EmployeeOrderDetailsActivity::class.java)
-                    .putExtra(EmployeeOrderDetailsActivity.EXTRA_ORDER_ID, details.order.id)
+                    .putExtra(EmployeeOrderDetailsActivity.EXTRA_ORDER_NUMBER, orderNumber)
             )
         }
+
         val recyclerView = activity.findViewById<RecyclerView>(R.id.employeeOrderRecyclerView).apply {
             layoutManager = LinearLayoutManager(activity)
             this.adapter = adapter
         }
+
         attachOrderGestures(activity, recyclerView, adapter)
-        activity.lifecycleScope.launch {
-            activity.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                activity.sealApp.repository.observeOrders(statuses).collect {
-                    adapter.submitList(it)
-                    emptyText.visibility = if (it.isEmpty()) View.VISIBLE else View.GONE
+
+        val db = FirebaseFirestore.getInstance()
+        db.collection("orders")
+            .addSnapshotListener { snapshot, error ->
+                if (error != null || snapshot == null) {
+                    emptyText.visibility = View.VISIBLE
+                    return@addSnapshotListener
                 }
+
+                val orders = snapshot.documents.mapNotNull { doc ->
+                    val data = doc.data?.toMutableMap() ?: return@mapNotNull null
+                    data["documentId"] = doc.id
+                    val status = (data["status"] as? String ?: "").uppercase()
+                    if (statuses.isEmpty() || statuses.contains(status)) {
+                        data
+                    } else {
+                        null
+                    }
+                }
+
+                adapter.submitList(orders)
+                emptyText.visibility = if (orders.isEmpty()) View.VISIBLE else View.GONE
             }
-        }
     }
 
     private fun attachOrderGestures(
@@ -67,49 +82,71 @@ object EmployeeOrderListBinder {
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val position = viewHolder.bindingAdapterPosition
-                val details = adapter.itemAt(position)
-                if (details == null) {
+                val order = adapter.itemAt(position)
+                if (order == null) {
                     if (position != RecyclerView.NO_POSITION) adapter.notifyItemChanged(position)
                     return
                 }
-                val current = OrderStatus.fromStorage(details.order.status)
-                if (current == null || current == OrderStatus.COMPLETED) {
+
+                val docId = order["documentId"] as? String
+                val orderNumber = order["orderNumber"] as? String ?: "Order"
+                val current = (order["status"] as? String)?.uppercase() ?: "PENDING"
+
+                if (current == "COMPLETED") {
                     adapter.notifyItemChanged(position)
                     Toast.makeText(activity, R.string.completed_order_no_swipe, Toast.LENGTH_SHORT).show()
                     return
                 }
-                activity.lifecycleScope.launch {
-                    if (direction == ItemTouchHelper.LEFT) {
-                        if (current == OrderStatus.DELAYED) {
-                            adapter.notifyItemChanged(position)
-                            Toast.makeText(activity, R.string.already_delayed, Toast.LENGTH_SHORT).show()
-                        } else if (activity.sealApp.repository.updateOrderStatus(
-                                details.order.id,
-                                OrderStatus.DELAYED
-                            )
-                        ) {
-                            Toast.makeText(
-                                activity,
-                                activity.getString(R.string.order_marked_status, details.order.orderNumber, OrderStatus.DELAYED.label),
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        } else {
-                            adapter.notifyItemChanged(position)
-                        }
+
+                if (docId == null) {
+                    adapter.notifyItemChanged(position)
+                    return
+                }
+
+                val db = FirebaseFirestore.getInstance()
+
+                if (direction == ItemTouchHelper.LEFT) {
+                    if (current == "DELAYED") {
+                        adapter.notifyItemChanged(position)
+                        Toast.makeText(activity, R.string.already_delayed, Toast.LENGTH_SHORT).show()
                     } else {
-                        activity.sealApp.repository.advanceOrder(details.order.id)
-                            .onSuccess { next ->
+                        db.collection("orders").document(docId)
+                            .update("status", "DELAYED")
+                            .addOnSuccessListener {
                                 Toast.makeText(
                                     activity,
-                                    activity.getString(R.string.order_marked_status, details.order.orderNumber, next.label),
+                                    activity.getString(R.string.order_marked_status, orderNumber, "Delayed"),
                                     Toast.LENGTH_SHORT
                                 ).show()
                             }
-                            .onFailure {
+                            .addOnFailureListener {
                                 adapter.notifyItemChanged(position)
-                                Toast.makeText(activity, it.message, Toast.LENGTH_LONG).show()
+                                Toast.makeText(activity, "Failed to update status", Toast.LENGTH_SHORT).show()
                             }
                     }
+                } else {
+                    // Right swipe advances the status flow: PENDING -> PREPARING -> READY -> COMPLETED
+                    val nextStatus = when (current) {
+                        "PENDING" -> "PREPARING"
+                        "PREPARING" -> "READY_FOR_PICKUP"
+                        "READY_FOR_PICKUP" -> "COMPLETED"
+                        "DELAYED" -> "PREPARING"
+                        else -> "COMPLETED"
+                    }
+
+                    db.collection("orders").document(docId)
+                        .update("status", nextStatus)
+                        .addOnSuccessListener {
+                            Toast.makeText(
+                                activity,
+                                activity.getString(R.string.order_marked_status, orderNumber, nextStatus.lowercase().replaceFirstChar { it.uppercase() }),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                        .addOnFailureListener {
+                            adapter.notifyItemChanged(position)
+                            Toast.makeText(activity, "Failed to update status", Toast.LENGTH_SHORT).show()
+                        }
                 }
             }
 
