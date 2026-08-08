@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.mobdeve.s15.group4.sealcoffee.ImageCatalog
+import coil.load
+import coil.transform.RoundedCornersTransformation
 
 class MenuItemAdapter(
     private val onItemClick: (FirestoreMenuItem) -> Unit,
@@ -36,7 +38,12 @@ class MenuItemAdapter(
         fun bind(item: FirestoreMenuItem) {
             val context = itemView.context
 
-            imagePlaceholder.setImageResource(ImageCatalog.resourceFor(item.imageKey))
+            imagePlaceholder.load(ImageCatalog.urlFor(item.imageKey)) {
+                crossfade(true)
+                placeholder(R.drawable.bg_image_placeholder)
+                error(R.drawable.bg_image_placeholder)
+            }
+
             imagePlaceholder.contentDescription = item.name
             nameText.text = item.name
             categoryText.text = item.category

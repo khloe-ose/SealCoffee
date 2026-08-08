@@ -17,6 +17,7 @@ import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.launch
+import coil.load
 
 class CustomerMenuActivity : AppCompatActivity() {
     private val menuAdapter = MenuItemAdapter(
@@ -130,7 +131,7 @@ class CustomerMenuActivity : AppCompatActivity() {
     private fun showQuickPreview(item: FirestoreMenuItem) {
         val dialogView = layoutInflater.inflate(R.layout.dialog_product_preview, null)
         val imageView = dialogView.findViewById<ImageView>(R.id.previewImagePlaceholder)
-        imageView.setImageResource(ImageCatalog.resourceFor(item.imageKey))
+        imageView.loadSupabaseImage(item.imageKey)
         imageView.contentDescription = item.name
         dialogView.findViewById<TextView>(R.id.previewNameText).text = item.name
         dialogView.findViewById<TextView>(R.id.previewDescriptionText).text = item.description

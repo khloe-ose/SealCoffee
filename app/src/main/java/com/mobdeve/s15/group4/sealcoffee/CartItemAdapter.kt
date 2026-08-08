@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import java.text.NumberFormat
 
 class CartItemAdapter(
@@ -42,8 +43,11 @@ class CartItemAdapter(
 
             val rawImageKey = item["imageKey"] as? String ?: ""
             val cleanKey = rawImageKey.substringBeforeLast(".").removePrefix("img_")
-            val imageRes = ImageCatalog.resourceFor(cleanKey)
-            image.setImageResource(if (imageRes != 0) imageRes else R.drawable.ic_launcher_foreground)
+            image.load(ImageCatalog.urlFor(cleanKey)) {
+                crossfade(true)
+                placeholder(R.drawable.bg_image_placeholder)
+                error(R.drawable.bg_image_placeholder)
+            }
             image.contentDescription = itemName
 
             val size = item["size"] as? String ?: "Regular"
@@ -75,7 +79,7 @@ class CartItemAdapter(
 
     private object DiffCallback : DiffUtil.ItemCallback<Map<String, Any>>() {
         override fun areItemsTheSame(oldItem: Map<String, Any>, newItem: Map<String, Any>): Boolean {
-            // Firestore document ID mapping fixes comparison failure during item loading
+
             val oldId = oldItem["id"] ?: oldItem["cartItemId"]
             val newId = newItem["id"] ?: newItem["cartItemId"]
             return oldId == newId

@@ -29,11 +29,9 @@ class EmployeeOrderDetailsActivity : AppCompatActivity() {
             isEmployeeUser = true
 
             setContentView(R.layout.activity_employee_order_details)
-
             findViewById<ImageButton>(R.id.backButton).setOnClickListener {
                 finish()
             }
-
             statusGroup = findViewById(R.id.employeeStatusRadioGroup)
             applyButton = findViewById(R.id.applyStatusButton)
 

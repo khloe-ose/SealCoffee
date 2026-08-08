@@ -16,6 +16,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
+import coil.load
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -126,7 +127,11 @@ class ProductDetailsActivity : AppCompatActivity() {
 
         findViewById<ImageView>(R.id.productImagePlaceholder).apply {
             val cleanKey = imageKey.substringBeforeLast(".").removePrefix("img_")
-            setImageResource(ImageCatalog.resourceFor(cleanKey))
+            load(ImageCatalog.urlFor(cleanKey)) {
+                crossfade(true)
+                placeholder(R.drawable.bg_image_placeholder)
+                error(R.drawable.bg_image_placeholder)
+            }
             contentDescription = itemName
         }
 

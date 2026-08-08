@@ -1,5 +1,8 @@
 package com.mobdeve.s15.group4.sealcoffee
 
+import android.util.Log
+import android.widget.ImageView
+import coil.load
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -7,17 +10,22 @@ import java.util.Locale
 import java.math.BigDecimal
 
 object ImageCatalog {
-    fun resourceFor(key: String): Int = when (key) {
-        "signature_latte" -> R.drawable.img_signature_latte
-        "spanish_latte" -> R.drawable.img_spanish_latte
-        "americano" -> R.drawable.img_americano
-        "cafe_mocha" -> R.drawable.img_cafe_mocha
-        "matcha_cream" -> R.drawable.img_matcha_cream
-        "cold_brew" -> R.drawable.img_cold_brew
-        "butter_croissant" -> R.drawable.img_butter_croissant
-        "blueberry_muffin" -> R.drawable.img_blueberry_muffin
-        "mini_cheesecake" -> R.drawable.img_mini_cheesecake
-        else -> R.drawable.img_custom
+    private const val SUPABASE_BASE_URL = "https://elaszfebuwzfsexfbnrc.supabase.co/storage/v1/object/public/drawable/"
+
+    fun urlFor(key: String): String {
+        val timestamp = System.currentTimeMillis()
+        val url = "${SUPABASE_BASE_URL}img_$key.png?t=$timestamp"
+        Log.d("ImageCatalog", "Loading image for $key from: $url")
+        return url
+    }
+}
+
+fun ImageView.loadSupabaseImage(key: String?, fallbackResId: Int = R.drawable.img_custom) {
+    val url = ImageCatalog.urlFor(key ?: "")
+    this.load(url) {
+        crossfade(true)
+        placeholder(R.drawable.img_custom)
+        error(R.drawable.img_custom)
     }
 }
 
