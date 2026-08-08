@@ -3,6 +3,7 @@ package com.mobdeve.s15.group4.sealcoffee
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.RadioGroup
 import android.widget.TextView
 import android.widget.Toast
@@ -28,6 +29,11 @@ class EmployeeOrderDetailsActivity : AppCompatActivity() {
             isEmployeeUser = true
 
             setContentView(R.layout.activity_employee_order_details)
+
+            findViewById<ImageButton>(R.id.backButton).setOnClickListener {
+                finish()
+            }
+
             statusGroup = findViewById(R.id.employeeStatusRadioGroup)
             applyButton = findViewById(R.id.applyStatusButton)
 
