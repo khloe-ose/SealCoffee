@@ -43,7 +43,7 @@ class CartItemAdapter(
             val rawImageKey = item["imageKey"] as? String ?: ""
             val cleanKey = rawImageKey.substringBeforeLast(".").removePrefix("img_")
             val imageRes = ImageCatalog.resourceFor(cleanKey)
-            image.loadSupabaseImage(imageRes, fallbackResId = R.drawable.ic_launcher_foreground)
+            image.setImageResource(if (imageRes != 0) imageRes else R.drawable.ic_launcher_foreground)
             image.contentDescription = itemName
 
             val size = item["size"] as? String ?: "Regular"
@@ -75,7 +75,7 @@ class CartItemAdapter(
 
     private object DiffCallback : DiffUtil.ItemCallback<Map<String, Any>>() {
         override fun areItemsTheSame(oldItem: Map<String, Any>, newItem: Map<String, Any>): Boolean {
-
+            // Firestore document ID mapping fixes comparison failure during item loading
             val oldId = oldItem["id"] ?: oldItem["cartItemId"]
             val newId = newItem["id"] ?: newItem["cartItemId"]
             return oldId == newId

@@ -1,7 +1,5 @@
 package com.mobdeve.s15.group4.sealcoffee
 
-import android.widget.ImageView
-import coil.load
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -9,35 +7,19 @@ import java.util.Locale
 import java.math.BigDecimal
 
 object ImageCatalog {
-
-    private const val SUPABASE_STORAGE_URL = "https://elaszfebuwzfsexfbnrc.supabase.co/storage/v1/object/public/drawable"
-
-    fun resourceFor(key: String): String {
-        val fileName = when (key) {
-            "signature_latte" -> "img_signature_latte.jpg"
-            "spanish_latte" -> "img_spanish_latte.jpg"
-            "americano" -> "img_americano.jpg"
-            "cafe_mocha" -> "img_cafe_mocha.jpg"
-            "matcha_cream" -> "img_matcha_cream.jpg"
-            "cold_brew" -> "img_cold_brew.jpg"
-            "butter_croissant" -> "img_butter_croissant.jpg"
-            "blueberry_muffin" -> "img_blueberry_muffin.jpg"
-            "mini_cheesecake" -> "img_mini_cheesecake.jpg"
-            else -> "img_custom.jpg"
-        }
-        return "$SUPABASE_STORAGE_URL/$fileName"
+    fun resourceFor(key: String): Int = when (key) {
+        "signature_latte" -> R.drawable.img_signature_latte
+        "spanish_latte" -> R.drawable.img_spanish_latte
+        "americano" -> R.drawable.img_americano
+        "cafe_mocha" -> R.drawable.img_cafe_mocha
+        "matcha_cream" -> R.drawable.img_matcha_cream
+        "cold_brew" -> R.drawable.img_cold_brew
+        "butter_croissant" -> R.drawable.img_butter_croissant
+        "blueberry_muffin" -> R.drawable.img_blueberry_muffin
+        "mini_cheesecake" -> R.drawable.img_mini_cheesecake
+        else -> R.drawable.img_custom
     }
 }
-
-fun ImageView.loadSupabaseImage(key: String?, fallbackResId: Int = R.drawable.img_custom) {
-    val url = ImageCatalog.resourceFor(key ?: "")
-    this.load(url) {
-        crossfade(true)
-        placeholder(R.drawable.img_custom)
-        error(R.drawable.img_custom)
-    }
-}
-
 
 fun Int.formatMoney(): String =
     NumberFormat.getCurrencyInstance(Locale.forLanguageTag("en-PH"))

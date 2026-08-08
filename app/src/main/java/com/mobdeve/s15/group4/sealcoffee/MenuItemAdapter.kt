@@ -36,7 +36,7 @@ class MenuItemAdapter(
         fun bind(item: FirestoreMenuItem) {
             val context = itemView.context
 
-            imagePlaceholder.loadSupabaseImage(item.imageKey)
+            imagePlaceholder.setImageResource(ImageCatalog.resourceFor(item.imageKey))
             imagePlaceholder.contentDescription = item.name
             nameText.text = item.name
             categoryText.text = item.category
