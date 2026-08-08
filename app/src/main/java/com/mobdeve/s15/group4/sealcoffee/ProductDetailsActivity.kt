@@ -126,7 +126,7 @@ class ProductDetailsActivity : AppCompatActivity() {
 
         findViewById<ImageView>(R.id.productImagePlaceholder).apply {
             val cleanKey = imageKey.substringBeforeLast(".").removePrefix("img_")
-            setImageResource(ImageCatalog.resourceFor(cleanKey))
+            loadSupabaseImage(cleanKey)
             contentDescription = itemName
         }
 
